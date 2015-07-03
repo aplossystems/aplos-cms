@@ -1,0 +1,63 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+	<div class="aplos-contact-page-atom">
+		<ui:insert name="topOfThePage" />
+		<div style="text-align:left">
+			<aplos:panel rendered="#{ !contactPageFeDmb.messageSent }">
+				<fieldset>
+					<legend>Send an email. All fields with an * are required.</legend>
+					<dl>
+					<aplos:panel layout="none" rendered="#{ contactPageCmsAtom.nameShowing }" >
+						<dt>
+							<label title="Name::Your name">Name<span class="aplos-required-asterisk">&#160;<h:outputText value="*" rendered="#{ contactPageCmsAtom.nameRequired }" /></span></label></dt>
+						<dd>
+							<h:inputText value="#{ contactPageFeDmb.senderName}" required="#{ contactPageFeDmb.validationRequired and contactPageCmsAtom.nameRequired }" requiredMessage="Your name is required, please complete this field" validatorMessage="Your name is required, please fully complete this field" /></dd>
+					</aplos:panel>
+						<dt>
+							<label title="Email::Email for contact">Email<span class="aplos-required-asterisk">&#160;*</span></label></dt>
+						<dd>
+							<h:inputText value="#{ contactPageFeDmb.senderEmailAddress}" required="#{ contactPageFeDmb.validationRequired }" requiredMessage="Your email address is required, please complete this field" /></dd>
+						
+					<aplos:panel layout="none" rendered="#{ contactPageCmsAtom.phoneShowing }" >
+						<dt>
+							<label title="Phone::Enter your phone number here .">Phone&#160;<span class="aplos-required-asterisk"><h:outputText value="*" rendered="#{ contactPageCmsAtom.phoneRequired }" /></span></label></dt>
+						<dd>
+							<h:inputText value="#{ contactPageFeDmb.senderPhoneNumber}" required="#{ contactPageFeDmb.validationRequired and contactPageCmsAtom.phoneRequired }"/>
+						</dd>
+					</aplos:panel>
+					<aplos:panel layout="none" rendered="#{ contactPageCmsAtom.subjectShowing }" >
+						<dt>
+							<label title="Subject::Enter the subject of your message here .">Subject&#160;<span class="aplos-required-asterisk"><h:outputText value="*" rendered="#{ contactPageCmsAtom.subjectRequired }" /></span></label></dt>
+						<dd>
+							<h:inputText value="#{ contactPageFeDmb.emailSubject}" required="#{ contactPageFeDmb.validationRequired and contactPageCmsAtom.subjectRequired }" requiredMessage="The email subject is required, please complete this field" />
+						</dd>
+					</aplos:panel>
+						<dt>
+							<label title="Message::Enter your message here.">Message<span class="aplos-required-asterisk">&#160;*</span></label></dt>
+						<dd>
+							<h:inputTextarea value="#{ contactPageFeDmb.emailContent}" required="#{ contactPageFeDmb.validationRequired }" requiredMessage="The email message is required, please complete this field" /></dd>
+							
+					<aplos:panel layout="none" rendered="#{ contactPageCmsAtom.duplicateEmailShowing }" >
+						<dt class="emailCopy">
+							<label title="Send copy to yourself::Sends a copy of the message to the address you have supplied.">Send copy to yourself</label></dt>
+						<dd class="emailCopy">
+							<h:selectBooleanCheckbox value="#{ contactPageFeDmb.sendingDuplicateEmail }" /></dd>
+					</aplos:panel>
+						<dt>
+							&#160;</dt>
+						<dd>
+						<aploscc:ajaxButton id="aplosContactPagSendBtn" value="Send Email" action="#{ contactPageFeDmb.sendEmail }" /></dd>
+					</dl>
+				</fieldset>
+			</aplos:panel>
+			<aplos:panel rendered="#{ contactPageFeDmb.messageSent }">
+				Thank you, your message has been sent.
+			</aplos:panel>
+	   </div>
+   </div>
+</ui:composition>

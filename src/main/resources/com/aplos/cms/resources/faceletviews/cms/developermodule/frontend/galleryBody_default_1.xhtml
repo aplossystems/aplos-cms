@@ -1,0 +1,78 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:p="http://primefaces.org/ui">
+	<h:outputScript library="jsLibraries" name="prettyphoto/js/jquery.prettyPhoto.js" target="head" />
+	<h:outputStylesheet library="jsLibraries" name="prettyphoto/css/prettyPhoto.css" target="head" />
+	
+	<aplos:panel layout="none" rendered="#{ galleryModule.openingInGallery }">
+		<script type="text/javascript" charset="utf-8">
+			$j(document).ready(function(){
+				$j("a[rel^='prettyPhoto']").prettyPhoto();
+			});
+		</script>
+	</aplos:panel>
+	
+	<style type="text/css">
+	
+		.galleryImage {
+			text-align:center;
+		}
+	
+	</style>
+	
+	<div class="galleryContainer">
+		<p:dataGrid columns="#{ galleryModule.numberOfColumns }" value="#{ galleryFeDmb.categorisedGalleryImages }" var="tempGalleryImage">
+			<div class="galleryImage">
+				<div style="#{ galleryModule.imageContainerStyle }">
+					<aplos:panel layout="none" rendered="#{ galleryModule.openingInGallery }">
+						<h:outputLink value="#{ tempGalleryImage.imageDetails.getFullFileUrl( true ) }" rel="prettyPhoto[galleryModule]" title="#{tempGalleryImage.title}">
+							<img src="#{ galleryModule.getFullFileUrl( tempGalleryImage ) }" style="border:solid 5px transparent" border="0" />
+						</h:outputLink>
+					</aplos:panel>
+					<aplos:panel layout="none" rendered="#{ !galleryModule.openingInGallery }">
+						<h:outputLink value="#{ tempGalleryImage.imageDetails.getFullFileUrl( true ) }"  target="_blank" title="#{tempGalleryImage.title}">
+							<img src="#{ galleryModule.getFullFileUrl( tempGalleryImage ) }" style="max-width:200px;max-height:150px;border:solid 5px transparent" border="0" />
+						</h:outputLink>
+					</aplos:panel>
+				</div>
+				<aplos:panel layout="none" rendered="#{ galleryModule.showingTitle }">
+					<div class="aplos-gallery-image-title">
+						<h:outputText value="#{tempGalleryImage.title}" />
+					</div>
+				</aplos:panel>
+			</div>
+		</p:dataGrid>
+		<ui:repeat value="#{ galleryModule.categories }" var="galleryCategory">
+			<aplos:panel rendered="#{ galleryFeDmb.categorisedGalleryImages.size() gt 0 }">
+				<h2><h:outputText value="#{ galleryCategory.name }" styleClass="pageTitle" /></h2>
+				<hr/>
+			</aplos:panel>
+			<p:dataGrid columns="#{ galleryModule.numberOfColumns }" value="#{ galleryFeDmb.categorisedGalleryImages }" var="tempGalleryImage">
+				<div class="galleryImage">
+					<div style="#{ galleryModule.imageContainerStyle }">
+						<aplos:panel layout="none" rendered="#{ galleryModule.openingInGallery }">
+							<h:outputLink value="#{ tempGalleryImage.imageDetails.getFullFileUrl( true ) }" rel="prettyPhoto[galleryModule]" title="#{tempGalleryImage.title}">
+								<img src="#{ galleryModule.getFullFileUrl( tempGalleryImage ) }" style="border:solid 5px transparent" border="0" />
+							</h:outputLink>
+						</aplos:panel>
+						<aplos:panel layout="none" rendered="#{ !galleryModule.openingInGallery }">
+							<h:outputLink value="#{ tempGalleryImage.imageDetails.getFullFileUrl( true ) }" target="_blank" title="#{tempGalleryImage.title}">
+								<img src="#{ galleryModule.getFullFileUrl( tempGalleryImage ) }" style="border:solid 5px transparent" border="0" />
+							</h:outputLink>
+						</aplos:panel>
+					</div>
+					<aplos:panel layout="none" rendered="#{ galleryModule.showingTitle }">
+						<div class="aplos-gallery-image-title">
+							<h:outputText styleClass="aplos-gallery-image-title" value="#{tempGalleryImage.title}" />
+						</div>
+					</aplos:panel>
+				</div>
+			</p:dataGrid>
+		</ui:repeat>
+	</div>
+	
+</ui:composition>

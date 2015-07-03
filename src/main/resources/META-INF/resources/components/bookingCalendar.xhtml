@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+  <h:body>        
+    <cc:interface>
+    	<cc:attribute name="isFrontEnd" default="false" />
+    </cc:interface>
+    <cc:implementation>
+      	<h:outputScript library="primefaces" name="jquery/jquery.js"/>
+		<h:outputStylesheet library="richCalendar2" name="skinning.css" target="head" />
+		<h:outputScript library="richCalendar2" name="jquery.position.js" target="head" />
+		<h:outputScript library="richCalendar2" name="richfaces.js" target="head" />
+		<h:outputScript library="richCalendar2" name="richfaces-base-component.js" target="head" />
+		<h:outputScript library="richCalendar2" name="richfaces-event.js" target="head" />
+		<h:outputScript library="richCalendar2" name="json-dom.js" target="head" />
+		<h:outputScript library="richCalendar2" name="jquery.effects.core.js" target="head" />
+		<h:outputScript library="richCalendar2" name="jquery.effects.highlight.js" target="head" />
+		<h:outputScript library="richCalendar2" name="JQuerySpinbtn.js" target="head" />
+		<h:outputScript library="richCalendar2" name="calendar-utils.js" target="head" />
+		<h:outputScript library="richCalendar2" name="calendar.js" target="head" />
+		<h:outputStylesheet library="richCalendar2" name="calendar.css" target="head" />
+			<div class="aplos-booking-calendar">
+				<h:panelGroup layout="block" rendered="#{!cc.attrs.isFrontEnd and cmsConfiguration.moduleConfiguration.showingBookingPrices}">
+					<h:selectBooleanCheckbox value="#{ timetable.showingPrices }" >
+					</h:selectBooleanCheckbox> Show Prices
+					<aploscc:ajaxButton value="Update" action="#{ timetable.saveDetails }" />
+				</h:panelGroup>
+				
+				<div style="width:570px;margin:auto">
+					<aplos:panel rendered="#{ cc.bandBRoomList.size() gt 1 }" >
+						<div style="position:static;height:115px;max-height:120px;">
+							<aplos:panel id="reRenderFix">
+								<ui:repeat id="rptBandBRoom" value="#{ cc.bandBRoomList }" var="bandBRoomVar" varStatus="status">
+									<div style="float:left;height:115px;"
+											class="#{ cc.isBandBRoomSelected( bandBRoomVar ) ? 'bandBRoomDivSelected' : 'bandBRoomDiv' }"
+											 onmouseover="document.body.style.cursor = 'pointer'" onmouseout="document.body.style.cursor = 'default'" onclick="changeSelectedRoom(#{ bandBRoomVar.id });">
+										<h:panelGroup layout="block" rendered="#{ status.index != 0 }" style="float:left;min-width:1px;background-color:gray;height:100%"></h:panelGroup>
+										<div style="float:left;text-align:center;width:102px;margin:0px 2px 0px 2px;padding:10px 2px 10px 2px;">
+											<div style="min-height:58px">
+												<h:graphicImage url="#{ bandBRoomVar.getImageUrl( false ) }&amp;maxWidth=80" style="border:1px white solid;max-height:70px;max-width:100px"></h:graphicImage>
+											</div>
+											<h:outputText value="#{ bandBRoomVar.roomName }"></h:outputText><br/>
+										</div>
+									</div>
+								</ui:repeat>
+							</aplos:panel>
+						</div>
+					</aplos:panel>
+					<div>
+						<span id="listForm_j_idt116">
+							<span id="listForm_j_idt116Popup" style="white-space: nowrap;">
+								<input class="rf-cal-inp " id="listForm_j_idt116InputDate" name="listForm_j_idt116InputDate" readonly="readonly" style="vertical-align: middle;display:none" type="text" />
+								<input autocomplete="off" id="listForm_j_idt116InputCurrentDate" name="listForm_j_idt116InputCurrentDate" style="display:none" type="hidden" value="02/2012" />
+							</span>
+							<span id="listForm_j_idt116Content" style="display: none;"></span>
+							<span id="listForm_j_idt116Script" style="display: none;">
+								<script type="text/javascript">
+									var formName = "edit";
+									var isShowingPrices = #{ timetable.showingPrices };
+									var currentDateStr = "#{ cc.currentDateStr }";
+									
+									jQuery(document).ready(function() {
+										getCalendarDayListJson(currentDateStr);
+									});
+		
+									function showMessage() {
+										dataObj = eval( "(" + document.getElementById( '#{ cc.clientId }:javascriptTest' ).innerHTML + ")" );
+										RichFaces.getDomElement('listForm_j_idt116')[RichFaces.RICH_CONTAINER].component.calendarDatesLoaded( dataObj );
+									}
+								
+									var currentDate = new Date( currentDateStr.substring( 0, 4 ), currentDateStr.substring( 5, 7 ) - 1, currentDateStr.substring( 8, 10 ) );
+									RichFaces.ui.Calendar.addLocale("en",{"monthLabels":["January","February","March","April","May","June","July","August","September","October","November","December"] ,"minDaysInFirstWeek":1,"monthLabelsShort":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"] ,"firstWeekDay":0,"weekDayLabels":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"] ,"weekDayLabelsShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"] } );
+									new RichFaces.ui.Calendar("listForm_j_idt116", "en",{"currentDate":currentDate,'isShowingPrices':isShowingPrices,"style":"z\u002Dindex: 3","popup":false,"showWeeksBar":false,"showFooter":false,'isFrontEnd':#{cc.attrs.isFrontEnd}} ).load();
+								</script>
+							</span>
+						</span>
+						<style>
+							.displayNone {
+								display:none;
+							}
+						</style>
+						<aplos:panel id="javascriptTest" styleClass="displayNone">#{ cc.getCalendarDayListJson() }</aplos:panel>
+					</div>
+				</div>
+	
+				<aplos:ajaxJsFunction name="changeSelectedRoom" action="#{ cc.changeSelectedRoom }" update="rptBandBRoom,reRenderFix" oncomplete="getCalendarDayListJson(currentDateStr)">
+					<aplos:param name="selectedBandBRoomId" assignTo="#{cc.selectedBandBRoomId}" />
+				</aplos:ajaxJsFunction>
+	
+				<aplos:ajaxJsFunction name="getCalendarDayListJson" action="#{ cc.createCalendarDayList }" update="javascriptTest" oncomplete="showMessage()">
+					<aplos:param name="currentDateStr" assignTo="#{cc.currentDateStr}" />
+				</aplos:ajaxJsFunction>
+	
+				<aplos:ajaxJsFunction name="toggleSelectedDayAvailability" action="#{ cc.toggleSelectedDayAvailability }" update="javascriptTest,rptBandBRoom,reRenderFix" oncomplete="showMessage()">
+					<aplos:param name="selectedDayIdx" assignTo="#{cc.selectedDayIdx}" />
+				</aplos:ajaxJsFunction>
+			</div>
+    </cc:implementation>    
+   </h:body>
+</html>
+

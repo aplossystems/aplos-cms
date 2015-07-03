@@ -1,0 +1,42 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	
+	<style type="text/css">
+	
+		.galleryImage {
+			text-align:center;
+		}
+		
+		.galleryContainer .rich-table {
+			width:100%;
+		}
+	
+	</style>
+	
+	<div class="galleryContainer">
+		<table>
+			<ui:repeat value="#{ galleryModule.galleryImages }" var="galleryImage">
+				<tr>
+					<td class="galleryImage">
+						<h:commandLink action="#{ galleryFeDmb.downloadImage }" target="_blank">
+							<img src="#{ galleryModule.getFullFileUrl( tempGalleryImage ) }" style="border:solid 5px transparent" border="0" />
+						</h:commandLink>
+					</td>
+					<td>
+						<h:commandLink action="#{ galleryFeDmb.downloadImage }">
+							<div style="color:black">
+								#{galleryImage.title}
+							</div>
+						</h:commandLink>
+					</td>
+				</tr>
+			</ui:repeat>
+		
+		</table>
+	</div>
+	
+</ui:composition>

@@ -1,0 +1,13 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	<div class="aplos-sitemap">
+		<aplos:frontendCmsMenu menuNodeId="#{siteMapFeDmb.mainMenuNodeIdStr}" />
+		<h:panelGroup layout="none" rendered="#{siteMapFeDmb.sideMenuNodeIdStr != null}">
+			<aplos:frontendCmsMenu menuNodeId="#{siteMapFeDmb.sideMenuNodeIdStr}" />
+		</h:panelGroup>
+   	</div>
+</ui:composition>

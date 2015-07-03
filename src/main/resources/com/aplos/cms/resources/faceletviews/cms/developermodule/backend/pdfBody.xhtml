@@ -1,0 +1,34 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+	
+	<table>
+		<tr>
+			<td class="aplos-label">File</td>
+			<td class="aplos-field">
+				<aploscc:fileUploader2 style="width:300px" owner="#{pdfModule}"  key="PDF" types="pdf"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Width</td>
+			<td class="aplos-field"><h:inputText value="#{ pdfModule.width }" style="width:40px" /></td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Height</td>
+			<td class="aplos-field"><h:inputText value="#{ pdfModule.height }" style="width:40px" /></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td class="aplos-field">
+				<aploscc:ajaxButton value="Save" action="#{ pdfBeDmb.uploadFileAndSaveModule }" />
+			</td>
+		</tr>
+	</table>
+	
+	
+</ui:composition>

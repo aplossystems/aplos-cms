@@ -1,0 +1,140 @@
+<ui:composition template="#{ themeManager.editTemplatePath }"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="editHead">
+		<h:outputScript library="jsLibraries" name="/CodeMirror-2.22/lib/codemirror.js" target="head" />
+		<h:outputStylesheet library="jsLibraries" name="CodeMirror-2.22/lib/codemirror.css" target="head" />
+		<h:outputScript library="jsLibraries" name="CodeMirror-2.22/mode/css/css.js" target="head" />
+		<script type="text/javascript">
+			var template_head_editor;
+			var template_body_editor;
+			$j(function() {
+				template_head_editor = CodeMirror
+						.fromTextArea(
+								document.getElementById('template_head'),
+								{
+									height : "200px",
+									parserfile : "parsexml.js",
+									stylesheet : "#{request.contextPath}/codeMirror/css/xmlcolors.css",
+									path : "#{request.contextPath}/codeMirror/js/",
+									continuousScanning : 500,
+									lineNumbers : true
+								});
+
+				template_body_editor = CodeMirror
+						.fromTextArea(
+								document.getElementById('template_body'),
+								{
+									height : "450px",
+									parserfile : "parsexml.js",
+									stylesheet : "#{request.contextPath}/codeMirror/css/xmlcolors.css",
+									path : "#{request.contextPath}/codeMirror/js/",
+									continuousScanning : 500,
+									lineNumbers : true
+								});
+			});
+
+			function updateCodeMirrors() {
+				template_head_editor.save();
+				template_body_editor.save();
+			}
+		</script>
+
+	</ui:define>
+
+	<ui:define name="editContent">
+
+		<h4>Head</h4>
+		<h:inputTextarea style="width: 920px; height: 200px; margin:auto;"
+			id="template_head" value="#{topLevelTemplate.head}" />
+
+		<br />
+		<h4>Body</h4>
+		<h:inputTextarea style="width: 920px; height: 450px; margin:auto;"
+			id="template_body" value="#{topLevelTemplate.body}" />
+
+		<br />
+		<br />
+
+		<table style="width: 600px;">
+			<tr>
+				<td class="aplos-label" style="width: 140px">Name</td>
+				<td class="aplos-required-asterisk">*</td>
+				<td class="aplos-field"><h:inputText required="true"
+						requiredMessage="You must enter a name for this template"
+						value="#{topLevelTemplate.name}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Xml namespaces</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field"><h:inputText
+						value="#{topLevelTemplate.xmlNamespaceStr}" style="width:100%" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Pass Through Atom List</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field" style="padding: 20px 0px 0px 0px">
+					<aplos:panel id="cmsAtomPassThroughTableWrapper">
+					<p:dataTable
+						id="cmsAtomPassThroughTable"
+						value="#{ topLevelTemplate.cmsAtomPassThroughList }"
+						var="cmsAtomPassThrough" styleClass="listDatatable"
+						style="margin-top:-12px;width:100%">
+						<p:column>
+							<f:facet name="header">Atom Name</f:facet>
+							#{cmsAtomPassThrough.cmsAtom.displayName}
+						</p:column>
+						<p:column width="24px">
+							<h:commandButton
+								action="#{ topLevelTemplateEditPage.removeCmsAtomPassThrough }"
+								image="/images/action_delete.gif"
+								reRender="cmsAtomPassThroughTableWrapper" />
+						</p:column>
+					</p:dataTable>
+					</aplos:panel>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label"></td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field"><h:selectOneListbox size="1"
+						id="cmsAtomPassThroughList"
+						value="#{topLevelTemplateEditPage.selectedCmsAtomForPassThrough}"
+						converter="aplosAbstractBeanConverter">
+						<f:selectItems
+							value="#{ topLevelTemplateEditPage.availableCmsAtomSelectItemBeans}" />
+					</h:selectOneListbox> <aploscc:ajaxButton ajaxEnabled="true"
+						action="#{ topLevelTemplateEditPage.addCmsAtomPassThrough }"
+						value="Add" reRender="cmsAtomPassThroughTable" /></td>
+			</tr>
+		</table>
+		<br />
+		<aploscc:wrappedDataTable2 showNewBtn="true"
+			dataTableState="#{ backingPage.dataTableState }">
+			<p:column sortBy="#{ tableBean.name }" filterBy="#{ tableBean.name }">
+				<f:facet name="header">Name</f:facet>
+				#{tableBean.name}
+			</p:column>
+		</aploscc:wrappedDataTable2>
+	</ui:define>
+
+	<ui:define name="editButtons">
+		<aploscc:controlPanel>
+			<f:facet name="upperRightControlPanel">
+				<aploscc:ajaxButton action="#{backingPage.applyBtnAction}"
+					ajaxEnabled="true" onclick="updateCodeMirrors();" value="Apply" />
+				<aploscc:ajaxButton action="#{backingPage.okBtnAction}"
+					onclick="updateCodeMirrors();" value="Ok" />
+				<aploscc:ajaxButton action="#{backingPage.cancelBtnAction}"
+					immediate="true" value="Cancel" />
+			</f:facet>
+		</aploscc:controlPanel>
+	</ui:define>
+
+</ui:composition>

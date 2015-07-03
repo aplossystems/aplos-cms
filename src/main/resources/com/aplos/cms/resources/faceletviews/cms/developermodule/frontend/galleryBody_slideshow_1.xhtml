@@ -1,0 +1,19 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	<h:outputScript library="scripts" name="aplosGallerySlideshow.js" target="head" />
+	<div class="aplos-gallery-atom aplos-gallery-atom-slideshow">
+		<ui:repeat value="#{ galleryModule.galleryImages }" var="tempGalleryImage" varStatus="status">
+			<aplos:panel layout="none" rendered="#{ status.index == 0 }">
+				<img alt="#{ tempGalleryImage.title }" src="#{ galleryModule.getFullFileUrl( tempGalleryImage ) }" class="aplos-slideshow-image active" />
+			</aplos:panel>
+			<aplos:panel layout="none" rendered="#{ status.index != 0 }">
+				<img alt="#{ tempGalleryImage.title }" src="#{ galleryModule.getFullFileUrl( tempGalleryImage ) }" class="aplos-slideshow-image" />
+			</aplos:panel>
+		</ui:repeat>
+	</div>
+	
+</ui:composition>

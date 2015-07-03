@@ -1,0 +1,276 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+	
+		<h:outputScript library="scripts" name="/jquery.isotope.min.js" target="head" />
+		<h:outputStylesheet library="styles" name="/isotope.css" target="head" />
+	<div class="aplos-case-study-atom">
+     	<aplos:panel autoUpdate="true" id="case_study_content">
+     		<aplos:panel rendered="#{ caseStudyFeDmb.selectedBasicCmsContent == null }">
+			<div class="rt-grid-12 ">
+				<div class="rt-block">
+					<div id="rt-mainbody">
+						<div class="component-content">
+							<div class="itemListView port" id="k2Container">
+								<div class="componentheading port">
+									<h2>Portfolio</h2>
+								</div>
+								<div id="isotopeOptions">
+									<span><strong>Filter:</strong></span>
+									<ul class="option-set" id="filters">
+										<li><a class="selected" data-filter="*" href="#">all</a></li>
+										<ui:repeat id="keywordRepeat" value="#{ caseStudyFeDmb.availableKeywordList }" var="keyword">
+											<li><a data-filter=".#{ keyword }" href="#">#{ keyword }</a></li>
+										</ui:repeat>
+									</ul>
+									<div class="clr"></div>
+									<span><strong>Sort:</strong></span>
+									<ul class="option-set" data-option-key="sortBy" id="sort">
+										<li><a class="selected" data-option-value="title"
+											href="#sortBy=#title">title</a></li>
+										<li><a data-option-value="date" href="#sortBy=#date">date</a></li>
+										<li><a data-option-value="views" href="#sortBy=#views">views</a></li>
+									</ul>
+									<span><strong>Sort order:</strong></span>
+									<ul class="option-set" data-option-key="sortAscending"
+										id="sort_direction">
+										<li><a class="selected" data-option-value="true"
+											href="#sortAscending=true">sort ascending</a></li>
+										<li><a data-option-value="false" href="#sortAscending=false">sort
+												descending</a></li>
+									</ul>
+								</div>
+								<div class="clr"></div>
+								<div class="itemList">
+									<div class="itemListLeading" id="isotopeContainer">
+										<ui:repeat id="caseStudies" value="#{ caseStudyFeDmb.basicCmsContents }" var="basicCmsContent">
+								     		<h:panelGroup rendered="#{basicCmsContent.showingInFrontEnd }">
+													<div class="itemContainer all #{ caseStudyFeDmb.keywordStr }"
+														data-create="#{ basicCmsContent.dateCreated.time }" data-title="#{ basicCmsContent.title }"
+														style="width: 50.0%">
+														<div class="catItemView groupLeading port">
+															<div class="catItemImageBlock">
+																<span class="catItemImage">
+																	<a class="touch"
+																		href="#{ caseStudyFeDmb.getBasicCmsContentLink( basicCmsContent ) }"
+																		title="#{ basicCmsContent.title }"> 
+																		<img src="#{ basicCmsContent.imageDetails.getFullFileUrl(true) }&amp;maxWidth=710" alt="#{ basicCmsContent.title }" />
+																	</a> 
+																</span>
+																<div class="clr"></div>
+															</div>
+															<div class="catItemHeader">
+																<h3 class="catItemTitle" style="float:left;padding-right:5px">
+																	<a href="#{ caseStudyFeDmb.getBasicCmsContentLink( basicCmsContent ) }">
+																		#{ basicCmsContent.title }</a>
+																</h3> <h3 class="catItemLocation" style="float:left;padding-right:10px;">#{ basicCmsContent.location }</h3>
+																<span class="catItemDateCreated">#{ basicCmsContent.dateCreatedStdStr } </span>
+																<div class="catItemHitsBlock">
+																	<span>Views:</span> <span class="catItemHits"> <b>#{ basicCmsContent.views }</b>
+																	</span>
+																</div>
+															</div>
+															<div class="catItemBody">
+																<div class="clr"></div>
+																<div class="catItemIntroText">
+																	<p><h:outputText value="#{ basicCmsContent.shortDescription }" escape="false" /></p>
+																	<div class="catItemReadMore">
+																		<a class="k2ReadMore"
+																			href="#{ caseStudyFeDmb.getBasicCmsContentLink( basicCmsContent ) }">
+																			More </a>
+																	</div>
+																</div>
+																<div class="clr"></div>
+																<div class="clr"></div>
+															</div>
+															<div class="catItemLinks">
+																<div class="clr"></div>
+															</div>
+															<div class="clr"></div>
+															<div class="clr"></div>
+															<div class="clr"></div>
+															<div class="clr"></div>
+														</div>
+														<div class="clr"></div>
+													</div>
+											</h:panelGroup>
+										</ui:repeat>
+									</div>
+								</div>
+								<div class="clear">&#160;</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</aplos:panel>
+    		<aplos:panel rendered="#{ caseStudyFeDmb.selectedBasicCmsContent != null and caseStudyFeDmb.selectedBasicCmsContent != null and caseStudyFeDmb.selectedBasicCmsContent.showingInFrontEnd }">
+					<div class="rt-grid-8 ">
+						<div class="rt-block">
+							<div id="rt-mainbody">
+								<div class="component-content">
+									<div id="k2Container" class="itemListView blog">
+										<div class="componentheading blog">
+											<h2>
+												Portfolio</h2>
+										</div>
+										<div class="itemListCategoriesBlock">
+											&#160;</div>
+										<div class="itemList">
+											<div id="itemListLeading">
+												<div class="K2ItemsRow K2Row-0">
+													<div style="width:100.0%;" class="itemContainer itemContainerLast">
+													      <div id="blog_article" class="aplos-blog-articles"><span id="j_idt40:article_content">
+													      			<div class="aplos-blog-aticle catItemView blog">
+															      		<div class="catItemHeader">
+																			<span class="catItemDateCreated"><span>#{  caseStudyFeDmb.selectedBasicCmsContent.dateCreatedStdStr }</span> </span>
+																			<a class="" href="http://#{  caseStudyFeDmb.selectedBasicCmsContent.websiteUrl }" title="#{  caseStudyFeDmb.selectedBasicCmsContent.title }" target="_blank">
+																				<h3 class="catItemTitle">
+																					#{  caseStudyFeDmb.selectedBasicCmsContent.title }  </h3>
+																			</a>
+																			<h3 class="catItemLocation">#{ caseStudyFeDmb.selectedBasicCmsContent.location }</h3>
+																			<div class="catItemCommentsLink">
+																				#{ caseStudyFeDmb.selectedBasicCmsContent.views } View(s)</div>
+																				
+																			<span class="catItemAuthor">Posted by Anthony Mayfield </span>
+																			<div class="clr">
+																				&#160;</div>
+																		</div>
+																		<div class="catItemBody">
+																			<div class="catItemImageBlock" style="max-width:410px">
+																				<span class="catItemImage">
+																					<a class="" href="http://#{  caseStudyFeDmb.selectedBasicCmsContent.websiteUrl }" title="#{  caseStudyFeDmb.selectedBasicCmsContent.title }" target="_blank">
+																			        	<img alt="#{  caseStudyFeDmb.selectedBasicCmsContent.title }" src="#{ caseStudyFeDmb.selectedBasicCmsContent.imageDetails.getFullFileUrl(true) }&amp;maxWidth=710" class="blog_image" style="visibility: visible; opacity: 1;" />  
+																					</a> 
+																				</span>
+																				<div class="clr">
+																					&#160;</div>
+																			</div>
+																			<div class="catItemIntroText">
+																				<aplos:panel layout="none" rendered="#{ caseStudyFeDmb.selectedBasicCmsContent.content != '' }">
+																					<div class="aplos-article-content">
+																            			<h:outputText value="#{ caseStudyFeDmb.selectedBasicCmsContent.parsedContent }" escape="false" />
+																            		</div>
+																            	</aplos:panel>
+																				<div class="catItemReadMore">
+																					<aploscc:ajaxButton value="Back to list" action="#{ caseStudyFeDmb.redirectToBasicCmsContentList }" /></div>
+																			</div>
+																			<div class="clr">
+																				&#160;</div>
+																			<div class="clr">
+																				&#160;</div>
+																		</div>
+															        </div></span>
+													      </div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="rt-grid-4 ">
+								<div id="rt-sidebar-a" style="padding-left:10px">
+									<div class="rt-block"><span class="aplos-blog-controls" id="j_idt40:blog_controls">
+													<div class="module-title">
+														<h2 class="title">More</h2>
+													</div>
+												<div id="k2ModuleBox90" class="k2ArchivesBlock">
+													<ul>
+														<ui:repeat id="moreCaseStudies" value="#{ caseStudyFeDmb.basicCmsContents }" var="basicCmsContent">
+										        			<li class="firstItem"><a href="#{ caseStudyFeDmb.getBasicCmsContentLink( basicCmsContent ) }">#{ basicCmsContent.title }</a></li>
+										        		</ui:repeat>
+													</ul>
+												</div></span>
+									</div>
+								</div>
+							</div>
+							<div class="clear">
+								&#160;</div>
+    		
+    		
+     		</aplos:panel>
+     	</aplos:panel>							
+ 	</div>
+ 	<script type="text/javascript">
+	(function($){ 
+	   $(window).load(function(){
+	   	$(window).resize(function(){
+	   		$windowWidth = $(window).width();
+	   	});
+	   	var $container = $(&#39;#isotopeContainer&#39;);
+			$container.isotope({
+				animationEngine: &#39;best-available&#39;,
+				animationOptions: {
+			      queue: false,
+			      duration: 800
+			    },
+			    containerClass : &#39;isotope&#39;,
+			    containerStyle: {
+			      position: &#39;relative&#39;,
+			      overflow: &#39;hidden&#39;
+			    },
+			    hiddenClass : &#39;isotope-hidden&#39;,
+			    itemClass : &#39;isotope-item&#39;,
+			    itemPositionDataEnabled: false,
+			    layoutMode : &#39;fitRows&#39;,
+			    resizable: true,
+			    resizesContainer : true,
+			    sortBy : &#39;title&#39;,
+	  			sortAscending : true,
+			    getSortData : {
+				    title : function ( $elem ) {
+				    	return $elem.attr(&#39;data-title&#39;);
+				    },
+				    date : function ( $elem ) {
+				    	return $elem.attr(&#39;data-create&#39;);
+				    },
+				    views : function ( $elem ) {
+				    	return parseInt( $elem.find(&#39;.catItemHits&#39;).text(), 10 );
+				    }
+				  },
+			    transformsEnabled: !$.browser.opera // disable transforms in Opera
+			});
+			// filter items when filter link is clicked
+			$(&#39;#filters a&#39;).click(function(){
+				var selector = $(this).attr(&#39;data-filter&#39;);
+				$container.isotope({ filter: selector });
+				return false;
+			});
+			var $optionSets = $(&#39;#isotopeOptions .option-set&#39;),
+			    $optionLinks = $optionSets.find(&#39;a&#39;);
+			    $optionLinks.click(function(){
+			        var $this = $(this);
+			        // don&#39;t proceed if already selected
+			        if ( $this.hasClass(&#39;selected&#39;) ) {
+			          return false;
+			        }
+			        var $optionSet = $this.parents(&#39;.option-set&#39;);
+			        $optionSet.find(&#39;.selected&#39;).removeClass(&#39;selected&#39;);
+			        $this.addClass(&#39;selected&#39;);
+			        // make option object dynamically, i.e. { filter: &#39;.my-filter-class&#39; }
+			        var options = {},
+			            key = $optionSet.attr(&#39;data-option-key&#39;),
+			            value = $this.attr(&#39;data-option-value&#39;);
+			        // parse &#39;false&#39; as false boolean
+			        value = value === &#39;false&#39; ? false : value;
+			        options[ key ] = value;
+			        if ( key === &#39;layoutMode&#39; &#38;&#38; typeof changeLayoutMode === &#39;function&#39; ) {
+			          // changes in layout modes need extra logic
+			          changeLayoutMode( $this, options )
+			        } else {
+			          // otherwise, apply new options
+			          $container.isotope( options );
+			        }
+			        return false;
+			    });
+		});
+	})(jQuery);
+	</script>
+</ui:composition>

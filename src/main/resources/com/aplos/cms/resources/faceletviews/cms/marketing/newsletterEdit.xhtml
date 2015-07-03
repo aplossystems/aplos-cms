@@ -1,0 +1,172 @@
+<ui:composition template="#{ themeManager.editTemplatePath }"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+
+	<ui:define name="editHead">
+		<h:outputScript library="jsLibraries" name="ckeditor/aplosckeditor.js" target="head" />
+		<h:outputScript library="scripts" name="ckEditorHelper.js" target="head" />
+		<script type="text/javascript"> 
+			$j(document)
+					.ready(
+							function() {
+								ckEditorHelper
+										.createLimitedToolbarCKEditors('#{ request.contextPath }');
+							});
+		</script>
+	</ui:define>
+
+	<ui:define name="editContent">
+		<table class="aplos-form-table">
+
+			<tr>
+				<td class="aplos-label">Subject</td>
+				<td class="aplos-field"><h:inputText
+						value="#{newsletter.subject}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">HTML Body</td>
+				<td class="aplos-field">
+					<h:inputTextarea id="htmlBody"
+						styleClass="aplos_ckeditor" value="#{newsletter.htmlBody}"
+						style="width:500px;height:400px"></h:inputTextarea></td>
+			</tr>
+			<tr>
+				<td class="aplos-label" ></td>
+				<td class="aplos-description">Most of your user's will see this HTML body; as long as their mail client (Outlook etc.) can render HTML</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Plain text Body</td>
+				<td class="aplos-field">
+					<h:inputTextarea id="plainTextBody" value="#{newsletter.plainTextBody}"
+						style="width:500px;height:200px"></h:inputTextarea></td>
+			</tr>
+			<tr>
+				<td class="aplos-label" ></td>
+				<td class="aplos-description">Mail clients that cannot render HTML will show this plain text instead</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Attachments</td>
+				<td class="aplos-field"><aplos:panel id="attachmentsTable">
+						<p:dataTable id="listTable"
+							value="#{ newsletter.newsletterAttachments }" var="tableBean"
+							styleClass="listDatatable" style="width:400px">
+							<p:column>
+								<f:facet name="header">File</f:facet>
+								#{tableBean.name}
+							</p:column>
+							<p:column width="24px">
+								<h:commandLink action="#{ backingPage.removeAttachment }"
+									reRender="attachmentsTable">
+									<img src="#{ request.contextPath }/images/action_delete.gif"
+										border="0" />
+								</h:commandLink>
+							</p:column>
+						</p:dataTable>
+						<p:fileUpload mode="simple" id="attachmentUploader" value="#{backingPage.attachmentUploadedFile}" />
+						<aploscc:ajaxButton action="#{ backingPage.addAttachment }" value="Add" />
+					</aplos:panel></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Send to</td>
+				<td class="aplos-field">
+					<h:selectOneMenu value="#{ backingPage.selectedBulkMessageSourceGroup }" converter="aplosAbstractBeanConverter">
+						<f:selectItems value="#{ backingPage.bulkMessageSourceGroupSelectItems }" />
+						<p:ajax process="@form" event="change" listener="#{ backingPage.selectedBulkMessageSourceGroupUpdated() }" />
+					</h:selectOneMenu>
+				</td>
+			</tr>
+		</table>
+		<h:panelGroup layout="none" rendered="#{newsletterEditPage.multipleChannelsAvailable}">
+			<table class="aplos-form-table">
+				<tr>
+					<td class="aplos-label">Which channel(s) should receive this
+						message?</td>
+					<td class="aplos-field"><h:selectOneMenu
+							value="#{newsletterEditPage.selectedSubscriptionChannel}" id="sub_channel"
+							converter="aplosAbstractBeanConverter">
+							<f:selectItems value="#{newsletterEditPage.channelSelectItems}" />
+						</h:selectOneMenu></td>
+				</tr>
+			</table>
+		</h:panelGroup>
+		<h:panelGroup layout="none" rendered="#{newsletter.newslettersSent.size() lt 1}">
+			<table class="aplos-form-table">
+				<tr>
+					<td class="aplos-label">Send only once</td>
+					<td class="aplos-field">
+						<h:selectBooleanCheckbox value="#{ newsletter.sendOnlyOnce }" />
+					</td>
+				</tr>
+			</table>
+		</h:panelGroup>
+		<table class="aplos-form-table">
+				<tr>
+					<td class="aplos-label">Include newsletter header and footer</td>
+					<td class="aplos-field">
+						<h:selectBooleanCheckbox value="#{ newsletter.includingNewsletterHeaderAndFooter }" />
+					</td>
+				</tr>
+				<tr>
+					<td class="aplos-label">Include common header and footer</td>
+					<td class="aplos-field">
+						<h:selectBooleanCheckbox value="#{ newsletter.includingCommonHeaderAndFooter }" />
+					</td>
+				</tr>
+			</table>
+		<br style="clear: both;" />
+		<aplos:panel id="senderMessagesPnl">
+			<table style="margin-top: 30px">
+				<tr>
+					<td><h:outputText value="Newsletter sent"
+							rendered="#{ newsletter.newslettersSent.size() > 0 }" /></td>
+				</tr>
+				<ui:repeat id="newsletterSentDates"
+					value="#{ newsletter.newslettersSentStrs }" var="newslettersSent">
+					<tr>
+						<td><h:outputText value="#{ newslettersSent }" /></td>
+					</tr>
+				</ui:repeat>
+				<tr>
+					<td><h:outputText value="#{ newsletterEditPage.senderMessage }" /></td>
+				</tr>
+			</table>
+		</aplos:panel>
+		<table style="margin-top: 30px">
+			<tr>
+		
+				<td style="padding-top: 10px">
+				    <!-- For some reason if you include the senderMessagesPnl in the update then the dropdown lists will close
+				    when you try to select something from the list. -->
+					<p:poll id="messagePoll" update="sendNewsletterBtn" disabled="#{ !newsletterEditPage.enableMessageUpdating }" />
+						
+				</td>
+			</tr>
+		</table>
+	</ui:define>
+
+
+	<ui:define name="editButtons">
+		<aploscc:controlPanel>
+			<f:facet name="upperRightControlPanel">
+				<aploscc:ajaxButton action="#{ newsletter.duplicate }"
+					value="Duplicate" rendered="#{ not newsletter.isNew }" />
+				<aploscc:ajaxButton action="#{backingPage.applyBtnAction}"
+					onclick="ckEditorHelper.updateEditors()" value="Apply" />
+				<aploscc:ajaxButton id="sendNewsletterBtn"
+					action="#{backingPage.sendNewsletter}"
+					rendered="#{ newsletterEditPage.newsletterSendable }"
+					value="Send Newsletter" reRender="sendNewsletterBtn,messagePoll" />
+				<aploscc:ajaxButton action="#{backingPage.okBtnAction}" value="Ok" />
+				<aploscc:ajaxButton action="#{backingPage.cancelBtnAction}"
+					value="Cancel" />
+
+			</f:facet>
+		</aploscc:controlPanel>
+	</ui:define>
+
+</ui:composition>

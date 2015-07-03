@@ -1,0 +1,147 @@
+<ui:composition template="#{ themeManager.listTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+
+	<ui:define name="head">
+	
+		<h:outputScript library="jsLibraries" name="jsTree/aplosjquery.tree.js" target="head" />
+		<h:outputScript library="jsLibraries" name="jsTree/plugins/jquery.tree.contextmenu.js" target="head" />
+
+	</ui:define>
+	
+	<ui:define name="heading">Manage Pages</ui:define>
+	<ui:define name="return"></ui:define>
+	
+	<ui:define name="listContent">
+		
+		<style>
+			#treeView li a { cursor: default; }
+			
+			/* Elements we can only view */
+			#treeView li[rel='view'] a { font-style: italic; }
+			
+			/* Elements we can edit */
+			#treeView li[rel='edit'] a { cursor: pointer; }
+		</style>
+		
+		
+		<table class="aplos-form-table">
+		
+			<tr>
+				<td class="aplos-label">Pages</td>
+				<td>
+					<h:panelGroup layout="block" id="treeView">
+				
+						<div id="basic_json_1"></div>
+						
+						<aplos:ajaxJsFunction name="moveNode" action="#{backingPage.updateTree}">
+							<aplos:param name="node" assignTo="#{backingPage.dragNode}" />
+							<aplos:param name="ref_node" assignTo="#{backingPage.dropNode}" />
+							<aplos:param name="type" assignTo="#{backingPage.dropType}" />
+						</aplos:ajaxJsFunction>
+						
+						<aplos:jsFunction name="selectNode" action="#{backingPage.selectNode}">
+							<aplos:param name="ref_node" assignTo="#{backingPage.dropNode}" />
+						</aplos:jsFunction>
+						
+						<aplos:ajaxJsFunction name="openNode" action="#{backingPage.openNode}">
+							<aplos:param name="ref_node" assignTo="#{backingPage.dropNode}" />
+						</aplos:ajaxJsFunction>
+						
+						<aplos:ajaxJsFunction name="closeNode" action="#{backingPage.closeNode}">
+							<aplos:param name="ref_node" assignTo="#{backingPage.dropNode}" />
+						</aplos:ajaxJsFunction>
+			
+						<script type="text/javascript" class="source">
+							$j(document).ready(function() {
+								$j("#basic_json_1").tree( {
+									types : {
+										//unused but required (i believe)
+										"default" : { max_depth : 5, valid_children : "", clickable : false },
+										//the whole tree container (also shows as yellow folder) TODO: change icon
+										"top"  : { draggable : false, valid_children : null },
+										//root is the yellow folders
+										"root" : { draggable : true, valid_children : [ "generator", "root", "edit", "alias", "view", "unclickable", "menuspacer", "link" ], icon : { image : "#{request.contextPath}/images/iconFolder.gif" } },
+										//edit is the dark page icon which links to page edit
+										"edit" : { clickable : true,  valid_children : [ "generator", "edit", "alias", "view", "unclickable", "menuspacer", "link" ], icon : { image : "#{request.contextPath}/images/iconLeaf.gif" } },
+										//alias is for aliases - has a blue arrow on a white page
+										"alias" : { clickable : true,  valid_children : [ "generator", "edit", "alias", "view", "unclickable", "menuspacer", "link" ], icon : { image : "#{request.contextPath}/images/alias.png" } },
+										//link is for links - has a blue arrow on a white page
+										"link" : { clickable : true,  valid_children : [ "generator", "edit", "alias", "view", "unclickable", "menuspacer", "link" ], icon : { image : "#{request.contextPath}/images/alias.png" } },
+										//cms page generator, stack of pages
+										"generator" : { clickable : true,  valid_children : [ "" ], icon : { image : "#{request.contextPath}/images/generator.png" } },
+										//recycle bin only, dont reuse
+										"recycle" : { draggable : false, clickable : true,  valid_children : "", icon : { image : "#{request.contextPath}/images/destroy_node_icon.gif" } },
+										//unclickable refers to being unclickable on the frontend (menus) - divisions show as this
+										"unclickable" : { clickable : true,  valid_children : [ "generator", "edit", "alias", "view", "menuspacer" ], icon : { image : "#{request.contextPath}/images/unclickableIconLeaf.gif" } },
+										"menuspacer" : { clickable : true,  valid_children : [ "" ], icon : { image : "#{request.contextPath}/images/spacer.png" } },
+										"view" : { draggable : false, valid_children : [ "generator", "edit", "alias", "view", "menuspacer" ], icon : { image : "#{request.contextPath}/images/iconLeaf.gif" } },
+										"node" : { clickable : true,  valid_children : [ "generator", "edit", "alias", "view", "unclickable", "menuspacer" ], icon : { image : "#{request.contextPath}/images/iconLeaf.gif" } },
+										
+										// Unused
+										"leaf" : { clickable: true, valid_children : [ "folder", "leaf" ], icon : { image : "#{request.contextPath}/images/iconLeaf.gif" } },
+										"folder" : { clickable: true, valid_children : [ "folder", "leaf" ], icon : { image : "#{request.contextPath}/images/iconLeaf.gif"  } }
+									},
+						
+									callback : {
+										onchange : function (NODE) {
+											selectNode($j(NODE).attr("id"));
+										},
+						
+										onmove : function(node, ref_node, type, TREE_OBJ, RB) {
+											moveNode($j(node).attr("id"), $j(ref_node).attr("id"), type);
+										},
+										
+										onopen : function(NODE) {
+											openNode($j(NODE).attr("id"));
+										},
+										
+										onclose : function(NODE) {
+											closeNode($j(NODE).attr("id"));
+										}
+									},
+						
+									plugins : {
+										cosntextmenu : { items : { remove : false } }
+									},
+									
+									data : {
+										type : "json",
+										opts : {
+											static : [ { "data" : { title : " ", icon : false }, 
+												"attributes" : { "rel" : "top" }, 
+												state : "open", "children" : [ <h:outputText value="#{backingPage.menuJson}" /> ]
+											} ]
+										}
+									}
+								});
+							});
+						</script>
+			
+					</h:panelGroup> 
+					
+					<br style="clear:both;" />
+					<br/>
+					<h:panelGroup rendered="#{!backingPage.hasReachedPageLimit}">
+						<aploscc:ajaxButton action="#{backingPage.goToNewPage}" value="New page" />
+						<h:panelGroup rendered="#{backingPage.hasEcommerceModule()}">
+							<aploscc:ajaxButton action="#{backingPage.goToNewPageGenerator}" value="New page generator" />
+						</h:panelGroup>
+					<aploscc:ajaxButton action="#{backingPage.goToNewLink}" value="New link" />
+					</h:panelGroup>
+					<aploscc:ajaxButton action="#{backingPage.goToNewUnclickable}" value="New division" />
+				</td>
+				
+			</tr>
+		
+		</table>
+		<h:panelGroup rendered="#{backingPage.hasReachedPageLimit}">
+			<small class="limitnotice">Your website is currently limited to&#160;<h:outputText value="#{backingPage.pageLimit}" />&#160;pages. You cannot create any further pages. Please speak to us at Aplos Systems to have this limit removed.</small>
+		</h:panelGroup>
+	</ui:define>
+
+</ui:composition>

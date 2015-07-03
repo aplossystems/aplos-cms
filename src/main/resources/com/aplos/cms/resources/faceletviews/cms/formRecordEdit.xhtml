@@ -1,0 +1,28 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	
+	<ui:define name="editContent">
+		<table class="aplos-form-table">	
+			<tr>
+				<td class="aplos-label">Form</td>
+				<td class="aplos-field"><h:outputText value="#{form.name}" /></td>
+			</tr>
+		   		
+			<tr>
+				<td class="aplos-label">Notes</td>
+				<td class="aplos-field"><h:inputTextarea value="#{formRecord.notes}" /><hr /></td>
+			</tr>
+		   		
+		   	<c:forEach items="#{form.elements}" var="element" >
+				<tr>
+					<td class="aplos-label">#{element.name}</td>
+					<td class="aplos-field"><h:inputText value="#{formRecord.fields[element.id]}" /></td>
+				</tr>
+			</c:forEach>	
+		</table>
+	</ui:define>
+
+</ui:composition>

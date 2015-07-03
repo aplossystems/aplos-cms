@@ -1,0 +1,97 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+	<div class="aplos-generator-menu-atom">
+		<table>
+			<tr>
+				<td class="aplos-label" style="width:140px">Page Generation</td>
+				<td>
+					<h:selectOneMenu value="#{generatorMenuBeDmb.generatorMenuCmsAtom.generationType}">
+						<f:selectItems value="#{ generatorMenuBeDmb.generationTypeSelectItems}" />
+						<p:ajax event="change" update="selectionPanels" />
+					</h:selectOneMenu>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Sorting options</td>
+				<td class="aplos-field">
+					<h:selectOneMenu value="#{generatorMenuBeDmb.generatorMenuCmsAtom.generatorMenuItemSortOption}">
+						<f:selectItems value="#{generatorMenuBeDmb.generatorMenuItemSortOptionSelectItems}" />   
+					</h:selectOneMenu>
+				</td>
+			</tr>
+		</table>
+		<h:panelGroup id="#{'selectionPanels'}">
+			<h:panelGroup id="generatorSelectionPanel" rendered="#{generatorMenuBeDmb.generatorMenuCmsAtom.generationType.name() == 'GENERATOR'}">
+				<table>
+					<tr>
+						<td class="aplos-label" style="width:140px">Page Generation</td>
+						<td>
+							<h:selectOneMenu converter="aplosAbstractBeanConverter" value="#{generatorMenuBeDmb.generatorMenuCmsAtom.cmsPageGenerator}">
+								<f:selectItems value="#{ generatorMenuBeDmb.pageGeneratorSelectItems }" />
+								<p:ajax event="change" update="selectionPanels" />
+							</h:selectOneMenu>
+						</td>
+					</tr>
+				</table>
+			</h:panelGroup>
+			<h:panelGroup id="manualSelectionPanel" rendered="#{generatorMenuBeDmb.generatorMenuCmsAtom.generationType.name() == 'MANUAL_LIST'}">
+				<table>
+					<tr>
+						<td class="aplos-label" style="width:140px">Item type</td>
+						<td>
+							<h:selectOneMenu required="true" label="Item Type" value="#{generatorMenuBeDmb.itemTypeDropdownValue}">
+								<f:selectItems value="#{ generatorMenuBeDmb.generatorItemClassSelectItems }" />
+								<p:ajax event="change" listener="#{generatorMenuBeDmb.updateItemType}" update="manualSelectionPanel" />
+							</h:selectOneMenu>
+						</td>
+					</tr>
+				</table>
+				<hr/>
+				<table>
+					<tr>
+						<td class="aplos-label" style="width:140px">Menu items:</td>
+						<td>
+							<h:selectOneListbox size="1" converter="aplosAbstractBeanConverter" valueChangeListener="#{generatorMenuBeDmb.positionedBeanHelper.changeCurrentPositionedBean}"
+								onchange="submit();" immediate="true" value="#{generatorMenuBeDmb.positionedBeanHelper.selectedPositionedBean}">
+								<f:selectItems value="#{ generatorMenuBeDmb.positionedBeanHelper.positionedBeanSelectItems }" />
+							</h:selectOneListbox>
+							
+							<aploscc:ajaxButton value="Add an item" action="#{ generatorMenuBeDmb.positionedBeanHelper.addNewPositionedBean }" />
+								
+							<aplos:panel rendered="#{ generatorMenuBeDmb.positionedBeanHelper.currentPositionedBean != null }">
+								<aploscc:ajaxButton value="Remove item" action="#{ generatorMenuBeDmb.positionedBeanHelper.deleteCurrentPositionedBean }" />
+							</aplos:panel> 
+						</td>
+					</tr>
+				</table>
+				<hr />
+				<aplos:panel id="generatorMenuItemPanel" rendered="#{ generatorMenuBeDmb.positionedBeanHelper.currentPositionedBean != null }">
+					<table>
+						<tr>
+							<td class="aplos-label">#{ generatorMenuBeDmb.generatorMenuCmsAtom.itemClassDisplayName }</td>
+							<td class="aplos-field">
+								<h:selectOneMenu converter="aplosAbstractBeanConverter" value="#{generatorMenuBeDmb.positionedBeanHelper.currentPositionedBean.generatorMenuItem}">
+									<f:selectItems value="#{ generatorMenuBeDmb.generatorItemSelectItemBeans }" />
+								</h:selectOneMenu>
+							</td>
+						</tr>
+						<tr>
+							<td class="aplos-label">Position in Arrangement</td>
+							<td>
+								<h:selectOneMenu value="#{generatorMenuBeDmb.positionedBeanHelper.currentPositionedBean.positionIdx}">
+									<f:selectItems value="#{generatorMenuBeDmb.positionedBeanHelper.positionIdxSelectItems}" />   
+								</h:selectOneMenu>
+							</td>
+						</tr>
+					</table>
+				</aplos:panel>
+			</h:panelGroup>
+		</h:panelGroup>
+	</div>
+</ui:composition>

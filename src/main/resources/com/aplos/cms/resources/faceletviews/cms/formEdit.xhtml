@@ -1,0 +1,209 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+
+	<ui:define name="head">
+		<h:outputScript library="scripts" name="prototype.js" target="head" />
+		<h:outputScript library="scripts" name="scriptaculous.js" target="head" />
+	</ui:define>
+	
+	<ui:define name="editContent">
+		<h:panelGroup layout="block" rendered="#{form.records.size()>0}" styleClass="notice">
+			This form has had information submitted so the fields cannot be modified.
+		</h:panelGroup>
+			
+		<table class="aplos-form-table">
+		   		
+			<tr>
+				<td class="aplos-label">Name</td>
+				<td class="aplos-field"><h:inputText value="#{form.name}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-description" colspan="2">A simple name used to identify the form</td>
+			</tr>
+		   		
+			<tr>
+				<td class="aplos-label">Description</td>
+				<td class="aplos-field"><aplos:panel autoUpdate="true"><h:inputText value="#{form.description}" /></aplos:panel></td>
+			</tr>
+			<tr>
+				<td class="aplos-description" colspan="2">A short description of the form's content</td>
+			</tr>
+		   		
+			<tr>
+				<td class="aplos-label">Thank You Page</td>
+				<td class="aplos-field">
+					<h:selectOneMenu value="#{form.submitPage}">
+						<f:converter converterId="aplosBeanConverter"  />
+						<f:selectItem itemLabel="Return to same page" itemValue="#{null}" />
+						<f:selectItems value="#{pageDao.selectItems}" />
+					</h:selectOneMenu>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-description" colspan="2">The page to redirect to after the form is submitted</td>
+			</tr>
+		   		
+		
+		</table>
+		
+		<table class="aplos-form-table">
+		   		
+			<tr>
+				<td class="aplos-label">E-Mail Updates</td>
+				<td class="aplos-field" style="width: inherit;">
+					<aplos:panel autoUpdate="true">
+						<ui:repeat value="#{form.emails.toArray()}" var="email" >
+							<div style="font: normal 10pt Arial; border: 1px solid lightyellow; background: lightyellow; padding: 4px; margin: 4px; display: table;"> 
+							#{email} &#160;
+							<h:commandLink action="#{backingPage.removeEmail(email)}" style="text-decoration: none; border: none;" >
+								<h:graphicImage style="border: none; float:right;" value="/images/ico_clear.gif" />
+							</h:commandLink> </div>
+						</ui:repeat>
+						
+						<h:inputText value="#{backingPage.newEmail}" />
+					</aplos:panel>&#160;
+					<h:commandLink action="#{backingPage.addEmail}" value="Add" />
+				</td>
+			</tr>
+		</table>
+		
+		<br style="clear:both;" />
+		
+		<style>
+		.formElements .rich-panel:hover { background-color: #ffffe0; }
+		.formElements .rich-panel { margin: 10px; border: 1px dashed lightgray;}
+		.formElements .rich-panel input { padding: 4px; }
+		</style>
+		
+		<h:commandLink rendered="${!form['new'] and form.records.size()==0}"  action="#{backingPage.addComponent}" value="Add Item">
+			<f:param name="name" value="Text box" />
+		</h:commandLink>
+		
+		<aplos:panel id="listContainer" layout="block" styleClass="formElements" autoUpdate="true">
+		<c:forEach items="#{form.elements}" var="element" varStatus="i" begin="0" end="#{form.elements.size()-1}" step="1">
+		
+			<!-- View Element -->
+			<aplos:panel id="item_#{i.index}" style="cursor:move;" rendered="#{element != backingPage.currentFormElement}">
+				<aplos:panel rendered="#{form.records.size()==0}" layout="block" style="float:right;">
+					<h:commandLink bypassUpdates="true" value="Edit">
+						<f:setPropertyActionListener value="#{element}" target="#{backingPage.currentFormElement}" />
+					</h:commandLink>
+					&#160;
+					<h:commandLink onclick="if (!confirm('Are you sure you wish to delete #{element.name}?')) return;" value="Delete" action="#{backingPage.deleteCurrentElement}">
+						<f:setPropertyActionListener value="#{element}" target="#{backingPage.currentFormElement}" />
+					</h:commandLink>
+				</aplos:panel>
+				
+				<div style="padding: 10px; padding-bottom: 0px; font-weight: bold;">#{element.name}</div>
+				<div style="padding: 10px; padding-top: 5px;"><h:outputText value="#{element.html}" escape="false" /></div>
+				
+			</aplos:panel>
+			
+			<!-- Edit Current Element -->
+			<aplos:panel style="background-color: #ffffc0;" rendered="#{element == backingPage.currentFormElement}">
+				<aplos:panel layout="block" style="float:right;">
+					<h:commandLink action="#{element.saveDetails}" value="Apply">
+						<f:setPropertyActionListener value="#{null}" target="#{backingPage.currentFormElement}" />
+					</h:commandLink>
+					&#160;
+					<h:commandLink onclick="if (!confirm('Are you sure you wish to delete #{element.name}?')) return;" value="Delete" action="#{backingPage.deleteCurrentElement}">
+						<f:setPropertyActionListener value="#{element}" target="#{backingPage.currentFormElement}" />
+					</h:commandLink>
+				</aplos:panel>
+				
+				<table class="aplos-form-table">
+					<tr>
+						<td class="aplos-label">Type</td>
+						<td class="aplos-field">
+							<h:selectOneMenu immediate="true"  value="#{element.elementType}" valueChangeListener="#{backingPage.changeElementType}">
+								<f:selectItems value="#{element.elementTypeSelectItems}" />
+							</h:selectOneMenu>
+						</td>
+					</tr>
+						<tr>
+							<td class="aplos-label">Name</td>
+							<td class="aplos-field"><h:inputText value="#{element.name}" /></td>
+						</tr>
+						<tr>
+							<td class="aplos-label">Required</td>
+							<td><h:selectBooleanCheckbox value="#{element.required}" /></td>
+						</tr>
+				
+				<!--# {element} to
+					 access the bean -->
+				<h:panelGroup rendered="#{element.binding=='dropDownElement' or element.binding=='radioElement' or element.binding=='listBoxElement' or element.binding=='checkboxElement'}">
+						
+						<tr>
+							<td class="aplos-label">Options</td>
+							<td class="aplos-field">
+								<aplos:panel style="font-weight: bold;" autoUpdate="false">
+									<ui:repeat value="#{element.options}" varStatus="status" >
+										#{status.index}.&#160;&#160;<h:inputText style="width: 60%;" value="#{element.options[status.index]}" />
+										<h:commandButton style="float:right;" image="/images/ico_clear.gif" action="#{backingPage.removeOption(status.index)}">
+											<f:setPropertyActionListener value="#{element}" target="#{backingPage.currentFormElement}" />
+										</h:commandButton>
+										<br style="clear: both;" />
+									</ui:repeat>
+								</aplos:panel>
+								<h:commandLink action="#{backingPage.addOption}" value="Add">
+									<f:setPropertyActionListener value="#{element}" target="#{backingPage.currentFormElement}" />
+								</h:commandLink>
+							</td>
+						</tr>
+						
+				</h:panelGroup>
+				
+				<h:panelGroup rendered="#{element.binding=='inputTextElement' or element.binding=='inputTextareaElement'}">
+					
+						<h:panelGroup rendered="#{element.binding=='inputTextElement'}">
+						<tr>
+							<td class="aplos-label">Input Type</td>
+							<td class="aplos-field">
+								<h:selectOneMenu value="#{element.type}">
+									<f:selectItems value="#{element.fieldTypes}" />
+								</h:selectOneMenu>
+							</td>
+						</tr>
+						</h:panelGroup>
+						
+				</h:panelGroup>
+				
+				</table>	
+				
+			</aplos:panel>
+		</c:forEach>
+
+		<aplos:ajaxJsFunction name="updateListSubmit" action="#{backingPage.updateList}">
+			<aplos:param name="param1" assignTo="#{backingPage.newListOrder}" />
+		</aplos:ajaxJsFunction>
+		
+		<script>
+			var params;
+		
+			Sortable.create('listContainer', {
+				tag : 'div',
+				onUpdate : updateList
+			});
+		
+			function updateList(container) {
+				params = Sortable.serialize(container.id);
+				updateListSubmit(params);
+			}
+		
+			function handleResponse(req) {
+				// this function will fire after the ajax request is complete...but we have nothing to do here
+			}
+		</script>
+		
+		</aplos:panel> 
+		
+		
+		<br style="clear:both;" />
+	</ui:define>
+
+</ui:composition>

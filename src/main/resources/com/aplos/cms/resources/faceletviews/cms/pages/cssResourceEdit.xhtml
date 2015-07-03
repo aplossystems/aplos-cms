@@ -1,0 +1,66 @@
+<ui:composition template="#{ themeManager.editTemplatePath }"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+
+	<ui:define name="editHead">
+
+		<h:outputScript library="jsLibraries" name="/CodeMirror-2.22/lib/codemirror.js" target="head" />
+		<h:outputStylesheet library="jsLibraries" name="CodeMirror-2.22/lib/codemirror.css" target="head" />
+		<h:outputScript library="jsLibraries" name="CodeMirror-2.22/mode/css/css.js" target="head" />
+		<script type="text/javascript">
+			var css_editor;
+			$j(function() {
+				css_editor = CodeMirror
+						.fromTextArea(
+								document.getElementById( 'css_editor' ),
+								{
+									lineNumbers : true
+								});
+			});
+		</script>
+		<style>
+			.cssEditor { 
+				width: 910px; 
+				height: 450px; 
+				margin:auto;
+			}
+		</style>
+	</ui:define>
+
+	<ui:define name="editContent">
+		<table class="aplos-form-table">
+			<tr>
+				<td class="aplos-label">Name</td>
+				<td class="aplos-field"><h:inputText
+						value="#{cssResource.name}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Description</td>
+				<td class="aplos-field"><h:inputText
+						value="#{cssResource.description}" /></td>
+			</tr>
+		</table>
+		<br />
+
+		<h:inputTextarea class="cssEditor" id="css_editor" value="#{cssResource.content}" />
+		<br />
+	</ui:define>
+	
+	
+	<ui:define name="editButtons">
+		<aploscc:controlPanel>
+			<f:facet name="upperRightControlPanel">
+			    <!-- This is required otherwise the css_editor content won't save on ajax -->
+				<aploscc:ajaxButton action="#{backingPage.applyBtnAction}" onclick="css_editor.save()" value="Apply" />
+				<aploscc:ajaxButton action="#{backingPage.okBtnAction}" value="Ok" />
+				<aploscc:ajaxButton action="#{backingPage.cancelBtnAction}" value="Cancel" />
+
+			</f:facet>
+		</aploscc:controlPanel>
+	</ui:define>
+
+</ui:composition>

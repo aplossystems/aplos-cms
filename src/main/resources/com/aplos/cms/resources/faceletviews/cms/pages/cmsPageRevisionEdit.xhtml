@@ -1,0 +1,465 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+ 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="head">
+		<h:outputScript library="jsLibraries" name="ckeditor/aplosckeditor.js" target="head" />
+		<h:outputScript library="scripts" name="ckEditorHelper.js" target="head" />
+		<h:outputScript library="jsLibraries" name="jquery-ui-1.8/js/jquery-ui-1.8.6.custom.min.js" target="head" />
+		<h:outputStylesheet library="jsLibraries" name="jquery-ui-1.8/themes/base/jquery.ui.base.css" target="head" />
+		<h:outputStylesheet library="jsLibraries" name="jquery-ui-1.8/themes/base/jquery.ui.theme.css" target="head" />
+		<script>
+			//  For the ckeditor dialogs
+			var aploraFilebrowserBrowseUrl = "#{request.contextPath}/common/browse.jsf";
+			var aploraFilebrowserUploadUrl = "#{request.contextPath}/editorUpload/upload.jsf?directory=cmsPageRevision";
+			var aploraFormsDialog = "#{request.contextPath}/scripts/ckeditor/aplora/dialog.js";
+			var aploraPagesDialog = "#{request.contextPath}/scripts/ckeditor/aplora/dialog.js";
+		</script>
+		<script type="text/javascript">
+			var saveF1 = function() { ckEditorHelper.updateEditors( { 'editorClassName' : 'cmsHtmlContentArea' } );ckEditorHelper.destroyEditors( { 'editorClassName' : 'cmsHtmlContentArea' } ); };
+			var saveF3 = function() { setConfirmUnload(false); };
+			var onCompleteF1 = function() { initPage() };
+	
+			var additionalSaveFArray = [];
+			var saveFArray = [];
+			var onCompleteFArray = [];
+			var additionalOnCompleteFArray = [];
+			var initStartFArray = [];
+	
+			function addAdditionalJavascriptToSaveArray() {
+				for (var i=0, n=additionalSaveFArray.length; i &lt; n; i++) {
+					saveFArray.push(additionalSaveFArray.pop());
+				} 
+			}
+			
+			function fireSaveJavascript() {
+				saveFArray.push(saveF1);
+				addAdditionalJavascriptToSaveArray();
+				additionalOnCompleteFArray = [];
+				while(saveFArray.length>0) {
+					(saveFArray.pop())();
+				}
+			}
+	
+			function addAdditionalJavascriptToOnCompleteArray() {
+				for (i=0 ; i&lt;additionalOnCompleteFArray.length ; i++) {
+					onCompleteFArray.push(additionalOnCompleteFArray[i]);
+				} 
+			}
+			
+			function fireOnCompleteJavascript() {
+				onCompleteFArray.push(onCompleteF1);
+				addAdditionalJavascriptToOnCompleteArray();
+				while(onCompleteFArray.length>0) {
+					(onCompleteFArray.pop())();
+				}
+			}
+
+			$j(document).ready(function() {
+				initPage();
+				updateCount();
+			}); 
+			
+			function updateCount() {
+				var metaDescriptionField = document.getElementById("metaDescription");
+				if( metaDescriptionField ) {
+					var message = metaDescriptionField.value;
+					document.getElementById("charCount").innerHTML = message.length;
+				}
+			}
+			
+			function initPage() {
+				while(initStartFArray.length>0) {
+					(initStartFArray.pop())();
+				}
+				$j("#tabs").tabs({ cookie: { expires: 30, name: 'cmsPageRevisionEditTabs' } });
+				var height = $j("#tabs").css('height');
+				$j("#tabs").css('height','auto');
+				$j("#tabs").css('min-height',height);
+				CKEDITOR.config.contentsCss = #{ backingPage.editorCssUrl };
+				//  You cannot rely on the default aplos_ckeditor class here, you have to send
+				// in another styleClass as other atoms on the page will have the aplos_ckeditor class
+				// but will be initialled by a seperate class specific to that page.  This stops each
+				// ckEditor from be initated multiple times which will break it.
+				ckEditorHelper.createLimitedToolbarCKEditors( '#{ request.contextPath }', { width: "890", bodyId : "aplos-cms-edit-body", bodyClass : "#{ backingPage.defaultEditorStyleClass }" }, "cmsHtmlContentArea" );
+			}
+			
+			function setConfirmUnload(on) {
+			   window.onbeforeunload = (on) ? unloadMessage : null;
+			}
+
+			function unloadMessage() {
+			     return "You have unsaved changes that will be lost.";
+			}
+		</script>
+		
+		<style>
+		
+				.cke_button_aploraFormsCmd .cke_icon
+				{
+					display: none !important;
+				}
+		
+				.cke_button_aploraFormsCmd .cke_label
+				{
+					display: inline !important;
+				}
+				
+				.cke_button_aploraPagesCmd .cke_icon
+				{
+					display: none !important;
+				}
+		
+				.cke_button_aploraPagesCmd .cke_label
+				{
+					display: inline !important;
+				}
+		
+		</style>
+	</ui:define>
+	
+	<ui:define name="editContent">
+
+		<div class="editDiv">
+		
+			<aplos:panel layout="none" rendered="#{!cmsPageRevision.active}">
+				<div class="simpleAplosNotification">
+					<h3>This page is inactive</h3>
+					Inactive pages may not be edited, however, you may select another page to redirect to.
+					<br/><br/><hr/><br/>
+					<h:outputText value="#{backingPage.redirectDescription}" id="deletedRedirectDescription" />
+					<br/><br/>
+				</div><br/><br/><br/>
+				<table class="aplos-form-table">
+					<tr>
+						<td class="aplos-label">Redirect Page Traffic</td>
+						<td class="aplos-field">
+							<aplos:autoComplete id="deletedRedirectAc"
+			                    completeMethod="#{backingPage.suggestDeleteRedirects}" 
+			                    var="autoBean" 
+			                    itemValue="#{autoBean}" 
+			                    itemLabel="#{autoBean.cmsPage.name} (#{autoBean.cmsPage.fullMapping})" 
+			                    converter="autoCompleteBeanConverter">
+			                    <p:ajax process="@form" event="itemSelect" listener="#{backingPage.selectDeleteRedirect}" update="deletedRedirectDescription,removeRedirectPanel" />  
+			                </aplos:autoComplete>
+						</td>
+					</tr>
+				</table>
+				<aplos:panel id="removeRedirectPanel">
+					<aplos:panel rendered="#{cmsPageRevision.deletedRedirect != null}">
+						<table class="aplos-form-table">
+							<tr>
+								<td class="aplos-label">Redirect page name</td>
+								<td class="aplos-field">
+									<h:outputText value="#{ cmsPageRevision.deletedRedirect.cmsPage.name }" />
+								</td>
+							</tr>
+							<tr>
+								<td class="aplos-label">Redirect mapping</td>
+								<td class="aplos-field">
+									<h:outputText value="#{ cmsPageRevision.deletedRedirect.cmsPage.fullMapping }" />
+								</td>
+							</tr>
+							<tr>
+								<td class="aplos-label"></td>
+								<td class="aplos-field">
+									<aploscc:ajaxButton value="Remove redirect" action="#{backingPage.removeRedirect}" />
+								</td>
+							</tr>
+						</table>
+					</aplos:panel>
+				</aplos:panel>
+			</aplos:panel>  
+		
+			<aplos:panel layout="none" rendered="#{cmsPageRevision.active}">
+				<h:panelGroup layout="block" id="tabView" styleClass="demo" style="margin-bottom: 30px;">
+					<div id="tabs" style="width: 925px; height: 445px;">
+						<ul>
+							<ui:repeat value="#{cmsPageRevision.placeholderContentWrapperList}" var="phcWrapper" varStatus="status">
+								<li><a href="#tabs-#{status.index}">#{phcWrapper.displayName}</a></li>
+							</ui:repeat>
+						</ul>
+						<aplos:panel id="placeholderContentPanel">					
+							<c:forEach items="#{cmsPageRevision.placeholderContentWrapperList}" var="phcWrapper" scope="request" varStatus="status" begin="0" step="1">
+								<div id="tabs-${status.index}">
+									<aplos:panel id="mine-${status.index}"> 
+									<c:choose>
+									  <c:when test="${phcWrapper.placeholderContent.cphType.name == 'CMS_ATOM'}" >
+									  	<aplos:namingContainer>
+											<ui:include src="#{phcWrapper.placeholderContent.backendBodyUrl}" >
+												<ui:param name="${phcWrapper.placeholderContent.beDmbBinding}" value="${phcWrapper.placeholderContent.backendModuleBacking}" />
+												<ui:param name="${phcWrapper.placeholderContent.binding}" value="${phcWrapper.placeholderContent}" />
+											</ui:include>
+										</aplos:namingContainer>
+									  </c:when>
+									  
+									  <c:when test="${phcWrapper.placeholderContent.cphType.name == 'CODE_SNIPPET'}" >
+										<ui:include src="#{phcWrapper.placeholderContent.backendBodyUrl}">
+											<ui:param name="snippet" value="${phcWrapper.placeholderContent}" />
+										</ui:include>
+									  </c:when>
+									  
+									  <c:when test="${phcWrapper.placeholderContent.cphType.name == 'EDITOR' or phcWrapper.placeholderContent.cphType.name == 'CODE'}" >
+										<div class="format_tagged_ckeditor">
+											<h:inputTextarea id="contentEditorArea-${status.index}" styleClass="cmsHtmlContentArea aplos_ckeditor contentEditorArea-#{status.index}"
+												value="#{ phcWrapper.placeholderContent.refinedContent }" style="width:880px;height:500px">
+											</h:inputTextarea>
+										</div>
+									  </c:when> 
+									</c:choose>  
+									</aplos:panel>
+								</div>
+							</c:forEach>
+						</aplos:panel>
+					</div>
+				</h:panelGroup>
+	
+				<aplos:panel id="draftNotice" autoUpdate="false" >
+					<h:panelGroup layout="block" styleClass="notice" rendered="#{cmsPageRevision.draft}">
+						This page is currently in draft. When you are finished editing&#160;<h:commandLink onclick="$j(this).parent().slideUp();" action="#{cmsPageRevision.commit}" value="commit your changes" />.
+					</h:panelGroup>
+				 </aplos:panel>
+				 
+				<table class="aplos-form-table">
+					<tr>
+						<td class="aplos-label">Name</td>
+						<td class="aplos-field"><h:inputText value="#{cmsPageRevision.cmsPage.name}" requiredMessage="You need to enter your name for this page" required="true" /></td>
+						<td></td>
+						<td class="aplos-label">Title</td>
+						<td class="aplos-field"><h:inputText value="#{cmsPageRevision.title}" /></td>
+					</tr>
+					<tr>
+						<td class="aplos-description" colspan="2">The name that will be used in the menu</td>
+						<td></td>
+						<td class="aplos-description" colspan="2">The message displayed in the title bar of the user's browser</td>
+					</tr>
+				   		
+					<tr>	
+						<td class="aplos-label">Description</td>
+						<td class="aplos-field">
+							<h:inputTextarea id="metaDescription" value="#{cmsPageRevision.metaDescription}" style="width:230px" ></h:inputTextarea>
+						</td>
+						<td></td>
+						<td class="aplos-label">Keywords</td>
+						<td class="aplos-field">
+							<h:inputTextarea value="#{cmsPageRevision.metaKeywords}" style="width:230px">
+							</h:inputTextarea>
+						</td>
+					</tr>
+					<tr>
+						<td class="aplos-description" colspan="2" style="text-align:right;">
+							<h:panelGroup id="requirementCount" style="margin: 5px 10px;font-size:8pt;"> 
+								<span id="charCount">0</span> characters
+							</h:panelGroup><br/>
+							The page description that helps search engine indexes and will appear on search results.  
+							There are 160 characters visible in google, however it has been shown that keywords in longer
+							descriptions will also be picked up in searches.
+						</td>
+						<td></td>
+						<td class="aplos-description" colspan="2">The keywords that describe the content of the page for search engine indexes</td>
+					</tr>
+					
+					
+					<tr>
+						<td class="aplos-label">Status</td>
+						<td class="aplos-field">
+							<h:selectOneMenu value="#{cmsPageRevision.cmsPage.status}" >
+								<f:selectItems value="#{cmsPageRevision.cmsPage.status.items}" />
+							</h:selectOneMenu>
+						</td>
+						<td></td>
+						<td class="aplos-label">Template</td>
+						<td class="aplos-field">
+							
+							<h:selectOneMenu value="#{cmsPageRevisionEditPage.selectedTemplate}">
+								<f:converter converterId="aplosBeanConverter" />
+								<f:selectItems value="#{backingPage.templateSelectItems}" />
+								<!-- Template changed does not work, even if we change backend method to gettempalte changed. Supplying () explicitly works. -->
+								<p:ajax process="@form" event="change" onstart="fireSaveJavascript();ckEditorHelper.destroyEditors();" listener="#{ cmsPageRevisionEditPage.templateChanged() }" update="tabView" oncomplete="fireOnCompleteJavascript()" /> 
+							</h:selectOneMenu>
+						</td>
+					</tr>
+					<tr>
+						<td class="aplos-description" colspan="2">Whether or not the page is publicly viewable</td>
+						<td></td>
+						<td colspan="2"><h:commandLink style="float:right;" value="Go To" action="#{ backingPage.goToTemplate }" immediate="true"/></td>
+					</tr>
+				</table>
+				<aplos:panel rendered="#{ cmsConfiguration.moduleConfiguration.showingPageDeveloperOptions or backingPage.superUser }">
+					<table class="aplos-form-table">
+						<tr>
+							<td class="aplos-label formSubHeading" style="padding-top:50px">
+								Developer options
+							</td>
+						</tr>
+						<tr>
+							<td class="aplos-label">SSL Protocol</td>
+							<td class="aplos-field">
+								<h:selectOneMenu value="#{cmsPageRevision.cmsPage.sslProtocolEnum}" >
+									<f:selectItems value="#{backingPage.sslProtocolSelectItems}" />
+								</h:selectOneMenu>
+							</td>
+							<td></td>
+							<td class="aplos-label">Mapping</td>
+							<td class="aplos-field" colspan="4">
+								<h:outputText value="#{ cmsPageRevision.cmsPage.cachedMappingPath }" />&#160;
+								<aplos:panel autoUpdate="true">
+									<h:inputText id="mapping"  value="#{cmsPageRevision.cmsPage.mapping}" validator="#{cmsPageRevision.cmsPage.validateMapping}" />
+								</aplos:panel>&#160;.aplos
+							</td>
+						</tr>	
+						<tr>
+							<td class="aplos-label">Site map priority</td>
+							<td class="aplos-field">
+								<h:inputText value="#{ cmsPageRevision.cmsPage.siteMapPriority }" />
+							</td>
+							<td></td>
+							<td class="aplos-label">Canonical path</td>
+							<td class="aplos-field" colspan="4">
+								<h:inputText value="#{ cmsPageRevision.cmsPage.canonicalPath }" />
+							</td>
+						</tr>
+						<tr>
+							<td class="aplos-description" colspan="2">Choose if encryption is required for the page</td>
+							<td></td>
+							<td class="aplos-description" colspan="2">The URL that the page will use</td>
+						</tr>
+					</table>
+					   		
+					<h:panelGroup  rendered="#{currentUser.equals(cmsPageRevision.owner)}">
+					
+						<table class="aplos-form-table">
+							<tr>
+								<td class="aplos-label">Authors</td>
+								<td class="aplos-field">
+									<aplos:panel autoUpdate="true">
+										<ui:repeat value="#{cmsPageRevision.cmsPage.authors.toArray()}" var="author" >
+											<div style="font: normal 10pt Arial; border: 1px solid lightyellow; background: lightyellow; padding: 4px; margin: 4px; display: table;"> 
+												#{author.displayName} &#160;
+												<h:commandLink action="#{backingPage.removeAuthor(author)}" style="text-decoration: none; border: none;" >
+													<h:graphicImage style="border: none; float:right;" value="/images/ico_clear.gif" />
+												</h:commandLink>
+											</div>
+										</ui:repeat>
+										
+										<h:selectOneMenu value="#{backingPage.newAuthor}" >
+											<f:converter converterId="aplosBeanConverter" />
+											<f:selectItems value="#{backingPage.possibleAuthors}" />
+										</h:selectOneMenu>
+										<h:commandLink value="Add" action="#{backingPage.addAuthor}" />
+									</aplos:panel>
+								</td>
+								<td></td>
+								<td class="aplos-label">Xml Namespaces</td>
+								<td class="aplos-field"><h:inputText value="#{cmsPageRevision.xmlNamespaceStr}" /></td>
+							</tr>
+							<tr>
+								<td class="aplos-description" colspan="2">Restrict which users can edit this page</td>
+								<td></td>
+								<td class="aplos-description" colspan="2">The XML namespaces this page uses</td>
+							</tr>
+						</table>
+					</h:panelGroup>
+					<div style="clear:both"/>
+					<aplos:panel layout="block" style="float:left;" rendered="#{backingPage.isNotBasicUser}">
+						<table class="aplos-form-table">
+							<tr>
+								<td class="aplos-label">Atom List</td>
+								<td class="aplos-field" style="padding:20px 0px 0px 0px">
+									<aplos:panel layout="block" style="max-width:248px;" id="cmsAtomTableWrapper">
+										<p:dataTable style="margin-top:-12px;max-width:248px;" id="cmsAtomTable" value="#{ cmsPageRevision.cmsAtomList }" var="cmsAtom" styleClass="listDatatable">
+											<p:column>
+												<f:facet name="header">Atom Name</f:facet>
+												#{cmsAtom.displayName}
+											</p:column>
+											<p:column style="width:100px">
+												<f:facet name="header">Insert Text</f:facet>
+												#{cmsAtom.allInsertTexts}
+											</p:column>
+											<p:column width="24px">
+												<h:commandButton action="#{ cmsPageRevisionEditPage.removeCmsAtom }" image="/images/action_delete.gif" reRender="cmsAtomTableWrapper,tabView" onsubmit="destroyEditors();" oncomplete="initPage()" />
+											</p:column>
+										</p:dataTable>
+									</aplos:panel>
+								</td>
+								<td></td>
+								<td class="aplos-label">Code Snippets</td>
+								<td class="aplos-field" style="padding:20px 0px 0px 0px">
+									<aplos:panel id="codeSnippetTableWrapper">
+										<p:dataTable id="codeSnippetTable" value="#{ cmsPageRevision.codeSnippetList }" var="codeSnippet" styleClass="listDatatable" style="margin-top:-12px;width:100%">
+											<p:column>
+												<f:facet name="header">Snippet Name</f:facet>
+												#{codeSnippet.name}
+											</p:column>
+											<p:column>
+												<f:facet name="header">Insert Text</f:facet>
+												#{codeSnippet.allInsertTexts}
+											</p:column>
+											<p:column width="24px">
+												<h:commandButton action="#{ cmsPageRevisionEditPage.removeCodeSnippet }" image="/images/action_delete.gif" reRender="codeSnippetTableWrapper,tabView" onsubmit="destroyEditors();" oncomplete="initPage()" />
+											</p:column>
+										</p:dataTable>
+									</aplos:panel>
+								</td>
+							</tr>
+							<tr>
+								<td class="aplos-label"></td>
+								<td class="aplos-field">
+									<h:selectOneListbox size="1" id="cmsAtomList" value="#{cmsPageRevisionEditPage.selectedCmsAtom}" converter="aplosAbstractBeanConverter">
+										<f:selectItems value="#{ cmsPageRevisionEditPage.availableCmsAtomSelectItemBeans}" />   
+									</h:selectOneListbox>
+									<h:commandButton action="#{ cmsPageRevisionEditPage.addCmsAtom }" value="Add" reRender="cmsAtomTable,tabView" onsubmit="ckEditorHelper.destroyEditors();" oncomplete="initPage()" />
+								</td>
+								<td></td>
+								<td class="aplos-label"></td>
+								<td class="aplos-field">
+									<h:inputText value="#{ cmsPageRevisionEditPage.newSnippetName }" />
+									<h:commandButton action="#{ cmsPageRevisionEditPage.addCodeSnippet }" value="Add" reRender="codeSnippetTable,tabView" onsubmit="ckEditorHelper.destroyEditors();" oncomplete="initPage()" />
+								</td>
+							</tr>
+						</table>
+					</aplos:panel>
+				</aplos:panel>
+			</aplos:panel>
+		</div>
+	</ui:define>
+	<ui:define name="editButtons">
+		<aplos:ajaxJsFunction name="save" action="#{backingPage.applyBtnAction}" />
+		<aplos:ajaxJsFunction name="saveAsDraft" action="#{backingPage.saveAsDraft}" />
+		<aplos:ajaxJsFunction name="commit" action="#{backingPage.commitDraft}" />
+		<aploscc:controlPanel>
+			<f:facet name="upperRightControlPanel">
+				<div></div><!-- Without this div the apply button won't render -->
+				<aplos:panel autoUpdate="true">
+					<h:panelGroup rendered="#{cmsPageRevision.draft}">
+						<aploscc:ajaxButton reRender="draftNotice" onclick="fireSaveJavascript();saveAsDraft();setConfirmUnload(false);return false;" value="Save Draft" rendered="false"/>
+						<aploscc:ajaxButton ajaxEnabled="true" reRender="draftNotice" onclick="fireSaveJavascript();commit();setConfirmUnload(false);" value="Commit Changes" />
+					</h:panelGroup>
+					<h:panelGroup rendered="#{!cmsPageRevision.draft}">
+						<aploscc:ajaxButton action="#{backingPage.applyBtnAction}" onclick="fireSaveJavascript();" oncomplete="fireOnCompleteJavascript()" value="Apply" />
+						<aploscc:ajaxButton onclick="fireSaveJavascript();saveAsDraft();setConfirmUnload(false);" value="Save as Draft" rendered="false" />
+					</h:panelGroup>
+				</aplos:panel>
+				<aploscc:ajaxButton onclick="ckEditorHelper.updateEditors();setConfirmUnload(false);" action="#{backingPage.okBtnAction}" value="Ok" />
+				<aploscc:ajaxButton action="#{backingPage.cancelBtnAction}" onclick="setConfirmUnload(false);" immediate="true" value="Cancel" />
+			</f:facet>
+			<f:facet name="lowerRightControlPanel">
+				<aploscc:setActiveButtons />
+				<aplos:panel autoUpdate="true">
+					<h:panelGroup rendered="#{cmsPageRevision.cmsPage.mapping!= null and cmsPageRevision.cmsPage.mapping!=''}">
+						<aploscc:ajaxButton onclick="ckEditorHelper.updateEditors();" action="#{backingPage.previewBtnAction}" value="Preview" />
+						<aploscc:ajaxButton onclick="ckEditorHelper.updateEditors();" action="#{backingPage.duplicatePage}" value="Duplicate" />
+						<aploscc:ajaxButton action="#{backingPage.aliasPage}" value="Create Shortcut" />
+					</h:panelGroup>
+				</aplos:panel>
+			</f:facet>
+		</aploscc:controlPanel>
+	</ui:define>
+	
+</ui:composition>

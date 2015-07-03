@@ -1,0 +1,18 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	<div class="aplos-testiomnials-atom aplos-testiomnials-pick-one-random">
+		<h:commandLink action="#{testimonialsFeDmb.goToTestimonialsPage}" styleClass="aplos-testimonals-testimonial" disabled="#{ !testimonialsFeDmb.testimonialsPageAvailable }"> 
+			<span class="aplos-testiomnials-what">"#{testimonialsFeDmb.selectedTestimonial.comment}"</span>
+			<br /><br />
+			<span class="aplos-testiomnials-who-where">#{testimonialsFeDmb.occupationAndCity}</span>
+			<br /><br />
+			<aplos:panel layout="none" rendered="#{ testimonialsFeDmb.testimonialsPageAvailable }">
+				<em style="font-size:80%;">Click here to view more testimonials</em> 
+			</aplos:panel>
+		</h:commandLink>
+ 	</div>
+</ui:composition>

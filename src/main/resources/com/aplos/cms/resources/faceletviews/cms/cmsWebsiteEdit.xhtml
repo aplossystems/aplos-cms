@@ -1,0 +1,71 @@
+<ui:composition template="/common/websiteEdit.xhtml" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+	
+	<ui:define name="belowWebsiteForm">
+		<script type="text/javascript">
+			$(document).ready( function() {
+				updateCount();
+			});
+			function updateCount() {
+				var message = document.getElementById("defaultPageDescription").value;
+				document.getElementById("charCount").innerHTML = message.length;
+			}
+			
+		</script>
+		<table class="aplos-form-table-with-required">
+			<tr>
+				<td class="aplos-label formSubHeading">Cms website settings</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field"></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Is live</td>
+				<td></td>
+				<td class="aplos-field"><h:selectBooleanCheckbox value="#{website.live}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Google analytics id</td>
+				<td></td>
+				<td class="aplos-field"><h:inputText value="#{website.googleAnalyticsId}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Default page title</td>
+				<td></td>
+				<td class="aplos-field"><h:inputText value="#{website.defaultPageTitle}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Default page description</td>
+				<td></td>
+				<td class="aplos-field"><h:inputTextarea id="defaultPageDescription" value="#{website.defaultPageDescription}" onkeyup="updateCount();" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-description" colspan="3" style="text-align:right;">
+					<h:panelGroup id="requirementCount" style="margin: 5px 10px;font-size:8pt;"> 
+						<span id="charCount">0</span> characters
+					</h:panelGroup><br/>
+					There are 160 characters visible in google, however it has been shown that keywords in longer
+					descriptions will also be picked up in searches.
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Default page keywords</td>
+				<td></td>
+				<td class="aplos-field"><h:inputTextarea value="#{website.defaultPageKeywords}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Generate sitemap</td>
+				<td></td>
+				<td class="aplos-field">
+					<aploscc:ajaxButton value="Generate sitemap" action="#{ backingPage.generateSiteMap }" />
+				</td>
+			</tr>
+		</table>
+		<ui:insert name="belowCmsWebsiteForm" />
+	</ui:define>
+	
+</ui:composition>

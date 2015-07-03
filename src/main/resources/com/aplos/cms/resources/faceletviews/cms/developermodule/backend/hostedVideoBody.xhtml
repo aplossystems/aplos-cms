@@ -1,0 +1,19 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+	<table class="aplos-form-table">
+		<tr>
+			<td class="aplos-label" >Hosted Video</td>
+			<td class="aplos-field">
+				<h:selectOneMenu value="#{ hostedVideoCmsAtom.hostedVideo }" converter="aplosAbstractBeanConverter" style="width:400px">
+					<f:selectItems value="#{ hostedVideoBeDmb.hostedVideoSelectItemBeans}" />
+				</h:selectOneMenu>
+			</td>
+		</tr>
+	</table>
+</ui:composition>

@@ -1,0 +1,38 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:define name="editHead">
+		<h:outputScript library="jsLibraries" name="ckeditor/aplosckeditor.js" target="head" />
+
+		<script type="text/javascript">
+		
+			$j(document).ready(function() {
+				$j('.aplos_ckeditor').each(function() {
+					var editor = CKEDITOR.replace( this.id, { width:"850", height:"300" } );
+				});
+			} );
+		
+		</script>
+	</ui:define>
+	<ui:define name="editContent">
+		<table class="aplos-form-table">
+		   		
+			<tr>
+				<td class="aplos-label">Publication Title</td>
+				<td class="aplos-field"><h:inputText value="#{publication.title}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Synopsis</td>
+				<td class="aplos-field"><h:inputText value="#{publication.synopsis}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Body / Content</td>
+				<td class="aplos-field"><h:inputTextarea id="brandDescription"
+						styleClass="aplos_ckeditor" 
+						value="#{publication.publicationBody}" style="width:500px;height:400px"></h:inputTextarea></td>
+			</tr>
+		</table>
+	</ui:define>
+</ui:composition>

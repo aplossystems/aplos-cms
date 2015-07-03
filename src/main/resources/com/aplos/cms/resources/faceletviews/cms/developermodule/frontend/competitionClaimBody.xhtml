@@ -1,0 +1,36 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+	<div class="aplos-competition-atom">
+		<h:panelGroup rendered="#{competitionClaimFeDmb.completeMessage != null}">
+			<div class="aplos-atom-header">
+				<h3 class="aplos-title">Congratulations on becoming a #{companyDetails.companyName} winner!</h3>
+				<h4 class="aplos-title"><h:outputText value="#{competitionClaimFeDmb.completeMessage}" /></h4>
+			</div>
+		</h:panelGroup>
+		<h:panelGroup rendered="#{competitionClaimFeDmb.completeMessage == null}">
+			<div class="aplos-atom-header">
+				<h3 class="aplos-title">Congratulations on becoming a #{companyDetails.companyName} winner!</h3>
+				<h4 class="aplos-title">We just need a few more details from you.</h4>
+				<p>Fill in the form below and we'll get your prize(s) out to you as soon as possible</p>
+			</div>
+			<aploscc:address bean="#{competitionClaimFeDmb.competitionPrizeWinner.address}" validation="#{ competitionClaimFeDmb.validationRequired }" contactName="required" line1="required" city="required" country="required" state="required" postcode="required"/>
+			<ui:insert name="furtherRequiredDetails" >
+			</ui:insert>
+			<table class="aplos-form-table-with-required">
+				<tr>
+					<td class="aplos-label"></td>
+					<td class="aplos-required-asterisk"></td>
+					<td class="aplos-field" colspan="2" style="text-align:right">
+						<aploscc:ajaxButton id="claimPrizeBtn" action="#{competitionClaimFeDmb.submitClaim}" value="Claim Prize" />
+					</td>
+				</tr>
+			</table>
+		</h:panelGroup>
+	</div>
+</ui:composition>
+

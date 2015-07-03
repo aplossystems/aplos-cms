@@ -1,0 +1,19 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+
+	<div class="theme-sidemenu aplos-side-navigation">
+		<ul class="nav">
+		  <ui:repeat value="#{generatorMenuFeDmb.generatorMenuCmsAtom.sortedGeneratorMenuItems}" var="menuBean">    
+		    <li class="#{ecommerceViewUtil.getActiveClassIfUrlEndsWith(menuBean.generatorMenuItem)}"> 
+		      <h:outputLink value="#{request.contextPath}#{generatorMenuFeDmb.itemUrl}">
+		        <h:outputText value="#{menuBean.generatorMenuItem.displayName}" />
+		      </h:outputLink>
+		    </li>
+		  </ui:repeat>
+		</ul>
+	</div>
+</ui:composition>

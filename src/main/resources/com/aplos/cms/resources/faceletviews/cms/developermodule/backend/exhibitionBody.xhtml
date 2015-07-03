@@ -1,0 +1,144 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+		
+	<script type="text/javascript">
+		$j(document).ready(function() {
+			ckEditorHelper.addAdditionalSave("exhibitionText");
+			ckEditorHelper.createLimitedToolbarCKEditors( '#{ request.contextPath }', null, "exhibitionText" );
+		});
+	</script>
+	<hr/>
+	<table>
+		<tr>
+			<td class="aplos-label" style="width:140px">Exhibitions:</td>
+			<td>
+				<h:selectOneListbox size="1" converter="aplosAbstractBeanConverter" valueChangeListener="#{exhibitionBeDmb.positionedBeanHelper.changeCurrentPositionedBean}"
+				onchange="submit();ckEditorHelper.destroyEditors('exhibitionText');" immediate="true" value="#{exhibitionBeDmb.positionedBeanHelper.selectedPositionedBean}">
+					<f:selectItems value="#{ exhibitionBeDmb.positionedBeanHelper.positionedBeanSelectItems }" />
+				</h:selectOneListbox>
+				
+				<aploscc:ajaxButton value="New Exhibition" action="#{ exhibitionBeDmb.positionedBeanHelper.addNewPositionedBean }" />
+				<aplos:panel rendered="#{ exhibitionBeDmb.positionedBeanHelper.currentPositionedBean != null }">
+					<aploscc:ajaxButton value="Delete Exhibition" action="#{ exhibitionBeDmb.positionedBeanHelper.deleteCurrentPositionedBean }" />
+				</aplos:panel>
+			</td>
+		</tr>
+	</table>
+	<hr />
+	<aplos:panel id="exhibitionFields" rendered="#{ exhibitionBeDmb.positionedBeanHelper.currentPositionedBean != null }">
+		<table>
+			<tr>
+				<td class="aplos-label" style="width:110px">Title</td>
+				<td class="aplos-field">
+					<h:inputText id="exhibitionName" value="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean.title}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Start Date</td>
+				<td class="aplos-field">
+					<aploscc:dateTime id="startDateInput" showCheckbox="#{false}"
+							startYearDiff="#{0}" endYearDiff="#{5}"
+							value="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean.startDate}">
+					</aploscc:dateTime>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Descriptive Date</td>
+				<td class="aplos-field">
+					<h:inputText value="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean.descriptiveDate}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Description</td>
+				<td class="aplos-field">
+					<h:inputTextarea id="exhibitionText" style="width:100%; height:100%" styleClass="exhibitionText aplos_ckeditor" value="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean.description}"/>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Website</td>
+				<td class="aplos-field">
+					<h:inputText value="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean.website}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Venue</td>
+				<td class="aplos-field">
+					<h:inputText value="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean.venue}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">City</td>
+				<td class="aplos-field">
+					<h:inputText value="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean.city}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Stand</td>
+				<td class="aplos-field">
+					<h:inputText value="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean.standNumber}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Visible On Website</td>
+				<td class="aplos-field">
+					<h:selectBooleanCheckbox value="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean.visibleOnWebsite}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Press Release</td>
+				<td class="aplos-field">
+					<h:inputTextarea id="pressRelease" style="width:100%; height:100%" styleClass="exhibitionText" value="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean.pressRelease}"/>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Logo Image</td>
+				<td class="aplos-field">
+					<aploscc:imageUploader2 resizeWidth="1000" owner="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean}" key="LOGO" />
+
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Exhibition Image</td>
+				<td class="aplos-field">
+					<aploscc:imageUploader2 resizeWidth="1000" owner="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean}" key="EXHIBITION" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">PR Image #1</td>
+				<td class="aplos-field">
+					<aploscc:imageUploader2 resizeWidth="1000" owner="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean}" key="PR_ONE" />
+				
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">PR Image #2</td>
+				<td class="aplos-field">
+					<aploscc:imageUploader2 resizeWidth="1000" owner="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean}" key="PR_TWO" />
+
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">PR Image #3</td>
+				<td class="aplos-field">
+					<aploscc:imageUploader2 resizeWidth="1000" owner="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean}" key="PR_THREE" />
+					
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Position on Page</td>
+				<td>
+					<h:selectOneMenu value="#{exhibitionBeDmb.positionedBeanHelper.currentPositionedBean.positionIdx}">
+						<f:selectItems value="#{exhibitionBeDmb.positionedBeanHelper.positionIdxSelectItems}" />   
+					</h:selectOneMenu>
+				</td>
+			</tr>
+			
+		</table>
+	</aplos:panel>
+</ui:composition>

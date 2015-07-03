@@ -1,0 +1,114 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+	<div class="aplos-article-atom">
+     	<aplos:panel autoUpdate="true" id="article_content">
+     		<aplos:panel rendered="#{ articleFeDmb.selectedBasicCmsContent == null }">
+	      		<ui:repeat id="newsEntries" value="#{ articleFeDmb.basicCmsContents }" var="basicCmsContent">
+		     		<h:panelGroup rendered="#{basicCmsContent.showingInFrontEnd }">
+		      			<div class="aplos-article-list-item">
+							<div class="aplos-article-title">
+								<h:outputLink value="#{ articleFeDmb.getBasicCmsContentLink( basicCmsContent ) }"><h2>#{ basicCmsContent.title }</h2></h:outputLink>
+								<h:outputText value="#{ basicCmsContent.dateCreatedStdStr }" />
+							</div>
+							<aplos:panel layout="none" rendered="#{ basicCmsContent.imageDetails != null }">
+								<div class="aplos-article-image">
+									<h:outputLink value="#{ articleFeDmb.getBasicCmsContentLink( basicCmsContent ) }"><img src="#{ basicCmsContent.imageDetails.getFullFileUrl(true) }&amp;maxWidth=710" alt="#{ basicCmsContent.title }" /></h:outputLink>
+								</div>
+							</aplos:panel>
+							<aplos:panel layout="none" rendered="#{ basicCmsContent.content != '' }">
+								<div class="aplos-article-short-description">
+			            			<h:outputText value="#{ basicCmsContent.shortDescription }" />
+			            		</div>
+			            	</aplos:panel>
+				            <aplos:panel layout="none" rendered="#{articleFeDmb.selectedBasicCmsContent == null}">
+				            	<div class="aplos-full-article-btn">
+				            		<aploscc:ajaxButton value="See Full Article" action="#{ articleFeDmb.redirectToBasicCmsContent }" />
+				            	</div>
+				            </aplos:panel>
+						</div>	
+					</h:panelGroup>
+				</ui:repeat>
+			</aplos:panel>
+    		<aplos:panel layout="none" rendered="#{ articleFeDmb.selectedBasicCmsContent != null and articleFeDmb.selectedBasicCmsContent != null and articleFeDmb.selectedBasicCmsContent.showingInFrontEnd }">
+    			<div class="aplos-article-full-content">
+					<div class="aplos-article-title">
+						<h1>#{  articleFeDmb.selectedBasicCmsContent.title }</h1>
+					<div class="aplos-article-date"><h:outputText value="#{  articleFeDmb.selectedBasicCmsContent.dateCreatedStdStr }" /></div>
+					</div>
+					<div class="aplos-back-to-articles-btn">
+						<aploscc:ajaxButton value="Back to list" action="#{ articleFeDmb.redirectToBasicCmsContentList }" />
+					</div>
+					<aplos:panel layout="none" rendered="#{ articleFeDmb.selectedBasicCmsContent.imageDetails != null }">
+						<div class="aplos-article-image">
+							<img src="#{ articleFeDmb.selectedBasicCmsContent.imageDetails.getFullFileUrl(true) }&amp;maxWidth=710" alt="news" />
+						</div>
+					</aplos:panel>
+					<aplos:panel layout="none" rendered="#{ articleFeDmb.selectedBasicCmsContent.content != '' }">
+						<div class="aplos-article-content">
+	            			<h:outputText value="#{ articleFeDmb.selectedBasicCmsContent.parsedContent }" escape="false" />
+	            		</div>
+	            	</aplos:panel>
+	           	</div>
+	           	<aplos:panel id="articleCommentPnl">
+		      		<ui:repeat id="articleCommentList" value="#{ articleFeDmb.viewableComments }" var="articleComment">
+		            	<div class="aplos-article-comment">
+		            		<div class="aplos-comment-name">
+		            			<h:outputLink value="#{ articleComment.website }" target="_blank" rendered="#{ articleComment.website != '' }" rel="nofollow">
+	            					#{ articleComment.username }
+	            				</h:outputLink>
+		            			<h:outputText value="#{ articleComment.username }" rendered="#{ articleComment.website == '' }" /> says: 
+		            		</div>
+		            		<div class="aplos-comment-time">
+		            			<h:outputText value="#{ articleComment.showOnWebsiteDateTimeStr }" />
+		            		</div>
+		            		<div class="aplos-comment-content">
+		            			<h:outputText value="#{ articleComment.commentHtml }" escape="false" />
+		            		</div>
+		           		</div>
+	           		</ui:repeat>
+	            	<div class="aplos-new-article-comment">
+	            		<h2>Add New Comment</h2>
+						<fieldset>
+							<legend>Add a new comment. All fields with an * are required.</legend>
+							<dl>
+								<dt>
+									<label title="Username">Username<span class="aplos-required-asterisk">&#160;*</span></label></dt>
+								<dd>
+									<h:inputText label="Username" value="#{ articleFeDmb.newArticleComment.username }" required="#{ articleFeDmb.commentValidationRequired }"/>
+								</dd>
+								<dt>
+									<label title="Website">Website</label></dt>
+								<dd>
+									<h:inputText label="Website" value="#{ articleFeDmb.newArticleComment.website }" />
+								</dd>
+								<dt>
+									<label title="Comment">Comment&#160;<span class="aplos-required-asterisk">*</span></label></dt>
+								<dd>
+									<h:inputTextarea label="Comment" value="#{ articleFeDmb.newArticleComment.comment }" required="#{ articleFeDmb.commentValidationRequired }"/>
+								</dd>
+								<dt>
+									<label title="YearCheck">What year is it?&#160;<span class="aplos-required-asterisk">*</span></label></dt>
+								<dd>
+									<h:inputText label="Year check" value="#{ articleFeDmb.currentYear }" required="#{ articleFeDmb.commentValidationRequired }" />
+								</dd>
+								<dt>
+									&#160;</dt>
+								<dd>
+									<aploscc:ajaxButton id="addNewCommentBtn" value="Add comment" action="#{ articleFeDmb.addArticleComment }" reRender="articleCommentPnl"/>
+								</dd>
+							</dl>
+						</fieldset>
+	           		</div>
+	           		
+					<p:messages infoClass="message-info" errorClass="message-error" fatalClass="message-fatal" style="padding-top:10px;margin-top:10px" />
+	           	</aplos:panel>
+     		</aplos:panel>
+     	</aplos:panel>							
+ 	</div>
+</ui:composition>

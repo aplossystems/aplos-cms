@@ -1,0 +1,30 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	
+	<ui:define name="editContent">
+		<table style="float:left;" class="aplos-form-table">
+			<tr>
+				<td class="aplos-label">Occupation</td>
+				<td class="aplos-field"><h:inputText value="#{ testimonial.occupation }" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">City</td>
+				<td class="aplos-field"><h:inputText value="#{ testimonial.city }" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Comment</td>
+				<td class="aplos-field"><h:inputTextarea value="#{ testimonial.comment }" /> </td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Date</td>
+				<td><aploscc:dateTime showCheckbox="false" startYearDiff="#{-5}" value="#{ testimonial.submissionDate }" /></td>
+			</tr>
+		</table>
+	</ui:define>
+	
+</ui:composition>

@@ -1,0 +1,31 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+
+	<ui:define name="title">Create Subscription Channel</ui:define>
+	
+	<ui:define name="editContent">
+
+		<table class="aplos-form-table aplos-form-table-with-required">
+			<tr>
+				<td class="aplos-label">Channel Name</td>
+				<td class="aplos-required-asterisk">*</td>
+				<td class="aplos-field"><h:inputText required="true" requiredMessage="Channel Name is required" value="#{subscriptionChannel.name}" /></td>
+			</tr>
+		</table>
+	</ui:define>
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+

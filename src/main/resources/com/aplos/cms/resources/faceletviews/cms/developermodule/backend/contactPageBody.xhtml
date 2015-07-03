@@ -1,0 +1,62 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+	<table class="aplos-form-table">
+		<tr>
+			<td class="aplos-label">
+				View type
+			</td>
+			<td class="aplos-field">
+				<h:selectOneMenu id="contactUsViewDdl" value="#{ contactPageCmsAtom.viewExtension }">
+					<f:selectItems value="#{ contactPageBeDmb.viewSelectItems }" />
+				</h:selectOneMenu>
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Show name field?</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{contactPageCmsAtom.nameShowing}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Is name required?</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{contactPageCmsAtom.nameRequired}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Show phone field?</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{contactPageCmsAtom.phoneShowing}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Is phone required?</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{contactPageCmsAtom.phoneRequired}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Show subject field?</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{contactPageCmsAtom.subjectShowing}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Is subject required?</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{contactPageCmsAtom.subjectRequired}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Show duplicate email checkbox?</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{contactPageCmsAtom.duplicateEmailShowing}" />
+			</td>
+		</tr>
+	</table>
+</ui:composition>

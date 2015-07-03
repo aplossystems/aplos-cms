@@ -1,0 +1,182 @@
+html {
+	overflow: -moz-scrollbars-vertical;
+	overflow-y: scroll;
+}
+
+body {
+	font-family: Arial, Helvetica, Sans;
+	font-size: 13px;
+}
+
+
+.CodeMirror-line-numbers {
+  width: 2.2em;
+  color: #aaa;
+  background-color: #eee;
+  text-align: right;
+  padding-right: .3em;
+  font-size: 13px;
+  font-family: monospace;
+  padding-top: .4em;
+}
+
+#aploraNavigationBar {
+	background-color: darkgray;
+	color: white;
+	min-height:40px;
+}	
+
+#aploraNavigationBar a {
+	color: white;
+}
+
+#aploraSubNavigationBar {
+	background-color: #D1D1D1;
+	color: white;
+	min-height:36px;
+}
+
+#aploraSubNavigationBar a {
+	color: white;
+}
+
+.aplosMainMenu div, .aplosMainMenu li {
+	border-left: 1px solid lightgray;
+	padding: 10px;
+	display: block;
+	float: left;
+}
+
+
+.aplosMainMenu div.current, .aplosMainMenu li.current {
+	background-color: #BB5555;
+}
+
+.aplosMainMenu div.current a, .aplosMainMenu li.current a {
+	cursor: default;
+}
+
+.aplosMainMenu a {
+	padding: 5px 10px;
+	font: bold 13px Trebuchet MS;
+	text-decoration: none;
+}
+
+.aplosMainMenu div.current:first-child {
+	border-left: none;
+}
+
+div#content {
+}
+
+table#content {
+	margin: 0 auto;	
+	border: 2px solid darkgray;
+	border-top: none;
+	background-color: #fff;
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;
+}
+
+body {
+	background-color: #eee;
+	}
+
+/* Edit and List Pages */
+form#edit h2 {
+	width: 50%;	
+}
+
+div.centreContent {
+	min-height: 400px;
+	margin: auto;
+	margin-bottom: 40px;
+	min-width: 600px;
+	width: 600px;
+	padding: 0px 50px;
+}
+
+div.notice {
+	border: 1px solid lightgray;
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	margin: 10px;
+	background-color: pink;
+	text-align: center;
+}
+
+table.edit .formText {
+	width: 100px;
+	text-align: right;
+	font: bold 13px Trebuchet MS;
+	padding-right: 10px;
+	vertical-align: baseline;
+}
+
+table.edit .formField {
+	width: 200px;
+}
+
+table.edit .formField input[type='text'],table.edit .formField input[type='password'],table.edit .formField select
+	{
+	width: 200px;
+	padding: 3px;
+	border: 1px solid #d9d9d9;
+	font-size: 12px;
+}
+
+table.edit .fieldDescription {
+	text-align: right;
+	color: darkgray;
+	font: normal 15px Arial;
+	padding-bottom: 20px;
+}
+
+hr {
+	border-color: darkred;
+}
+
+/************************************************************************
+ * Faces Messages
+ */
+.rich-messages {
+	margin: 0px;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+}
+
+.rich-messages dt {
+	line-height: 35px;
+}
+
+.rich-messages-label {
+	background-color: lightYellow;
+	padding: 7px 10px 7px 30px;
+	font: bold 13px Arial;
+	border: 1px solid lightgray;
+	color: #444;
+	
+	background-image: url('../images/warning.png');
+	background-position: 5px;
+	background-repeat: no-repeat;
+	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.message-info .rich-messages-label {
+/*	background-color: lightBlue;	*/
+	background-image: url("../images/action_check.gif");
+}
+
+.message-fatal .rich-messages-label {
+	background-color: lightRed;
+}
+
+/* Stray input showing in IE with CKEditor */
+
+.cke_skin_kama > input {
+	display: none;
+}

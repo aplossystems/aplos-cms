@@ -1,0 +1,56 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+	<ui:define name="head">
+		<h:outputScript library="jsLibraries" name="ckeditor/aplosckeditor.js" target="head" />
+		<h:outputScript library="scripts" name="ckEditorHelper.js" target="head" />
+		<script type="text/javascript">
+			$j(document).ready(function() {
+				ckEditorHelper.createLimitedToolbarCKEditors( '#{ request.contextPath }' );
+			}); 
+		</script>
+	</ui:define>
+
+	<ui:define name="editContent">
+		<style>
+			.editLabelColumn {
+				width : 140px;
+			}
+		</style>
+		<table class="aplos-form-table aplos-form-table-with-required">
+			<tr>
+				<td class="aplos-label">Send newsletter once default</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field"><h:selectBooleanCheckbox value="#{ cmsConfiguration.defaultSendNewsletterOnce }" /></td>
+			</tr>
+			
+			<tr>
+				<td class="aplos-label">Newsletter header</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field">
+					<h:inputTextarea id="newsletterHeader" styleClass="aplos_ckeditor" value="#{ cmsConfiguration.newsletterHeader }"></h:inputTextarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Newsletter footer</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field">
+					<h:inputTextarea id="newsletterFooter" styleClass="aplos_ckeditor" value="#{ cmsConfiguration.newsletterFooter }"></h:inputTextarea>
+				</td>
+			</tr>
+		</table>
+	</ui:define>
+	
+	<ui:define name="editButtons">
+	<aploscc:controlPanel>
+		<f:facet name="upperRightControlPanel">
+		<aploscc:ajaxButton value="Apply" action="#{ backingPage.applyBtnAction }" />
+	</f:facet>
+	</aploscc:controlPanel>
+</ui:define>
+
+</ui:composition>

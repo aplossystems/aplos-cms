@@ -1,0 +1,10 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	<h:panelGroup layout="none" rendered="#{blogFeDmb.blogAtom.generateRss}">
+       	<link rel="alternate" type="application/rss+xml" title="#{blogFeDmb.blogAtom.rssFeedName}" href="#{blogFeDmb.feedUrl}" />
+    </h:panelGroup>
+</ui:composition>

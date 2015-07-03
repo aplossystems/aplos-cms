@@ -1,0 +1,38 @@
+
+<ui:composition template="#{ themeManager.listTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="heading">
+		CMS Page Recycle Bin
+	</ui:define>
+	<ui:define name="listContent">
+		<aploscc:wrappedDataTable2 showToggleDeleted="false" showNewBtn="false" dataTableState="#{ backingPage.dataTableState }">
+			<p:column sortBy="#{ tableBean.cmsPage.name }" filterBy="#{ tableBean.cmsPage.name }">
+				<f:facet name="header">Name</f:facet>
+				#{tableBean.cmsPage.name}
+			</p:column>
+			<p:column sortBy="#{ tableBean.cmsPage.mapping }" filterBy="#{ tableBean.cmsPage.mapping }">
+				<f:facet name="header">Mapping</f:facet>
+				#{tableBean.cmsPage.mapping}
+			</p:column>
+			<p:column sortBy="#{tableBean.deletedRedirect.cmsPage.name}" filterBy="#{tableBean.deletedRedirect.cmsPage.name}">
+				<f:facet name="header">Redirect</f:facet>
+				<h:outputText rendered="#{tableBean.deletedRedirect != null}" value="#{tableBean.deletedRedirect.cmsPage.name}" />
+			</p:column>
+			<p:column sortBy="#{tableBean.deletedRedirect.cmsPage.mapping}" filterBy="#{tableBean.deletedRedirect.cmsPage.mapping}">
+				<f:facet name="header">Redirect Mapping</f:facet>
+				<h:outputText rendered="#{tableBean.deletedRedirect != null}" value="#{tableBean.deletedRedirect.cmsPage.mapping}.aplos" />
+			</p:column>
+			<p:column sortBy="#{ tableBean.dateInactivated }" filterBy="#{ tableBean.dateInactivated }">
+				<f:facet name="header">Date Deleted</f:facet>
+				#{tableBean.dateInactivated}
+			</p:column>
+		</aploscc:wrappedDataTable2>
+	</ui:define>
+	
+</ui:composition>

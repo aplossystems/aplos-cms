@@ -1,0 +1,195 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+
+	<h2 class="aplosSubHeading">General settings</h2>
+	<hr/>
+	<table class="aplos-table">
+		<tr>
+			<td class="aplos-label">
+				Number of columns
+			</td>
+			<td class="aplos-field">
+				<h:inputText  label="Number of columns" value="#{ galleryModule.numberOfColumns }" style="width:30px" required="#{ backingPage.validationRequired }" >
+					<f:validateLongRange minimum="1" maximum="50" />
+				</h:inputText>
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">
+				Max image width
+			</td>
+			<td class="aplos-field">
+				<h:inputText label="Max image width" value="#{ galleryModule.maxImageWidth }" style="width:40px" >
+					<f:validateLongRange minimum="1" maximum="2000" />
+				</h:inputText>
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">
+				Max image height
+			</td>
+			<td class="aplos-field">
+				<h:inputText label="Max image height" value="#{ galleryModule.maxImageHeight }" style="width:40px" >
+					<f:validateLongRange minimum="1" maximum="2000" />
+				</h:inputText>
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">
+				Using gallery
+			</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{ galleryModule.openingInGallery }"  />
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">
+				Show image title
+			</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{ galleryModule.showingTitle }"  />
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">
+				Include categories
+			</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{ galleryModule.includingCategories }"  >
+					<p:ajax event="change" update="categoriesPnl imagesPnl"/>
+				</h:selectBooleanCheckbox>
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">
+				View type
+			</td>
+			<td class="aplos-field">
+				<h:selectOneMenu id="galleryViewDdl" value="#{ galleryModule.viewExtension }">
+					<f:selectItems value="#{ galleryBeDmb.viewSelectItems }" />
+				</h:selectOneMenu>
+			</td>
+		</tr>
+	</table>
+	<aplos:panel layout="block" id="categoriesPnl">
+		<aplos:panel layout="none" rendered="#{ galleryModule.includingCategories }">
+			<h2 class="aplosSubHeading">Categories</h2>
+			<hr/>
+			<table class="aplos-table">
+				<tr>
+					<td class="aplos-label"></td>
+					<td class="aplos-field">
+						<h:dataTable id="galleryCategoryTable" value="#{ galleryModule.categories }" var="tableBean" styleClass="listDatatable" style="margin-top:-12px;width:100%">
+							<p:column>
+								<f:facet name="header">Name</f:facet>
+								<h:inputText style="width:160px" value="#{tableBean.name}" required="true" label="category name"></h:inputText> 
+							</p:column>
+							<p:column width="24px">
+								<h:commandButton action="#{ galleryBeDmb.removeGalleryCategory }" image="/images/action_delete.gif" reRender="galleryCategoryTable,galleryCategoryAdd,galleryCategoryDdl,galleryImagesTable" />
+							</p:column>
+						</h:dataTable>
+					</td>
+				</tr>
+				<tr>
+					<td class="aplos-label"></td>
+					<td>
+						<table>
+							<tr>
+								<td>Name </td>
+								<td><h:inputText value="#{galleryBeDmb.galleryCategoryName}" style="width:160px"/></td>
+								<td><aploscc:ajaxButton id="galleryCategoryAdd" ajaxEnabled="true" action="#{ galleryBeDmb.addGalleryCategory }" value="Add" reRender="galleryCategoryTable,galleryCategoryAdd,galleryCategoryDdl,galleryImagesTable" /></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</aplos:panel>
+	</aplos:panel>
+	
+	<aplos:panel layout="block" id="imagesPnl">
+		<h2 class="aplosSubHeading">Images</h2>
+		<hr/>
+		<table class="aplos-table">
+			<tr>
+				<td class="aplos-label">Title</td>
+				<td class="aplos-field">
+					<h:inputText style="width:250px" value="#{galleryBeDmb.newGalleryImage.title}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">File</td>
+				<td class="aplos-field">
+					<aploscc:imageUploader2 resizeWidth="1000" owner="#{galleryBeDmb.newGalleryImage}" key="IMAGE" showSaveBtn="false"/>
+				</td>
+			</tr>
+		</table>
+		<aplos:panel layout="none"  rendered="#{ galleryModule.includingCategories }">
+			<table class="aplos-table">
+				<tr>
+					<td class="aplos-label">Category</td>
+					<td class="aplos-field">
+						<h:selectOneMenu id="galleryCategoryDdl" value="#{ galleryImage.galleryCategory }" converter="aplosAbstractBeanConverter">
+							<f:selectItems value="#{ galleryBeDmb.categorySelectItems }" />
+						</h:selectOneMenu>
+					</td>
+				</tr>
+			</table>
+		</aplos:panel>
+		<table class="aplos-table">
+			<tr>
+				<td class="aplos-label"></td>
+				<td class="aplos-field">
+					<aploscc:ajaxButton value="Add" action="#{ galleryBeDmb.addNewImage }" />
+				</td>
+			</tr>
+		</table>
+		<script>
+		  $(function() {
+		    $( ".aplos-sortable" ).sortable({
+			 	start: function(event, ui) 
+				     {
+				          ui.item.startPos = ui.item.index();
+				     },
+			 	stop: function( event, ui ) {
+		    		  positionUpdated( ui.item.startPos, ui.item.index() );
+		    	  }
+		    });
+		    $( ".aplos-sortable" ).disableSelection();
+		  });
+		</script>
+		<aplos:ajaxJsFunction name="positionUpdated" action="#{galleryBeDmb.postionUpdated}">
+			<aplos:param name="previousIdx" assignTo="#{galleryBeDmb.previousIdx}" />
+			<aplos:param name="newIdx" assignTo="#{galleryBeDmb.newIdx}" />
+		</aplos:ajaxJsFunction>
+		<ul class="aplos-sortable">
+			<ui:repeat value="#{ galleryModule.galleryImages }" var="galleryImage" varStatus="status">
+		  		<li class="ui-state-default">
+		  			<div class="aplos-column">
+			  			<h:inputText value="#{ galleryImage.title }" style="width:250px" />
+			  		</div>
+		  			<div class="aplos-column">
+						<aploscc:imageUploader2 displayWidth="100" displayHeight="50" owner="#{galleryImage}" key="IMAGE" />
+					</div>
+		  			<div class="aplos-column">
+						<h:selectOneMenu id="galleryCategoryDdl" value="#{ galleryImage.galleryCategory }" converter="aplosAbstractBeanConverter" rendered="#{ galleryModule.includingCategories }">
+							<f:selectItems value="#{ galleryBeDmb.categorySelectItems }" />
+						</h:selectOneMenu>
+					</div>
+		  			<div class="aplos-column">
+						<h:commandButton action="#{ galleryBeDmb.deleteImage(galleryImage) }" image="/images/action_delete.gif" reRender="galleryImagesTable,tabView" oncomplete="initPage()" />
+					</div>
+					<div style="clear:both"/>
+		  		</li>
+			</ui:repeat>
+		</ul>
+		
+	</aplos:panel>
+		
+	
+	
+</ui:composition>

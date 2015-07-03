@@ -1,0 +1,104 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	<table style="width:100%">
+		<tr>
+			<td class="aplos-label">What Location should be shown on the map?</td>
+			<td>
+				<table>
+					<tr>
+						<td class="aplos-label" style="width:170px">Address Line 1</td>
+						<td>
+							<h:inputText value="#{googleMapBeDmb.googleMapAtom.mapLocation.line1}" />
+						</td>
+					</tr>
+					<tr>
+						<td class="aplos-label" style="width:170px">Address Line 2</td>
+						<td>
+							<h:inputText value="#{googleMapBeDmb.googleMapAtom.mapLocation.line2}" />
+						</td>
+					</tr>
+					<tr>
+						<td class="aplos-label" style="width:170px">Address Line 3</td>
+						<td>
+							<h:inputText value="#{googleMapBeDmb.googleMapAtom.mapLocation.line3}" />
+						</td>
+					</tr>
+					<tr>
+						<td class="aplos-label" style="width:170px">City</td>
+						<td>
+							<h:inputText value="#{googleMapBeDmb.googleMapAtom.mapLocation.city}" />
+						</td>
+					</tr>
+					<tr>
+						<td class="aplos-label" style="width:170px">County / State / Region</td>
+						<td>
+							<h:inputText value="#{googleMapBeDmb.googleMapAtom.mapLocation.state}" />
+						</td>
+					</tr>
+					<tr>
+						<td class="aplos-label" style="width:170px">Country</td>
+						<td>
+							<h:selectOneMenu value="#{googleMapBeDmb.googleMapAtom.mapLocation.country}" converter="aplosAbstractBeanConverter">
+								<f:selectItems value="#{googleMapBeDmb.countrySelectItemBeans}" /> 
+							</h:selectOneMenu>
+						</td>
+					</tr>
+					<tr>
+						<td class="aplos-label" style="width:170px">Postcode</td>
+						<td>
+							<h:inputText value="#{googleMapBeDmb.googleMapAtom.mapLocation.postcode}" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="aplos-description">
+							be as specific as you like - enter anything from only a country to your full address with house number<br/><br/>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="aplos-description">
+				<hr style="border-color:silver;" /><br/><br/>
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label" style="width:110px">Map Dimensions</td>
+			<td class="aplos-field">
+				<h:inputText required="true" converterMessage="width must be entered as a number" validatorMessage="width must be between 1 and 10000 pixels" requiredMessage="width is required" style="width:40px;text-align:right;" value="#{googleMapBeDmb.googleMapAtom.widthPx}">
+					<f:validateLongRange minimum="1" maximum="10000" />
+				</h:inputText>px wide<br/>
+				<h:inputText required="true" converterMessage="height must be entered as a number" validatorMessage="height must be between 1 and 10000 pixels" requiredMessage="height is required"  style="width:40px;text-align:right;" value="#{googleMapBeDmb.googleMapAtom.heightPx}">
+					<f:validateLongRange minimum="1" maximum="10000" />
+				</h:inputText>px high
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Type of Map</td>
+			<td>
+				<h:selectOneMenu value="#{googleMapBeDmb.googleMapAtom.mapType}">
+					<f:selectItems value="#{googleMapBeDmb.googleMapAtom.mapTypeSelectItems}" />   
+				</h:selectOneMenu>
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Zoom Level</td>
+			<td>
+				<h:selectOneMenu value="#{googleMapBeDmb.googleMapAtom.zoomLevel}">
+					<f:selectItems value="#{googleMapBeDmb.googleMapAtom.zoomLevelSelectItems}" />   
+				</h:selectOneMenu>
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Disable UI (hide the controls)</td>
+			<td>
+				<h:selectBooleanCheckbox value="#{googleMapBeDmb.googleMapAtom.disableUi}" /><br/><br/>
+			</td>
+		</tr>
+	</table>
+</ui:composition>
+

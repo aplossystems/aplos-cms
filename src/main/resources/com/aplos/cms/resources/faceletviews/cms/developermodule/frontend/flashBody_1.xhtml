@@ -1,0 +1,47 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	
+	 <script type="text/javascript">
+		var MM_contentVersion = 9;
+	    var MM_contentVersion = 9;
+	    var plugin = (navigator.mimeTypes &amp;&amp; navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;  
+	    if ( plugin ) {
+	    	var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	        for (var i = 0; i &lt; words.length; ++i) {
+	        	if (isNaN(parseInt(words[i]))) continue;
+	          	var MM_PluginVersion = words[i];
+	        }
+	        var MM_FlashCanPlay = MM_PluginVersion &gt;= MM_contentVersion;
+	    } else if (navigator.userAgent &amp;&amp; navigator.userAgent.indexOf("MSIE")&gt;=0 &amp;&amp; (navigator.appVersion.indexOf("Win") != -1)) {
+	    	document.write('&lt;SCR' + 'IPT LANGUAGE=VBScript\&gt; \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	        document.write('on error resume next \n');
+	        document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." &amp; MM_contentVersion)))\n');
+	        document.write('&lt;/SCR' + 'IPT\&gt; \n');
+	    }          
+	    if ( MM_FlashCanPlay ) {
+	    	//TODO: im not sure the move attribute here will be correct, check
+	    	//document.write("&lt;script language='JavaScript' type='text/javascript'&gt;\AC_FL_RunContent('codebase', 'https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0','width', '#{ flashModule.width }','height', '#{ flashModule.height }','src', 'Flash_Atom','quality', 'high','pluginspage', 'https://www.adobe.com/go/getflashplayer','align', 'middle','play', 'true','loop', 'true','scale', 'showall','wmode', 'transparent','devicefont', 'false','id', 'Flash_Atom','bgcolor', '#ffffff','name', 'Flash_Atom','menu', 'true','allowFullScreen', 'false','allowScriptAccess','sameDomain','movie', '#{flashModule.movieUrl}','salign', '');&lt;/script\&gt;");
+	    	document.write("&lt;script language='JavaScript' type='text/javascript'&gt;\AC_FL_RunContent('codebase', 'https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0','width', '#{ flashModule.width }','height', '#{ flashModule.height }','src', 'Flash_Atom','quality', 'high','pluginspage', 'https://www.adobe.com/go/getflashplayer','align', 'middle','play', 'true','loop', 'true','scale', 'showall','wmode', 'transparent','devicefont', 'false','id', 'Flash_Atom','bgcolor', '#ffffff','name', 'Flash_Atom','menu', 'true','allowFullScreen', 'false','allowScriptAccess','sameDomain','movie', '#{flashModule.fullFileUrl}','salign', '');&lt;/script\&gt;");
+	    } else{   
+	    	document.write('&lt;img src="#{ flashModule.fullDefaultImageUrl }" border="0" style="padding:10px;"/&gt;');
+	    }
+      </script>
+      <a href="/">
+      	<noscript>
+        	<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="#{ flashModule.width }" height="#{ flashModule.height }" id="logo_shimmer_02" align="middle">
+          		<param name="allowScriptAccess" value="sameDomain" />
+          		<param name="allowFullScreen" value="false" />
+          		<param name="movie" value="#{ flashModule.fullFileUrl }" />
+          		<param name="quality" value="high" />
+          		<param name="wmode" value="transparent" />
+          		<param name="bgcolor" value="#ffffff" />  
+          		<embed src="#{ flashModule.fullFileUrl }" quality="high" wmode="transparent" bgcolor="#ffffff" width="192" height="115" name="Flash_Atom" align="middle" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="https://www.adobe.com/go/getflashplayer" />
+          	</object>
+         </noscript>
+       </a>
+	
+</ui:composition>

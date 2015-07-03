@@ -1,0 +1,70 @@
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<head>
+		<h:outputScript library="scripts" name="jquery-min.js" target="head" />
+		<h:outputScript library="jsLibraries" name="ckeditor/aplosckeditor.js" target="head" />
+		<h:outputScript library="scripts" name="ckEditorHelper.js" target="head" />
+		<script>
+			$j = jQuery.noConflict();
+			$j(document).ready(function() {
+				createCKEditors();
+			});
+
+			var aploraFilebrowserBrowseUrl = "#{request.contextPath}/common/browse.jsf";
+			var aploraFilebrowserUploadUrl = "#{request.contextPath}/editorUpload/upload.jsf";
+			var aploraFormsDialog = "#{request.contextPath}/scripts/ckeditor/aplora/dialog.js";
+			var aploraPagesDialog = "#{request.contextPath}/scripts/ckeditor/aplora/dialog.js";
+
+		</script>
+	</head>
+	<body>
+	<h:form>	
+		<p:messages/>
+		<aplos:panel id="contentPlaceholderPanel">			
+		  	<div style="padding-bottom:10px">
+				<h:selectOneRadio value="#{ backingPage.cphType }" id="selCphType" name="selCphType">
+					<p:ajax process="@form" event="click" onstart="ckEditorHelper.destroyEditors()" oncomplete="createCKEditors()" update="contentPlaceholderPanel" /> 
+					<f:selectItems value="#{ enumAccessor.cphType.cphTypeSelectItems }" />
+				</h:selectOneRadio>
+			</div>
+			<c:choose>
+			  <c:when test="${backingPage.placeholderContent.cphType.name == 'USER_MODULE'}" >
+				<h:selectOneMenu id="selModuleType" value="#{ backingPage.mappedModule }" converter="aplosAbstractBeanConverter">
+					<f:selectItems value="#{ backingPage.userCmsModuleSelectItems }" />  
+				</h:selectOneMenu>
+			  </c:when>
+			  <c:when test="${backingPage.placeholderContent.cphType.name == 'CODE'}" >
+				<h:inputTextarea id="contentTextArea" styleClass="contentTextArea"
+				value="#{ backingPage.placeholderContent.content }" style="width:740px;height:315px"></h:inputTextarea>
+			  </c:when>
+			  <c:when test="${backingPage.placeholderContent.cphType.name == 'EDITOR'}" >
+				<div class="format_tagged_ckeditor">
+					<h:inputTextarea id="contentEditorArea" styleClass="aplos_ckeditor contentEditorArea"
+					value="#{ backingPage.placeholderContent.content }" style="width:800px;height:315px"></h:inputTextarea>
+				</div>
+			  </c:when> 
+			</c:choose>  
+		</aplos:panel>
+		<br />
+		<div style="float: right;">
+		    <!-- 
+		    	Colorbox has been removed as it's an old library that doesn't now work in the new framework.
+		     -->
+			<h:commandButton onclick="ckEditorHelper.updateEditors()" action="#{backingPage.cmsPageRevision.saveDetails}" value="#{backingPage.cmsPageRevision.draft ? 'Save Draft' : 'Save' }" />
+			<h:commandButton rendered="#{!backingPage.cmsPageRevision.draft}" onclick="ckEditorHelper.updateEditors()" action="#{backingPage.saveAsDraft}" value="Save as Draft" />
+			<h:commandButton value="Cancel" />
+		</div>
+	
+	</h:form>
+	</body>
+</html>
+
+
+
+

@@ -1,0 +1,20 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:p="http://primefaces.org/ui">
+	<table class="aplos-table">
+		<tr>
+			<td class="aplos-label">
+				View type
+			</td>
+			<td class="aplos-field">
+				<h:selectOneMenu id="testimonialsViewDdl" value="#{ testimonialsModule.viewExtension }">
+					<f:selectItems value="#{ testimonialsBeDmb.viewSelectItems }" />
+				</h:selectOneMenu>
+			</td>
+		</tr>
+	</table>
+</ui:composition>

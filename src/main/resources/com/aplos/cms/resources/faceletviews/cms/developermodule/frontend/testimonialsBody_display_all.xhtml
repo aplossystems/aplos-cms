@@ -1,0 +1,16 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	<div class="aplos-testiomnials-atom aplos-testiomnials-display-all">
+		<ui:repeat value="#{testimonialsFeDmb.cachedTestimonials}" var="testimonial">
+			<div class="aplos-testimonals-testimonial">
+				<strong class="aplos-testiomnials-what">#{testimonial.comment}</strong><br/>
+				<span class="aplos-testiomnials-who-where">#{testimonial.occupation}, #{testimonial.city}</span><br/>
+				<small class="aplos-testiomnials-when">#{testimonial.submissionDateStdStr}</small>
+			</div>
+		</ui:repeat>
+ 	</div>
+</ui:composition>

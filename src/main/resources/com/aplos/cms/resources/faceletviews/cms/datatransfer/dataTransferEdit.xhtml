@@ -1,0 +1,9 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<ui:define name="editContent">
+		<h:commandButton action="#{ backingPage.transferData }" value="Transfer" />
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,86 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	
+	<ui:define name="editContent">
+		<script type="text/javascript">
+			function selectAllClick() {
+				var checked = $j('#allCheckbox:checked').val() !== undefined;
+				$j('#sendToCheckboxes input').attr('checked', checked);
+			}
+
+			$j(document).ready(function() {
+				$j('#sendToCheckboxes input').click(function() {
+					if (! $j(this).attr('checked')) {
+						$j('#allCheckbox').attr('checked', false);
+					}
+					else {
+						var checkboxes = $j('#sendToCheckboxes input');
+						var setAllToChecked = true;
+						for (var i=0 ; i&lt;checkboxes.size() ; i++) {
+							if (! $j(checkboxes[i]).attr('checked')) {
+								setAllToChecked = false;
+							}
+						}
+						if (setAllToChecked) {
+							$j('#allCheckbox').attr('checked', true);
+						}
+					}
+			})});
+		</script>
+	
+		<table class="aplos-form-table">
+			<tr>
+				<td class="aplos-label">Name</td>
+				<td class="aplos-field"><h:inputText value="#{mailout.name}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Mailout Template</td>
+				<td class="aplos-field">
+					<h:selectOneMenu value="#{ mailout.mailoutTemplate }" converter="aplosAbstractBeanConverter">
+						<f:selectItems value="#{ backingPage.mailoutTemplateSelectItems }" />
+					</h:selectOneMenu>
+					<h:commandLink value="Go To" action="#{ backingPage.goToMailoutTemplate }" immediate="true"/>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Content</td>
+				<td class="aplos-field">
+					<h:inputTextarea id="newsletterBody" 
+						value="#{mailout.content}" style="width:500px;height:150px"></h:inputTextarea></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Send to</td>
+				<td class="aplos-field">
+					<input id="allCheckbox" type="checkbox" onclick="selectAllClick();" style="margin-left:7px" /> All
+					<h:selectManyCheckbox id="sendToCheckboxes" value="#{ mailout.mailRecipientFindersInNewList }" converter="aplosAbstractBeanConverter" layout="pageDirection">
+						<f:selectItems value="#{ backingPage.mailRecipientFinderSelectItems }" />
+					</h:selectManyCheckbox>
+				</td>
+			</tr>
+			<tr>
+				<td />
+				<td>
+					<div style="margin-top:20px">
+						<aplos:panel rendered="#{ ! mailout['new'] }">
+							<applet name="DocumentPrinter"
+								code="com.aplos.documentprinter.DocumentPrinter.class"
+								archive="#{request.contextPath}/applets/documentprinter.jar,#{request.contextPath}/applets/flying-saucer-r8-core-renderer.jar,#{request.contextPath}/applets/gnu-regexp-1.0.8.jar,#{request.contextPath}/applets/itext-2.0.5.jar,#{request.contextPath}/applets/jdynamite.jar,#{request.contextPath}/applets/PDFRenderer.jar"
+								width="200"
+								height="130"
+								mayscript="mayscript" >
+								<PARAM name="mailoutId" value="#{ mailout.id }" ></PARAM>
+							    <p>Mailouts are only available with <a href="http://www.java.com/en/download/">Java</a> installed.</p>
+							</applet><br />
+							Make sure you save your changes before using the buttons above.
+						</aplos:panel>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</ui:define>
+
+</ui:composition>

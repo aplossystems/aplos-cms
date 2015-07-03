@@ -1,0 +1,46 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	
+	<ui:define name="editContent">
+
+		<table class="aplos-form-table">
+			<tr>
+				<td class="aplos-label">Username</td>
+				<td class="aplos-field"><h:inputText value="#{articleComment.username}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Website</td>
+				<td class="aplos-field"><h:inputText value="#{articleComment.website}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Comment</td>
+				<td class="aplos-field"><h:inputTextarea value="#{articleComment.comment}" style="height:80px" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Show on website</td>
+				<td>
+					<aploscc:dateTime id="startDateInput" showCheckbox="#{true}"
+								startYearDiff="#{-5}" endYearDiff="#{5}"
+								value="#{articleComment.showOnWebsiteDate}"></aploscc:dateTime>
+				</td>
+			</tr>
+		</table>
+	</ui:define>
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+

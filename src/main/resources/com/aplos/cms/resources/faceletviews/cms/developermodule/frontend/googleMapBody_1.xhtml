@@ -1,0 +1,39 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<div id="map_canvas" style="width:#{googleMapFeDmb.googleMapAtom.widthPx}px; height:#{googleMapFeDmb.googleMapAtom.heightPx}px"></div>
+	 
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript">
+
+		 $j(document).ready(function() {
+			var geocoder = new google.maps.Geocoder();
+			var theseOptions = {
+			    zoom: #{googleMapFeDmb.googleMapAtom.zoomLevel},
+			    disableDefaultUI: #{googleMapFeDmb.googleMapAtom.disableUiString},
+			    mapTypeId: #{googleMapFeDmb.googleMapAtom.mapType}
+			};
+			var map = new google.maps.Map(document.getElementById("map_canvas"), theseOptions);
+		 	//var latlng = new google.maps.LatLng(-34.397, 150.644);
+		 	var address = "#{googleMapFeDmb.googleMapAtom.geolocationAddressString}";
+			geocoder.geocode( { 'address': address}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				map.setCenter(results[0].geometry.location);
+		        var marker = new google.maps.Marker({
+		            map: map, 
+		            position: results[0].geometry.location
+		        });
+		      } else {
+		        //alert("Geocode was not successful for the following reason: " + status);
+		      }
+		    });
+		 });
+	 
+	</script>
+	
+</ui:composition>

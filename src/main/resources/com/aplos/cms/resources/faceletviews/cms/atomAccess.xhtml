@@ -1,0 +1,48 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="heading">
+		Edit Available Atoms for #{website.name}
+	</ui:define>
+	
+	<ui:define name="editContent">
+		<h:panelGroup rendered="#{!backingPage.showingConfirmationScreen}">
+			<table class="aplos-form-table">
+				<tr>
+					<td>Disabled</td>
+					<td></td>
+					<td>Enabled</td>
+				</tr>
+				<tr>
+					<td>
+						<h:selectManyListbox style="width:350px" size="15" collectionType="java.util.ArrayList" value="#{backingPage.selectedAvailableAtoms}" converter="aplosAbstractBeanConverter">
+							<f:selectItems value="#{backingPage.availableAtomSelectItems}" /> 
+						</h:selectManyListbox>
+					</td>
+					<td>
+						<h:commandButton value="Enable &gt;&gt;" action="#{backingPage.enableAtoms}" />
+						<br/><br/>
+						<h:commandButton value="&lt;&lt; Disable" action="#{backingPage.disableAtoms}" />
+					</td>
+					<td>
+						<h:selectManyListbox style="width:350px" size="15" collectionType="java.util.ArrayList" value="#{backingPage.selectedEnabledAtoms}" converter="aplosAbstractBeanConverter">
+							<f:selectItems value="#{backingPage.enabledAtomSelectItems}" /> 
+						</h:selectManyListbox>
+					</td>
+				</tr>
+			</table>
+		</h:panelGroup>	
+	</ui:define>
+	<ui:define name="editButtons">
+	<aploscc:controlPanel>
+		<f:facet name="upperRightControlPanel">
+
+
+		</f:facet>
+	</aploscc:controlPanel>
+</ui:define>
+</ui:composition>

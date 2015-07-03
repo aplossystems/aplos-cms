@@ -1,0 +1,71 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	
+	<ui:define name="editContent">
+		<table style="float:left;" class="aplos-form-table">
+			<tr>
+				<td class="aplos-label">Room</td>
+				<td class="aplos-field">
+					<h:selectOneListbox size="1" converter="aplosAbstractBeanConverter" value="#{roomRates.bandBRoom}" >
+						<f:selectItems value="#{bandBRoom.selectItemBeans}"/>
+					</h:selectOneListbox>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Start Date</td>
+				<td>
+				
+				
+				<aploscc:dateTime id="startDateInput" showCheckbox="#{false}"
+							startYearDiff="#{-2}" endYearDiff="#{5}"
+							value="#{roomRates.startDate}"></aploscc:dateTime>
+							
+							
+							</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Finish Date</td>
+				<td><aploscc:dateTime id="finishDateInput" showCheckbox="#{false}"
+							startYearDiff="#{-2}" endYearDiff="#{5}"
+							value="#{roomRates.finishDate}"></aploscc:dateTime></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Rate</td>
+				<td class="aplos-field"><h:inputText value="#{ roomRates.roomRate }" style="width:80px"/><h:inputText value="#{ roomRates.rateUnit }" style="width:80px"/></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Monday</td>
+				<td class="aplos-field"><h:selectBooleanCheckbox value="#{ roomRates.forMonday }"/></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Tuesday</td>
+				<td class="aplos-field"><h:selectBooleanCheckbox value="#{ roomRates.forTuesday }"/></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Wednesday</td>
+				<td class="aplos-field"><h:selectBooleanCheckbox value="#{ roomRates.forWednesday }"/></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Thursday</td>
+				<td class="aplos-field"><h:selectBooleanCheckbox value="#{ roomRates.forThursday }"/></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Friday</td>
+				<td class="aplos-field"><h:selectBooleanCheckbox value="#{ roomRates.forFriday }"/></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Saturday</td>
+				<td class="aplos-field"><h:selectBooleanCheckbox value="#{ roomRates.forSaturday }"/></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Sunday</td>
+				<td class="aplos-field"><h:selectBooleanCheckbox value="#{ roomRates.forSunday }"/></td>
+			</tr>
+		</table>
+	</ui:define>
+</ui:composition>

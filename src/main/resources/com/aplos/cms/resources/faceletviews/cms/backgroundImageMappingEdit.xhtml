@@ -1,0 +1,58 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+
+	<ui:define name="title">Create Background Image Mapping</ui:define>
+	
+	<ui:define name="editContent">
+		<table class="aplos-form-table aplos-form-table-with-required">
+			<tr>
+				<td class="aplos-label">Name</td>
+				<td class="aplos-required-asterisk">*</td>
+				<td class="aplos-field"><h:inputText value="#{backgroundImageMapping.name}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Mapping</td>
+				<td class="aplos-required-asterisk">*</td>
+				<td class="aplos-field"><h:inputText value="#{backgroundImageMapping.mapping}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label"></td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-description">Try to be quite specific with your mapping, this background will be applied if your URL contains this mapping</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Priority</td>
+				<td class="aplos-required-asterisk">*</td>
+				<td class="aplos-field"><h:inputText value="#{backgroundImageMapping.priority}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label"></td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-description">A higher priority means this background will be used over the other if two mappings are matched</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Image</td>
+				<td class="aplos-required-asterisk">*</td>
+				<td class="aplos-field">
+					<aploscc:imageUploader2 resizeWidth="1000" owner="#{backgroundImageMapping}" key="BACKGROUND" />
+				</td>
+			</tr>
+		</table>
+	</ui:define>
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+

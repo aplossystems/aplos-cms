@@ -1,0 +1,71 @@
+<ui:composition template="#{ themeManager.editTemplatePath }"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+
+	<ui:define name="editHead">
+
+		<h:outputScript library="jsLibraries" name="/CodeMirror-2.22/lib/codemirror.js" target="head" />
+		<h:outputStylesheet library="jsLibraries" name="CodeMirror-2.22/lib/codemirror.css" target="head" />
+		<h:outputScript library="jsLibraries" name="CodeMirror-2.22/mode/css/css.js" target="head" />
+		<script type="text/javascript">
+			var javascript_editor;
+			$j(function() {
+				javascript_editor = CodeMirror
+						.fromTextArea(
+								document.getElementById('javascript_editor'),
+								{
+									height : "450px",
+									parserfile : "parsecss.js",
+									stylesheet : "#{request.contextPath}/codeMirror/css/csscolors.css",
+									path : "#{request.contextPath}/codeMirror/js/",
+									continuousScanning : 500,
+									lineNumbers : true
+								});
+			});
+
+			function updateCodeMirrors() {
+				document.getElementById('javascript_editor').value = javascript_editor
+						.getCode();
+			}
+		</script>
+	</ui:define>
+
+	<ui:define name="editContent">
+		<table class="aplos-form-table">
+			<tr>
+				<td class="aplos-label">Name</td>
+				<td class="aplos-field"><h:inputText
+						value="#{javascriptResource.name}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Description</td>
+				<td class="aplos-field"><h:inputText
+						value="#{javascriptResource.description}" /></td>
+			</tr>
+		</table>
+		<br />
+
+		<h:inputTextarea style="width: 910px; height: 450px; margin:auto;"
+			id="javascript_editor" value="#{javascriptResource.content}" />
+		<br />
+	</ui:define>
+
+
+	<ui:define name="editButtons">
+		<aploscc:controlPanel>
+			<f:facet name="upperRightControlPanel">
+				<aploscc:ajaxButton action="#{backingPage.applyBtnAction}"
+					ajaxEnabled="true" onclick="updateCodeMirrors();" value="Apply" />
+				<aploscc:ajaxButton action="#{backingPage.okBtnAction}"
+					onclick="updateCodeMirrors();" value="Ok" />
+				<aploscc:ajaxButton action="#{backingPage.cancelBtnAction}"
+					value="Cancel" />
+			</f:facet>
+		</aploscc:controlPanel>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+
+<head>
+</head>
+		
+<body>
+	<table style="width:100%;height:400px" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td align="middle" style="max-width:600px;max-height:150px;background-color:#6b5328;padding:15px 0px 30px 0px">
+				<h:graphicImage url="/media/?type=bandBRoom&amp;filename=#{ bandBRoom.imageFilename }&amp;maxWidth=600&amp;maxHeight=230" style="max-width:600px;max-height:230px"></h:graphicImage>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" style="padding:15px 10px 10px 10px;background-color:#392c14;min-height:50px;color:white;">
+				<table>
+					<tr>
+						<td style="font-size:1.3em"><b><h:outputText value="#{ bandBRoom.roomName }"></h:outputText></b></td>
+					</tr>
+					<tr>
+						<td><h:outputText value="#{ bandBRoom.description }" escape="false"></h:outputText></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>
+
+</html>

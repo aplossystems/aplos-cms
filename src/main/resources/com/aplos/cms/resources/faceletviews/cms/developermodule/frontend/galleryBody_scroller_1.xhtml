@@ -1,0 +1,27 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	<h:outputScript library="scripts" name="jquery.simplyscroll.min.js" target="head" />
+	<script type="text/javascript">
+	(function($) {
+		$(function() {  
+	    		$("#scroller").simplyScroll();
+		});
+	 })(jQuery);
+	</script>
+	<div class="aplos-gallery-atom aplos-gallery-atom-scroller">
+		<div class="simply-scroll simply-scroll-container">
+			<div class="simply-scroll-clip">
+				<ul id="scroller">
+					<ui:repeat value="#{ galleryModule.galleryImages }" var="tempGalleryImage">
+						<li><img src="#{ galleryModule.getFullFileUrl( tempGalleryImage ) }" border="0" /></li>
+					</ui:repeat>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+</ui:composition>

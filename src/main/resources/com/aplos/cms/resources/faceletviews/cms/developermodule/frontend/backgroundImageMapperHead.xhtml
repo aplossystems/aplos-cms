@@ -1,0 +1,13 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	<h:panelGroup layout="none" rendered="#{backgroundImageMapperFeDmb.isBackgroundMapped}">
+		<style type="text/css">
+			body { background-image: url('#{backgroundImageMapperFeDmb.backgroundImageMapping.getFullImageUrl(true)}') !important; }
+		</style>
+	</h:panelGroup>	
+</ui:composition>
+

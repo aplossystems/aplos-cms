@@ -1,0 +1,203 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="head">
+		<script>
+			//  For the ckeditor dialogs
+			var aploraFilebrowserBrowseUrl = "#{request.contextPath}/common/browse.jsf";
+			var aploraFilebrowserUploadUrl = "#{request.contextPath}/editorUpload/upload.jsf?directory=innerTemplate";
+			var aploraFormsDialog = "#{request.contextPath}/scripts/ckeditor/aplora/dialog.js";
+			var aploraPagesDialog = "#{request.contextPath}/scripts/ckeditor/aplora/dialog.js";
+		</script>
+		<h:outputScript library="jsLibraries" name="/CodeMirror-2.22/lib/codemirror.js" target="head" />
+		<h:outputStylesheet library="jsLibraries" name="CodeMirror-2.22/lib/codemirror.css" target="head" />
+		<h:outputScript library="jsLibraries" name="CodeMirror-2.22/mode/css/css.js" target="head" />
+		<h:outputScript library="jsLibraries" name="ckeditor/aplosckeditor.js" target="head" />
+		<h:outputScript library="scripts" name="ckEditorHelper.js" target="head" />
+		<h:outputScript library="jsLibraries" name="jquery-ui-1.8/js/jquery-ui-1.8.6.custom.min.js" target="head" />
+		<h:outputStylesheet library="jsLibraries" name="jquery-ui-1.8/themes/base/jquery.ui.base.css" target="head" />
+		<h:outputStylesheet library="jsLibraries" name="jquery-ui-1.8/themes/base/jquery.ui.theme.css" target="head" />
+		<h:outputScript library="scripts" name="pages/pageEdit.js" target="head" />
+		
+		<style>
+		
+				.cke_button_aploraFormsCmd .cke_icon
+				{
+					display: none !important;
+				}
+		
+				.cke_button_aploraFormsCmd .cke_label
+				{
+					display: inline !important;
+				}
+				
+				.cke_button_aploraPagesCmd .cke_icon
+				{
+					display: none !important;
+				}
+		
+				.cke_button_aploraPagesCmd .cke_label
+				{
+					display: inline !important;
+				}
+		
+		</style>
+	</ui:define>
+	
+	<ui:define name="editContent">
+
+		<div class="editDiv">
+			<h:panelGroup layout="block" id="tabView" styleClass="demo" style="margin-bottom: 30px;">
+				<div id="tabs" style="width: 884px; height: 445px;">
+					<ul>
+						<ui:repeat value="#{innerTemplate.placeholderContentWrapperList}" var="phcWrapper" varStatus="status">
+							<li><a href="#tabs-${status.index}">#{phcWrapper.displayName}</a></li>
+						</ui:repeat>
+					</ul>
+			
+					<!--   This needs to be in a c:forEach so that the ui:include works --> 
+					<aplos:panel id="placeholderContentPanel">
+						<c:forEach items="#{innerTemplate.placeholderContentWrapperList}" var="phcWrapper" varStatus="status" begin="0" step="1">
+							<div id="tabs-${status.index}">
+								<aplos:panel id="mine-${status.index}">
+								<c:if test="${ phcWrapper.placeholderContent.cphType.name == 'CODE' or phcWrapper.placeholderContent.cphType.name == 'EDITOR' }">				
+								  	<div>
+										<h:selectOneRadio value="#{ phcWrapper.cphType }" id="selCphType-${status.index}" name="selCphType-${status.index}">
+											<p:ajax onstart="ckEditorHelper.destroyEditors()" oncomplete="createCKEditors()" event="click" update="mine-${status.index}"  />
+											<f:selectItems value="#{ enumAccessor.cphType.cphTypeSelectItems }" />
+										</h:selectOneRadio>
+									</div>
+								</c:if>  
+								<c:choose>
+								  <c:when test="${phcWrapper.placeholderContent.cphType.name == 'CMS_ATOM'}" >
+								  	<aplos:namingContainer>
+										<ui:include src="#{phcWrapper.placeholderContent.backendBodyUrl}" >
+											<ui:param name="${phcWrapper.placeholderContent.beDmbBinding}" value="${phcWrapper.placeholderContent.backendModuleBacking}" />
+											<ui:param name="${phcWrapper.placeholderContent.binding}" value="${phcWrapper.placeholderContent}" />
+										</ui:include>
+									</aplos:namingContainer>
+								  </c:when>
+								  <c:when test="${phcWrapper.placeholderContent.cphType.name == 'CODE'}" >
+									<h:inputTextarea id="contentTextArea-${status.index}" styleClass="contentTextArea-#{status.index}"
+									value="#{ phcWrapper.placeholderContent.content }" style="width:825px;height:315px"></h:inputTextarea>
+								  </c:when>
+								  <c:when test="${phcWrapper.placeholderContent.cphType.name == 'EDITOR'}" >
+									<div class="format_tagged_ckeditor">
+										<h:inputTextarea id="contentEditorArea-${status.index}" styleClass="aplos_ckeditor contentEditorArea-#{status.index}"
+										value="#{ phcWrapper.placeholderContent.content }" style="width:825px;height:315px"></h:inputTextarea>
+									</div>
+								  </c:when> 
+								</c:choose>  
+								</aplos:panel>
+							</div>
+						</c:forEach>
+					</aplos:panel>
+				</div>
+			</h:panelGroup>
+			 
+			<table class="aplos-form-table">
+				<tr>
+					<td class="aplos-label" style="width:150px">Name</td>
+					<td class="aplos-field" style="width:600px"><h:inputText value="#{innerTemplate.name}" /></td>
+				</tr>
+				<tr>
+					<td class="aplos-label">Xml Namespacess</td>
+					<td class="aplos-field"><h:inputText value="#{innerTemplate.xmlNamespaceStr}" style="width:100%"/></td>
+				</tr>
+				<tr>
+					<td class="aplos-label">Top Level Template</td>
+					<td class="aplos-field">
+						<h:selectOneMenu value="#{innerTemplateEditPage.selectedTopLevelTemplate}">
+							<f:converter converterId="aplosBeanConverter" />
+							<f:selectItems value="#{backingPage.topLevelTemplateSelectItems}" />
+							<p:ajax process="@form" event="change" oncomplete="initPage()" onstart="ckEditorHelper.destroyEditors()" update="tabView" listener="#{ innerTemplateEditPage.templateChanged }"  /> 
+						</h:selectOneMenu>
+						<aploscc:ajaxButton value="Go to" action="#{ backingPage.goToTopLevelTemplate }" immediate="true"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="aplos-label">Pass Through Atom List</td>
+					<td class="aplos-field" style="padding:20px 0px 0px 0px">
+						<aplos:panel id="cmsAtomPassThroughTableWrapper">
+							<p:dataTable id="cmsAtomPassThroughTable" value="#{ innerTemplate.cmsAtomPassThroughList }" var="cmsAtomPassThrough" styleClass="listDatatable" style="margin-top:-12px;width:100%">
+								<p:column>
+									<f:facet name="header">Atom Name</f:facet>
+									#{cmsAtomPassThrough.cmsAtom.displayName}
+								</p:column>
+								<p:column>
+									<f:facet name="header">Insert Text</f:facet>
+									#{cmsAtomPassThrough.allInsertTexts}
+								</p:column>
+								<p:column width="24px">
+									<h:commandButton action="#{ innerTemplateEditPage.removeCmsAtomPassThrough }" image="/images/action_delete.gif" reRender="cmsAtomPassThroughTableWrapper" />
+								</p:column>
+							</p:dataTable>
+						</aplos:panel>
+					</td>
+				</tr>
+				<tr>
+					<td class="aplos-label"></td>
+					<td class="aplos-field">
+						<h:selectOneListbox size="1" id="cmsAtomPassThroughList" value="#{innerTemplateEditPage.selectedCmsAtomForPassThrough}" converter="aplosAbstractBeanConverter">
+							<f:selectItems value="#{ cmsPageRevisionEditPage.availableCmsAtomSelectItemBeans}" />   
+						</h:selectOneListbox>
+						<aploscc:ajaxButton ajaxEnabled="true" action="#{ innerTemplateEditPage.addCmsAtomPassThrough }" value="Add" reRender="cmsAtomPassThroughTable" />
+					</td>
+				</tr>
+				<tr>
+					<td class="aplos-label">Atom List</td>
+					<td class="aplos-field" style="padding:20px 0px 0px 0px">
+						<aplos:panel id="cmsAtomTableWrapper">
+							<p:dataTable id="cmsAtomTable" value="#{ innerTemplate.cmsAtomList }" var="cmsAtom" styleClass="listDatatable" style="margin-top:-12px;width:100%">
+								<p:column>
+									<f:facet name="header">Atom Name</f:facet>
+									#{cmsAtom.displayName}
+								</p:column>
+								<p:column>
+									<f:facet name="header">Insert Text</f:facet>
+									#{cmsAtom.allInsertTexts}
+								</p:column>
+								<p:column width="24px">
+									<h:commandButton action="#{ innerTemplateEditPage.removeCmsAtom }" image="/images/action_delete.gif" reRender="cmsAtomTableWrapper" />
+								</p:column>
+							</p:dataTable>
+						</aplos:panel>
+					</td>
+				</tr>
+				<tr>
+					<td class="aplos-label"></td>
+					<td class="aplos-field">
+						<h:selectOneListbox size="1" id="cmsAtomList" value="#{innerTemplateEditPage.selectedCmsAtom}" converter="aplosAbstractBeanConverter">
+							<f:selectItems value="#{ cmsPageRevisionEditPage.availableCmsAtomSelectItemBeans}" />   
+						</h:selectOneListbox>
+						<aploscc:ajaxButton ajaxEnabled="true" action="#{ innerTemplateEditPage.addCmsAtom }" value="Add" reRender="cmsAtomTable" />
+					</td>
+				</tr>
+			</table>
+			
+			<br style="clear:both;" />
+			
+		</div>
+		<br /><br />
+		<hr />
+		<div>
+			<p style="color:#995454;font-family:Verdana;font-size:18px;font-style:italic;font-weight:normal;">Pages using that template:</p>
+			
+			<aploscc:wrappedDataTable2 showNewBtn="false" dataTableState="#{ backingPage.dataTableState }">
+				<p:column sortBy="#{ tableBean.name }" filterBy="#{ tableBean.name }">
+					<f:facet name="header">Name</f:facet>
+					#{tableBean.name}
+				</p:column>
+			</aploscc:wrappedDataTable2>
+		</div>
+		
+	</ui:define>
+	
+</ui:composition>

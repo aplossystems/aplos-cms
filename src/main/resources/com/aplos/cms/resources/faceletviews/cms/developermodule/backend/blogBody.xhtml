@@ -1,0 +1,74 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:p="http://primefaces.org/ui">
+	<table style="width:100%">
+		<tr>
+			<td class="aplos-label">Show the recent post's menu</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{blogBeDmb.blogAtom.includeRecentPostsMenu}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Show the recent post's title</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{blogBeDmb.blogAtom.includeRecentPostsTitle}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Show the archived post's menu</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{blogBeDmb.blogAtom.includeArchivedPostsMenu}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Show the archived post's title</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{blogBeDmb.blogAtom.includeArchivedPostsTitle}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Generate RSS Feed</td>
+			<td class="aplos-field">
+				<h:selectBooleanCheckbox value="#{blogBeDmb.blogAtom.generateRss}">
+					<p:ajax event="change" update="rssPanel" />
+				</h:selectBooleanCheckbox>
+			</td>
+		</tr>
+	</table>
+	<h:panelGroup id="rssPanel">
+		<h:panelGroup rendered="#{blogBeDmb.blogAtom.generateRss}">
+			<table style="width:100%">
+				<tr>
+					<td class="aplos-label">Feed Name</td>
+					<td class="aplos-field">
+						<h:inputText value="#{blogBeDmb.blogAtom.rssFeedName}" />
+					</td>
+				</tr>
+				<tr>
+					<td class="aplos-label">Feed URL Mapping</td>
+					<td>
+						<h:outputText value="#{blogBeDmb.feedPath}" />
+						<h:inputText value="#{blogBeDmb.blogAtom.rssFeedMapping}" />
+						<h:outputText value=".xml" />
+					</td>
+				</tr>
+				<tr>
+					<td class="aplos-label"></td>
+					<td>
+					<br/><br/><br/>
+					</td>
+				</tr>
+				<tr>
+					<td class="aplos-label">Note on Feed Generation</td>
+					<td class="aplos-description">
+						RSS feeds are automatically updated when you edit and save any blog article
+					</td>
+				</tr>
+			</table>
+		</h:panelGroup>
+	</h:panelGroup>
+</ui:composition>

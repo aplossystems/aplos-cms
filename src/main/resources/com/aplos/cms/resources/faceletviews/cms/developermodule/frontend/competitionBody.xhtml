@@ -1,0 +1,86 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+	<div class="aplos-competition-atom">
+			<div class="aplos-atom-header">
+				<h3 class="aplos-title"><h:outputText value="#{competitionFeDmb.competitionModule.competition.competitionName}"/></h3>
+				<strong>Enter for your chance to win the following :</strong><br/>
+				<h:outputText escape="false" value="#{competitionFeDmb.prizeOverviewText}"/>
+				<p><h:outputText escape="false" value="#{competitionFeDmb.competitionModule.competition.competitionDescription}"/></p>
+			</div>
+			<h:panelGroup layout="none" rendered="#{!competitionFeDmb.competitionOpen}">
+				<div class="aplos-atom-header">
+					<p>Competition ended&#160;<h:outputText value="#{competitionFeDmb.endDateString}" /></p>
+					<h:panelGroup layout="none" rendered="#{!competitionFeDmb.competitionModule.competition.winnersSelected}">
+				  		<p>The winner will be notified on&#160;<h:outputText value="#{competitionFeDmb.announceDateString}" />.</p>
+				  	</h:panelGroup>
+				  	<br/>
+				  	<h:panelGroup layout="none" rendered="#{competitionFeDmb.competitionModule.competition.winnersSelected}">
+				  		<p>The winners for this competition have been chosen.</p>
+				  	</h:panelGroup>
+				  	<br/><br/>
+		  		</div>
+			</h:panelGroup>
+			<h:panelGroup layout="none" rendered="#{competitionFeDmb.competitionOpen}">
+				<div class="aplos-atom-header">
+					<p>Register your chance to win by simply entering your name and e-mail address below.</p>
+					<p>Competition ends&#160;<h:outputText value="#{competitionFeDmb.endDateString}" /></p>
+				  	<p>The winner will be announced on&#160;<h:outputText value="#{competitionFeDmb.announceDateString}" />.</p>
+				  	<br/><br/>
+		  		</div>
+		  		<h:panelGroup rendered="#{competitionFeDmb.completeMessage != null}">
+					<h3 class="aplos-title"><h:outputText value="#{competitionFeDmb.completeMessage}"/></h3>
+				</h:panelGroup>
+				<table class="aplos-form-table-with-required aplos-form-table">
+					<tr>
+						<td class="aplos-label">Name</td>
+						<td class="aplos-required-asterisk">*</td>
+						<td class="aplos-field">
+							<h:inputText value="#{competitionFeDmb.entryName}" required="#{ competitionFeDmb.validationRequired }" requiredMessage="You must enter your name to enter the competition." onfocus="this.select()" name="entryName" id="entryName" />
+						</td>
+						<td class="aplos-field"></td>
+					</tr>
+					<tr>
+						<td class="aplos-label">Email</td>
+						<td class="aplos-required-asterisk">*</td>
+						<td class="aplos-field">
+							<h:inputText value="#{competitionFeDmb.entryEmailAddress}" required="#{ competitionFeDmb.validationRequired }" requiredMessage="You must enter your email to enter the competition." onfocus="this.select()" name="entryEmail" id="entryEmail" />
+						</td>
+						<td class="aplos-field"></td>
+					</tr>
+					<tr>
+						<td class="aplos-label"></td>
+						<td class="aplos-required-asterisk"></td>
+						<td class="aplos-field">
+							<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6Ldmjb4SAAAAAJov5l2P0g_dono7bkaiCW1jOxBD"></script>
+							<noscript><iframe src="http://api.recaptcha.net/noscript?k=6Ldmjb4SAAAAAJov5l2P0g_dono7bkaiCW1jOxBD" height="300" width="500" frameborder="0"></iframe><br/>
+						    	<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+						    	<input type="hidden" name="recaptcha_response_field" value="manual_challenge" />
+							</noscript>
+						</td>
+						<td class="aplos-field"></td>
+					</tr>
+					<tr>
+						<td class="aplos-label"></td>
+						<td class="aplos-required-asterisk"></td>
+						<td class="aplos-field" style="text-align:right">
+							<aploscc:ajaxButton action="#{competitionFeDmb.submitEntry}" value="Enter Competition" id="aplos-competition-sumbit" />
+						</td>
+					</tr>
+				</table>
+			</h:panelGroup>
+	  		<br/><br/>
+	  		<div class="aplos-atom-footer">
+		  		<strong>Terms and Conditions</strong>
+				<ul class="aplos-terms">
+					<h:outputText id="genTandCs" value="#{competitionFeDmb.competitionModule.competition.termsAndConditionsHtmlListItems}" escape="false" />
+				</ul>
+			</div>
+		
+	</div>
+</ui:composition>
+

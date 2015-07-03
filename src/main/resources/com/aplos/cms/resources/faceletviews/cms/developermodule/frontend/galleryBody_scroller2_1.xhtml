@@ -1,0 +1,28 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	<h:outputScript library="scripts" name="camera.js" target="head" />
+	<h:outputStylesheet library="styles" name="camera.css" target="head" />
+	<script>
+	    $(document).ready(function(){
+	        jQuery('.camera_wrap').camera();
+	        function goToByScroll(id){$('html,body').animate({scrollTop: $("#"+id).offset().top},'slow');}
+	    });
+	</script>
+	
+	<div class="container">
+        <div class="row">
+            <article class="span12 slider">
+                <div class="camera_wrap">
+					<ui:repeat value="#{ galleryModule.galleryImages }" var="tempGalleryImage">
+						<div data-src="#{ galleryModule.getFullFileUrl( tempGalleryImage ) }"></div>
+					</ui:repeat>
+                </div>
+             </article>
+         </div>
+     </div>
+	
+</ui:composition>

@@ -1,0 +1,177 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+
+	<ui:define name="editHead">
+		<h:outputScript library="jsLibraries" name="ckeditor/aplosckeditor.js" target="head" />
+		<h:outputScript library="scripts" name="ckEditorHelper.js" target="head" />
+		<script type="text/javascript">
+			$j(document).ready(function() {
+				ckEditorHelper.createLimitedToolbarCKEditors( '#{ request.contextPath }' );
+			}); 
+		</script>
+
+	</ui:define>
+	<ui:define name="editContent">
+	
+		<table id="dateTable" class="aplos-form-table-with-required aplos-form-table">
+			<tr>
+				<td class="aplos-label">Competition Name</td>
+				<td class="aplos-required-asterisk">*</td>
+				<td class="aplos-field"><h:inputText required="#{backingPage.isValidationRequired}" requiredMessage="Name is required" value="#{competition.competitionName}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Competition Description</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field"><h:inputTextarea id="competitionDescription"
+						styleClass="aplos_ckeditor" 
+						value="#{competition.competitionDescription}" style=""></h:inputTextarea></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Max entries per user</td>
+				<td class="aplos-required-asterisk">*</td>
+				<td class="aplos-field">
+					<h:inputText required="#{backingPage.isValidationRequired}" requiredMessage="Max entries limit is required" value="#{competition.maxEntriesPerUser}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label"></td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-description">
+					Leave max-entries at 0 if you do not want to limit how many times a user may enter the competition.
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Closing Date for Entries</td>
+				<td class="aplos-required-asterisk">*</td>
+				<td>
+					<aploscc:dateTime id="endDateInput" showCheckbox="#{false}"
+							startYearDiff="#{0}" endYearDiff="#{5}"
+							value="#{competition.endDate}">
+					</aploscc:dateTime>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">View Entries</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field">
+					<aploscc:ajaxButton value="View Entries" rendered="#{!competition['new']}" action="#{backingPage.viewEntries}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Winner to be Announced on</td>
+				<td class="aplos-required-asterisk">*</td>
+				<td>
+					<aploscc:dateTime id="announceDateInput" showCheckbox="#{false}"
+							startYearDiff="#{0}" endYearDiff="#{5}"
+							value="#{competition.announceDate}">
+					</aploscc:dateTime>
+				</td>
+			</tr>
+			<h:panelGroup rendered="#{competition.closed}" layout="none">
+				<tr>
+					<td class="aplos-label">View Winning Claims (where to send prizes)</td>
+					<td class="aplos-required-asterisk"></td>
+					<td class="aplos-field">
+						<aploscc:ajaxButton value="View Claims" action="#{backingPage.viewCompetitionClaims}" />
+					</td>
+				</tr>
+			</h:panelGroup>
+			<tr>
+				<td class="aplos-label">Prizes</td>
+				<td></td>
+				<td class="aplos-field" style="width:600px">
+					<aplos:panel id="prizeTableWrapper">
+						<p:dataTable style="width:100%" id="prizeTable" value="#{ competition.sortedPrizeList }" var="tableBean" styleClass="listDatatable"> 
+							<p:column width="90px;">
+								<f:facet name="header">Place</f:facet>
+								<h:selectOneMenu disabled="#{competition.closed}" style="width:80px;" value="#{backingPage.rowPositionIdx}">
+									<f:selectItems value="#{backingPage.positionedBeanHelper.getPositionIdxSelectItems(true)}" />   
+									<f:ajax event="change" render="prizeTable" listener="#{backingPage.savePosition}" />
+								</h:selectOneMenu>
+							</p:column>
+							<p:column>
+								<f:facet name="header">Prize</f:facet>
+								<h:inputText disabled="#{competition.closed}" required="true" requiredMessage="Prizes are required to have a name" style="width:95%;" value="#{tableBean.prizeName}" />
+							</p:column>
+							<p:column width="50px">
+								<f:facet name="header">Count</f:facet>
+								<h:inputText disabled="#{competition.closed}" required="true" requiredMessage="Prizes are required to have a count" style="width:40px;" value="#{tableBean.prizeCount}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Winners</f:facet>
+								<h:outputText escape="false" value="#{tableBean.winnersUnorderedList}" />
+							</p:column>
+							<p:column width="24px">
+								<h:commandButton reRender="prizeTableWrapper" rendered="#{!competition.closed}" image="/images/action_delete.gif" action="#{ backingPage.removePrize }" />
+							</p:column>
+						</p:dataTable>
+					</aplos:panel>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label"></td>
+				<td></td>
+				<td class="aplos-field">
+					<aplos:panel id="prizeButtons">
+						<h:panelGroup rendered="#{!competition.closed}">
+							<table>
+								<tr>
+									<td>Prize</td>
+									<td><h:inputText value="#{ backingPage.prizeName }" /></td>
+									<td></td>
+									<td>Count</td>
+									<td><h:inputText value="#{ backingPage.prizeCount }" /></td>
+									<td><aploscc:ajaxButton ajaxEnabled="true" action="#{ backingPage.addPrize }" value="Add Prize" reRender="prizeTable,prizeButtons" /></td>
+								</tr>
+							</table>
+						</h:panelGroup>
+						<aploscc:ajaxButton value="Automatically Select Winners" rendered="#{competition.closed and !competition.winnersSelected}" action="#{backingPage.chooseWinners}" reRender="prizeTable,prizeButtons" />
+						<aploscc:ajaxButton value="Email Winners" rendered="#{competition.closed and competition.winnersSelected}" action="#{backingPage.emailWinners}" reRender="prizeTable,prizeButtons" />
+						<h:outputText style="color:#44CC44;" value="Winner emails have been sent." rendered="#{competition.winnersSelected and competition.winningEmailsSent}" />
+						<h:outputText style="color:#CC4444;" value="Winner emails have not been sent." rendered="#{competition.winnersSelected and !competition.winningEmailsSent}" />
+						<br/>
+						<aploscc:ajaxButton value="Send non claimant emails" rendered="#{competition.closed and competition.winnersSelected}" action="#{backingPage.sendNonClaimantEmails}" reRender="prizeTable,prizeButtons" />
+						<h:outputText style="color:#CC4444;" value="Non claimant emails have not been sent." rendered="#{competition.winnersSelected and !competition.nonClaimantEmailsSent}" />
+						<h:outputText style="color:#44CC44;" value="Non claimant emails have been sent." rendered="#{competition.winnersSelected and competition.nonClaimantEmailsSent}" />
+						<br/>
+						<aploscc:ajaxButton value="Send consulation emails" rendered="#{competition.closed and competition.winnersSelected}" action="#{backingPage.sendConsulationEmails}" reRender="prizeTable,prizeButtons" />
+						<h:outputText style="color:#CC4444;" value="Consulation emails have not been sent." rendered="#{competition.winnersSelected and !competition.consulationEmailsSent}" />
+						<h:outputText style="color:#44CC44;" value="Consulation emails have been sent." rendered="#{competition.winnersSelected and competition.consulationEmailsSent}" />
+					</aplos:panel>
+				</td>
+			</tr>
+			
+			
+			<tr>
+				<td class="aplos-label">Terms</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field">
+					<p:dataTable id="tandcsTable" value="#{ competition.termsAndConditionsList }" var="tableBean" styleClass="listDatatable" style="width:100%; border-top:1px solid silver;"> <p:column>
+							#{tableBean}
+						</p:column>
+						<p:column width="24px">
+							<h:commandButton action="#{ backingPage.removeTermOrCondition }" image="/images/action_delete.gif" reRender="tandcsTable" />
+						</p:column>
+					</p:dataTable>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label"></td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field">
+					
+						<h:inputText value="#{ backingPage.newTermOrCondition }" />
+						<aploscc:ajaxButton ajaxEnabled="true" action="#{ backingPage.addTermOrCondition }" value="Add" reRender="tandcsTable" />
+					
+				</td>
+			</tr>
+		</table>
+		
+	</ui:define>
+</ui:composition>

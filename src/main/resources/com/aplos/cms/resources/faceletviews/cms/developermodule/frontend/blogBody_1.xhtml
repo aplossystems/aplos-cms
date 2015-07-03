@@ -1,0 +1,64 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	<!-- the id's have been left for legacy purposes where older projects apply styles using them -->
+	<div id="blog_container">
+		<div class="aplos-blog-atom">
+	      <aplos:panel styleClass="aplos-blog-controls" id="blog_controls" rendered="#{blogFeDmb.blogAtom.includeRecentPostsMenu or blogFeDmb.blogAtom.includeArchivedPostsMenu}">
+			    <h:panelGroup rendered="#{blogFeDmb.blogAtom.includeRecentPostsMenu}">
+			        <h:panelGroup rendered="#{blogFeDmb.blogAtom.includeRecentPostsTitle}">
+			        	<h1 class="aplos-title" id="recent_title">Recent Posts</h1>
+			        </h:panelGroup>
+			        <ui:repeat id="latestPosts" value="#{ blogFeDmb.blogEntryList }" var="entry">
+			          	<p><a href="##{entry.id}"><h:outputText value="#{entry.title}" /></a></p>
+			        </ui:repeat>   
+		        </h:panelGroup>  
+		        <h:panelGroup rendered="#{blogFeDmb.blogAtom.includeArchivedPostsMenu}">
+			        <h:panelGroup rendered="#{blogFeDmb.blogAtom.includeArchivedPostsTitle}">  
+		        		<h1 class="aplos-title" id="archived_title">Archived Posts</h1>
+		        	</h:panelGroup>
+			        <p><h:commandLink action="#{blogFeDmb.getLatestPostList}" value="Latest" reRender="article_content" /></p>
+			        <ui:repeat id="archives" value="#{ blogFeDmb.archiveMonthList }" var="archive">
+					    <p><h:commandLink action="#{blogFeDmb.fetchArchive}" value="#{archive}" reRender="article_content" /></p>
+					</ui:repeat>
+				</h:panelGroup>
+	      </aplos:panel>
+	      <div class="aplos-blog-articles" id="blog_article">
+	      	<aplos:panel autoUpdate="true" id="article_content">
+	      		<ui:repeat id="blogEntries" value="#{ blogFeDmb.blogEntryList }" var="entry">
+	      			<div class="aplos-blog-aticle">
+			      		<a name="#{entry.id}"></a>
+			      		<div class="aplos-blog-article-header">
+			      			<h1 class="aplos-title"><h:outputText value="#{ entry.title }" /></h1>
+			      			<div class="aplos-blog-article-date"><h:outputText value="#{ blogFeDmb.entryDateString }" />
+			      			<a class="aplos-blog-anchor" onclick="$('#blogUrl#{entry.id}').show();" href="##{entry.id}">
+			      				link
+			      			</a>
+			      			<div class="aplos-blog-url" id="blogUrl#{entry.id}" style="display:none">
+			      				Copy the following to link directly to this post.<br/><br/>
+			      				<strong>
+			      					<script type="text/javascript">
+			      					//this is location WITHOUT query string which adds pointless windowid=null
+			      					document.write( location.protocol + '//' + location.host + location.pathname );
+			      					document.write( '##{entry.id}' );
+			      					</script>
+			      				</strong>
+		      					<br/><br/>
+		      					<a href="##{entry.id}" onclick="$(this).parent().hide();">close</a>
+		      				</div>
+			      		</div>
+			        	</div>
+			        	<h:panelGroup rendered="#{ entry.imageDetails != null }" layout="none">
+			        		<img class="blog_image" src="#{ entry.fullImageUrl }&amp;maxWidth=596" alt="Blog" />
+			        	</h:panelGroup>
+			            <p class="aplos-blog-article-text"><h:outputText value="#{ entry.content }" escape="false" /></p>
+			        </div>
+	      		</ui:repeat>
+	      	</aplos:panel>
+	      </div>
+		</div>
+ 	</div>
+</ui:composition>

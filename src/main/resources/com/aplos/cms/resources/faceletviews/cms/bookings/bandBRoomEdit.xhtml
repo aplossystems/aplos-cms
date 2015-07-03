@@ -1,0 +1,53 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+
+	<ui:define name="editHead">
+		<script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/scripts/ckeditor/aplosckeditor.js"></script>  
+		<script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/scripts/ckEditorHelper.js"></script>
+					
+		<script type="text/javascript">
+			$j(document).ready(function() {
+				ckEditorHelper.createLimitedToolbarCKEditors( '#{ request.contextPath }' );
+			}); 
+		
+		</script>
+	</ui:define>
+	
+	<ui:define name="editContent">
+		<table style="float:left;" class="aplos-form-table">
+			<tr>
+				<td class="aplos-label">Room name</td>
+				<td class="aplos-field"><h:inputText value="#{bandBRoom.roomName}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Room type</td>
+				<td class="aplos-field">
+					<aploscc:beanMenu label="B and B Room Type" value="#{ bandBRoom.bandBRoomType }" beanMenuHelper="#{ backingPage.bandBRoomTypeBmh }" required="#{ backingPage.validationRequired }" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Image</td>
+				<td class="aplos-field">
+					<aploscc:imageUploader2 resizeWidth="1000" owner="#{bandBRoom}" key="IMAGE" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Short description</td>
+				<td class="aplos-field"><h:inputTextarea label="Short description" id="shortDescription"
+						styleClass="aplos_ckeditor" 
+						value="#{bandBRoom.shortDescription}" style="width:500px;height:100px"></h:inputTextarea></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Description</td>
+				<td class="aplos-field"><h:inputTextarea id="description"
+						styleClass="aplos_ckeditor" 
+						value="#{bandBRoom.description}" style="width:500px;height:400px"></h:inputTextarea></td>
+			</tr>
+		</table>
+	</ui:define>
+</ui:composition>

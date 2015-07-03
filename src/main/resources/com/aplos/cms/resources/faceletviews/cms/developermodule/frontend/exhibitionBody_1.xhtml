@@ -1,0 +1,134 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	
+	<style>
+		.aplos-label {
+			width: auto;
+		}
+	</style>
+	<aplos:panel layout="block" styleClass="aplos-exhibition-atom" autoUpdate="true">
+		<aplos:panel rendered="#{ exhibitionFeDmb.selectedExhibition == null and exhibitionFeDmb.sortedExhibitions.size() > 0 }" >
+			<ui:repeat value="#{ exhibitionFeDmb.sortedExhibitions }" var="exhibition">
+				<div class="theme-floatcontent">
+					<div class="theme-triple-rounded-box-top">
+						<h1 class="pageHeader">#{ exhibition.title }</h1>
+					</div>
+					<div class="theme-triple-rounded-box-content">
+						<table style="width:100%">
+							<tr>
+								<td style="width:100%">
+									<table class="aplos-form-table">
+										<tr valign="top">
+											<td class="aplos-label" style="padding-top:0px">
+												<h:commandLink action="#{ exhibitionFeDmb.redirectToExhibition }">
+													<h:graphicImage url="#{ exhibition.logoDetails.getFullFileUrl( false ) }&amp;maxWidth=200" />
+												</h:commandLink>
+											</td>
+											<td class="aplos-field">
+												<font style="font-size:16px;font-weight:bold">#{ exhibition.title }</font>
+												<br/>
+												#{exhibition.city}
+												<br/>
+												#{exhibition.descriptiveDate}
+												<br/>
+												<h:commandLink action="#{ exhibitionFeDmb.redirectToExhibition }" value="Click for details..." styleClass="stdLink"/>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="theme-triple-rounded-box-bottom">&#160;</div>
+				</div>
+			</ui:repeat>
+		</aplos:panel>
+		<aplos:panel rendered="#{ exhibitionFeDmb.selectedExhibition == null and exhibitionFeDmb.sortedExhibitions.size() == 0 }" >
+			<div style="width:100%;text-align:center;padding-top:20px">
+				There are currently no upcoming exhibitions
+			</div>
+		</aplos:panel>
+		<aplos:panel rendered="#{ exhibitionFeDmb.selectedExhibition != null }" >
+			<div class="theme-floatcontent">
+				<div class="theme-triple-rounded-box-top">
+					<h1 class="pageHeader">#{ exhibitionFeDmb.selectedExhibition.title }</h1>
+				</div>
+				<div class="theme-triple-rounded-box-content">
+					<table style="width:100%">
+						<tr>
+							<td style="width:100%">
+								<table class="aplos-form-table aplos-exhibition-details-table">
+									<tr>
+										<td class="aplos-label">Exhibition</td>
+										<td class="aplos-field aplos-exhibition-details-title">#{exhibitionFeDmb.selectedExhibition.title}</td>
+									</tr>
+									<tr>
+										<td class="aplos-label">Website</td>
+										<td class="aplos-field"><a href="http://#{exhibitionFeDmb.selectedExhibition.website}" target="_blank">#{exhibitionFeDmb.selectedExhibition.website}</a></td>
+									</tr>
+									<tr>
+										<td class="aplos-label">Venue</td>
+										<td class="aplos-field">#{exhibitionFeDmb.selectedExhibition.venue}</td>
+									</tr>
+									<tr>
+										<td class="aplos-label">City</td>
+										<td class="aplos-field">#{exhibitionFeDmb.selectedExhibition.city}</td>
+									</tr>
+									<tr>
+										<td class="aplos-label">Dates</td>
+										<td class="aplos-field">#{exhibitionFeDmb.selectedExhibition.descriptiveDate}</td>
+									</tr>
+									<tr>
+										<td class="aplos-label">Stand #</td>
+										<td class="aplos-field">#{exhibitionFeDmb.selectedExhibition.standNumber}</td>
+									</tr>
+								</table>
+							</td>
+							<td style="text-align:center">
+								<div style="padding:3px">
+									<h:graphicImage url="#{ exhibitionFeDmb.selectedExhibition.logoDetails.getFullFileUrl( false ) }&amp;maxWidth=300" rendered="#{ exhibitionFeDmb.selectedExhibition.logoDetails != null }" />
+								</div>
+								<div style="padding:3px">
+									<h:graphicImage url="#{ exhibitionFeDmb.selectedExhibition.exhibitionImageDetails.getFullFileUrl( false ) }&amp;maxWidth=300" rendered="#{ exhibitionFeDmb.selectedExhibition.exhibitionImageDetails != null }" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h:outputText value="#{exhibitionFeDmb.selectedExhibition.description}" escape="false" />
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="theme-triple-rounded-box-bottom">&#160;</div>
+			</div>
+			
+			<div class="theme-floatcontent">
+				<div class="theme-triple-rounded-box-top">
+					<h1 class="pageHeader">Press release</h1>
+				</div>
+				<div class="theme-triple-rounded-box-content">
+					<h:outputText value="#{exhibitionFeDmb.selectedExhibition.pressRelease}" escape="false" />
+					
+					<div style="text-align:center">
+						<div style="padding:3px">
+							<h:graphicImage url="#{ exhibitionFeDmb.selectedExhibition.prOneDetails.getFullFileUrl( false ) }&amp;maxWidth=600" rendered="#{ exhibitionFeDmb.selectedExhibition.prOneDetails != null }" />
+						</div>
+						<div style="padding:3px">
+							<h:graphicImage url="#{ exhibitionFeDmb.selectedExhibition.prTwoDetails.getFullFileUrl( false ) }&amp;maxWidth=600" rendered="#{ exhibitionFeDmb.selectedExhibition.prTwoDetails != null }" />
+						</div>
+						<div style="padding:3px">
+							<h:graphicImage url="#{ exhibitionFeDmb.selectedExhibition.prThreeDetails.getFullFileUrl( false ) }&amp;maxWidth=600" rendered="#{ exhibitionFeDmb.selectedExhibition.prThreeDetails != null }" />
+						</div>
+					</div>
+				</div>
+				<div class="theme-triple-rounded-box-bottom">&#160;</div>
+			</div>
+		</aplos:panel>
+	</aplos:panel>
+	
+</ui:composition>

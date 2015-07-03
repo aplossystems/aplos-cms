@@ -1,0 +1,186 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	
+	<style>
+		.viabilityList {
+		  float: left;
+		  width: 600px;
+		  margin: 20px 0 0 65px;
+		  padding: 0;
+		  list-style: none;
+		  clear:both;
+		}
+		 
+		.viabilityList li {
+		  float: left;
+		  width: 250px;
+		  margin: 0;
+		  padding: 0;
+		} 
+		
+		.viabilityList h3 {
+			font-size:16px;
+			margin:1px;
+		}
+		
+		.viabilityList h3, .sectionItemHeader {
+			color: #eb2204;
+		}
+		
+		.viableForSection .sectionHeader {
+			margin:0px 13px 10px 0px;
+		}
+		
+		.sectionHeader {
+			font-size:24px;
+			clear:both;
+			margin:40px 13px 0px;
+		}
+		
+		.benefitsForYouHeader {
+			margin:0px 13px 0px;
+		}
+		
+		.sectionItemHeader {
+			font-size:20px
+		}
+		
+		.sectionRow .sectionRightCell {
+			padding:30px 20px 0px 10px;
+			width:280px;
+		}
+		
+		.aplos-contact-page-atom .aplos-label {
+			width:100px;
+			min-width:100px;
+			color:white;
+		}
+		
+		.aplos-contact-page-atom .aplos-field {
+			width:200px;
+		}
+		
+		.aplos-contact-page-atom .aplos-field input {
+			width:200px;
+		}
+		
+		.aplos-contact-page-atom textarea {
+			width:200px;
+		}
+		
+		.sectionImageTile {
+			width:140px;
+		}
+		
+		.sectionRow td {
+			padding-top:25px;
+			vertical-align:top;
+		}
+	</style>
+	<div class="column-two-thirds viableForSection" style="width:550px">
+	<h3 class="sectionHeader">Viable for:</h3>
+	The love loyalty system can be configured to provide loyalty schemes for all the major retail industries.  It's simply
+	a case of letting us know what industry your in and we'll suggest the loyalty schemes that will work best.  The loyalty
+	schemes that you are offering can be changed at any time and you can run more than one at once.
+	
+		<ul class="viabilityList">
+			<li><h3>Hotels</h3></li>
+			<li><h3>Restaurants</h3></li>
+			<li><h3>Coffee shops</h3></li>
+			<li><h3>Beauty salons</h3></li>
+			<li><h3>Hairdressers</h3></li>
+			<li><h3>Garages / mechanics</h3></li>
+			<li><h3>Dentists</h3></li>
+			<li><h3>Many more...</h3></li>
+		</ul>
+		<div style="clear:both" />
+	</div>
+	<div class="column-third" style="background-color: #136F7B;padding:3px 15px 15px 15px;width:auto">
+		<h3 style="color:white;font-size:24px;text-align:center;margin-bottom:6px">Quick Contact</h3>
+		<ui:include src="/cms/developermodule/frontend/contactPageBody_1.xhtml" ></ui:include>
+	</div>
+		<div style="clear:both" />
+	<h3 class="benefitsForYouHeader sectionHeader">Benefits for you</h3>
+<div class="column-full-width">
+	<table>
+		<tr class="sectionRow">
+			<td>
+				<img src="#{request.contextPath}/images/adwords/contactBook_orig.png" class="sectionImageTile"/>
+			</td>
+			<td class="sectionRightCell">
+				<h3 class="sectionItemHeader">Collect customer information</h3>
+				When a customer registers with the system you will be able to access their contact information.  This
+				includes name, phone, email and address.  You can export this information via CSV or use it through
+				the marketing tools we supply.
+				
+			</td>
+			<td>
+				<img src="#{request.contextPath}/images/adwords/marketing_orig.png" class="sectionImageTile" />
+			</td>
+			<td class="sectionRightCell">
+				<h3 class="sectionItemHeader">Market newsletters and promotions</h3>
+				Create newsletters and send them to your customers on a regular basis.  Make sure that
+				they are fresh in your mind and know everything that your business has to offer.  If you have
+				a promotion on then let them know via email.
+			</td>
+		</tr>
+		<tr class="sectionRow">
+			<td>
+				<img src="#{request.contextPath}/images/adwords/increasingSales_orig.png" class="sectionImageTile" />
+			</td>
+			<td class="sectionRightCell">
+				<h3 class="sectionItemHeader">Increase sales</h3>
+				Your sales should increase as customers will be more loyal to your business increasing repeat expenditure.
+				You can encourage higher value purchases by including them in offers and fill busy times by creating promotions.
+			</td>
+			<td>
+				<img src="#{request.contextPath}/images/adwords/womanThinking_orig.png" class="sectionImageTile" />
+			</td>
+			<td class="sectionRightCell">
+				<h3 class="sectionItemHeader">Remind your customers your there</h3>
+				The system can send out notifications when it's the customers birthday which can make 
+				a personal impact that reminds them of you.  If they haven't purchased from you for a while
+				then the system will send out a 'missing you' email to encourage them back.
+			</td>
+		</tr>
+	</table>
+</div>
+	<h3 class="sectionHeader">Benefits for your customers</h3>
+<div class="column-full-width">
+	<table>
+		<tr class="sectionRow">
+			<td>
+				<img src="#{request.contextPath}/images/adwords/llcCard_orig.png" class="sectionImageTile" />
+			</td>
+			<td class="sectionRightCell">
+				<h3 class="sectionItemHeader">One card</h3>
+				Your customer only needs one card to have a loyalty account with any Love Loyalty business.  This convenience 
+				is possible even though each business has it's own loyalty scheme which doesn't affect the points of other 
+				businesses on the system. 
+			</td>
+			<td>
+				<img src="#{request.contextPath}/images/adwords/webAddress_orig.png" class="sectionImageTile" />
+			</td>
+			<td class="sectionRightCell">
+				<h3 class="sectionItemHeader">Online account</h3>
+				Your customers get there own log in section where they can view the points that they have earnt and the rewards available.
+				They only have one account to view all of the businesses that they are connected to, making it quick and easy.
+			</td>
+		</tr>
+		<tr class="sectionRow">
+			<td>
+				<img src="#{request.contextPath}/images/adwords/multipleOffers_orig.png" class="sectionImageTile" />
+			</td>
+			<td class="sectionRightCell">
+				<h3 class="sectionItemHeader">Latest news on deals and offers</h3>
+				Your customers will be happy to get emailed offers about your business without having to search online.  They'll
+				never find a expired voucher that they would have liked to use again.
+			</td>
+		</tr>
+	</table>
+</div>
+
+</ui:composition>

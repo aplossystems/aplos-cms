@@ -1,0 +1,107 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+
+	<ui:define name="editHead">
+		<h:outputScript library="jsLibraries" name="ckeditor/aplosckeditor.js" target="head" />
+		<h:outputScript library="scripts" name="ckEditorHelper.js" target="head" />
+		<script type="text/javascript">
+			$j(document).ready(function() {
+				ckEditorHelper.createLimitedToolbarCKEditors( '#{ request.contextPath }' );
+			}); 
+		</script>
+	</ui:define>
+	
+	<ui:define name="editContent">
+
+		<table class="aplos-form-table aplos-form-table-with-required">
+			<tr>
+				<td class="aplos-label">Title</td>
+				<td class="aplos-required-asterisk">*</td>
+				<td class="aplos-field"><h:inputText label="title" value="#{caseStudy.title}" required="#{ backingPage.validationRequired }" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Website url</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field">http://<h:inputText value="#{caseStudy.websiteUrl}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Location</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field"><h:inputText label="location" value="#{caseStudy.location}" required="#{ backingPage.validationRequired }" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Keywords</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field">
+				<aplos:panel id="keywordsTableWrapper">
+					<p:dataTable id="keywordsTable" value="#{ caseStudy.keywords }" var="tableBean" styleClass="listDatatable" style="width:100%">
+						<p:column>
+							<f:facet name="header">Keyword</f:facet>
+							#{tableBean}
+						</p:column>
+						<p:column width="24px">
+							<h:commandButton action="#{ backingPage.removeKeyword }" image="/images/action_delete.gif" reRender="keywordsTableWrapper" />
+						</p:column>
+					</p:dataTable>
+				</aplos:panel>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label"></td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field">
+					<h:inputText value="#{ backingPage.newKeyword }" />
+					<aploscc:ajaxButton ajaxEnabled="true" action="#{ backingPage.addKeyword }" value="Add" reRender="keywordsTable" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Short description</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field">
+					<h:inputTextarea label="short description"
+						styleClass="aplos_ckeditor" 
+						value="#{caseStudy.shortDescription}" style="width:700px;height:400px"></h:inputTextarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Content</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field"><h:inputTextarea id="description"
+						styleClass="blogTextarea aplos_ckeditor" 
+						value="#{caseStudy.content}" style="width:700px;height:400px"></h:inputTextarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Image</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field">
+					<aploscc:imageUploader2 resizeWidth="1000" owner="#{caseStudy}" key="IMAGE" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Show in website</td>
+				<td class="aplos-required-asterisk"></td>
+				<td class="aplos-field">
+					<h:selectBooleanCheckbox value="#{ caseStudy.showingInFrontEnd }" />
+				</td>
+			</tr>
+		</table>
+	</ui:define>
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+

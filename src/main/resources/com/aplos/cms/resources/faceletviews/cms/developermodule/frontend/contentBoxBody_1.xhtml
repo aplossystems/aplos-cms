@@ -1,0 +1,65 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+  	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	<h:outputScript library="jsLibraries" name="prettyphoto/js/jquery.prettyPhoto.js" target="head" />
+	<h:outputStylesheet library="jsLibraries" name="prettyphoto/css/prettyPhoto.css" target="head" />
+	<script type="text/javascript" charset="utf-8">
+		$j(document).ready(function(){
+			$j("a[rel^='prettyPhoto']").prettyPhoto();
+		});
+	</script>
+	
+	<div style="padding-right:10px">
+		<aplos:panel rendered="#{ contentBoxFeDmb.displayAnchorMenu }">
+			<ui:repeat value="#{ contentBoxFeDmb.sortedContentBoxes }" var="contentBox">
+				<aplos:panel rendered="#{ contentBoxFeDmb.displayHeading }">
+					<a href="##{ contentBox.headingString }" class="contentBoxMenuHeader">
+						<div styleClass="contentBoxHeader" style="float:left">#{ contentBox.headingString }</div>
+						<div>#{ contentBox.name }</div>
+					</a>
+					<br />
+				</aplos:panel>
+			</ui:repeat>
+		<br />
+		<hr />
+		<br />
+		</aplos:panel>
+		
+		
+		<ui:repeat value="#{ contentBoxFeDmb.sortedContentBoxes }" var="contentBox" >
+			<table style="width:100%">
+				<tr>
+					<td style="width:100%">
+						<aplos:panel rendered="#{ contentBoxFeDmb.displayHeading }">
+							<a name="#{ contentBox.headingString }" />
+							<p style="font-weight:bold">
+								#{ contentBox.headingString } #{ contentBox.name }
+								<aplos:panel rendered="#{ contentBoxFeDmb.displayAnchorMenu }">
+									<a href="#" class="contentBoxMenuHeader">
+										<h:outputText value="&#160;&#x2191;" />
+										<h:outputText value="&#160;Back to Top" style="font-size:10px" />
+									</a>
+								</aplos:panel>
+							</p>
+						</aplos:panel>
+						<div class="aplos-content-box-inner-container">
+							<aplos:panel rendered="#{ contentBox.imageDetails != null }">
+								<a href="#{ contentBox.imageDetails.getFullFileUrl(true) }" rel="prettyPhoto" title="#{ contentBox.imageTitle }" >
+									<h:graphicImage value="#{contentBox.imageDetails.getFullFileUrl(true)}&amp;maxWidth=150" styleClass="#{ contentBox.contentBoxLayout.cssClassName}" style="border:none"/>
+								</a>
+							</aplos:panel>
+							<div style="padding-right:10px">
+								<h:outputText escape="false" value="#{ contentBox.text }" class="boxTextSpan" />
+							</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<br />
+		</ui:repeat>
+	</div>
+	
+</ui:composition>

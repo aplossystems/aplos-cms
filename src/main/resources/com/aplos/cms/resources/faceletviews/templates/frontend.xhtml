@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY % nbsp " " >]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:jsfUtil="http://www.aplossystems.co.uk/jsfUtil">
+<f:view>
+<h:head>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8"/>
+	<title>#{backingPage.cmsPageRevision.determinedPageTitle}&nbsp;</title>
+	<aplos:panel layout="none" rendered="#{ backingPage.cmsPageRevision.showingCanonicalLink }" >
+		<link href="#{ backingPage.cmsPageRevision.determinedCanonicalPath }" rel="canonical" />
+	</aplos:panel>
+	<meta name="description" content="#{backingPage.cmsPageRevision.determinedPageDescription}" />
+	<meta name="keywords" content="#{backingPage.cmsPageRevision.determinedPageKeywords}" />
+	<h:outputScript library="scripts" name="aplosjqueryresolution.js" target="head" />
+    <h:outputStylesheet library="styles" name="frontend.css" target="head" />
+	<h:outputStylesheet library="styles" name="jquery.window.css" target="head" />
+	<h:outputScript library="jsLibraries" name="jquery-ui-1.8/js/jquery-ui-1.8.6.custom.min.js" target="head" />
+	<h:outputScript library="scripts" name="jquery.window.js" target="head" />
+	<aplos:scriptsAndStylesWriter />
+	<h:outputScript library="scripts" name="aploscommon.js" target="head" />
+
+	<script type="text/javascript">
+	
+		var aplosRequestContextPath = "#{ request.contextPath }";
+		var scannerPrefix = #{ commonConfiguration.moduleConfiguration.scannerPrefixForJavascript };
+		var scannerSuffix = #{ commonConfiguration.moduleConfiguration.scannerSuffixForJavascript };
+		var isScannerPrefixUsingCtrl = #{ commonConfiguration.moduleConfiguration.scannerPrefixUsingCtrl };
+		
+	</script>
+	
+	<aplos:panel rendered="#{ contextListener.adminOrHigherLoggedIn and false }" layout="none">
+		<script type="text/javascript"> 
+			$j(document).ready(function() {
+				pageEditWindow = $j.window({
+			          title: "Admin Helper",
+			  		  content: $j("#window_block2").html()
+			    });
+			    pageEditWindow.minimize();
+			});
+		</script>
+	</aplos:panel>
+		
+	<ui:insert name="__templateInsertHead" ></ui:insert>
+
+</h:head>
+
+<h:body styleClass="aplos-frontend"  onkeypress="monitorKeyPress(event)">
+	<aploscc:windowIdUpdater rendered="#{ jsfUtil:isCurrentViewUsingTabSessionsForView() }" />
+	<div id='window_block2' style='display:none;'>
+		<div style='padding:10px;'>
+		    <h:form>
+		    	<ui:repeat value="#{contextListener.websiteList}" var="curWebsite">
+		    		<h:commandButton action="#{contextListener.changeWebsite}" value="#{curWebsite.name}" />
+		    	</ui:repeat>
+		    </h:form>
+		</div>
+    </div>
+	<h:form>
+	
+	<!-- Editor -->
+	<h:panelGroup rendered="false">
+		
+		<div id="topbar" style="display:none; position: fixed; left: 0px; width: 90%; margin-left: 5%; margin-right: 5%; -moz-border-radius: 5px 5px 5px 5px; padding: 10px; top: -5px; background-color: darkred; color: white;">
+			<aplos:panel autoUpdate="true">
+				<h:panelGroup rendered="#{backingPage.cmsPageRevision.draft}"><b>Warning: </b> This page is a draft, when you are finished editing&#160;<h:commandLink style="color: lightgray; font-size:9pt;" action="#{backingPage.cmsPageRevision.commit}" value="commit your changes" />.</h:panelGroup>
+			</aplos:panel>
+			
+			<span style="float:right;"> #{currentUser.displayName} &#160;&#160; <a href="#{request.contextPath}/cms/pages/cmsPageRevisionEdit.jsf" style="color:white;text-decoration:none;font-size:9pt;"><b>Aplora</b></a></span>
+		</div>
+		
+		<script>
+			$j('#topbar').fadeTo('slow', 0.5);
+	
+			$j("#topbar").hover( 
+				function() {
+					$j(this).stop(true).fadeTo('medium', 1);
+				}, function() {
+					$j(this).stop(true).fadeTo('medium', 0.5);
+				}
+			);
+		</script>
+	</h:panelGroup>
+	
+	</h:form>
+	
+	<aplos:panel styleClass="aplos-frontend-template-body-panel">
+	
+		<ui:insert name="__templateInsertBody"></ui:insert>
+		
+		<script>
+				$j(".contentTextEdit").hover( 
+					function() {
+						$j(this).children("a.edit").stop(true).fadeTo('medium', 1.0);
+					}, function() {
+						$j(this).children("a.edit").stop(true).fadeTo('medium', 0,0);
+					}
+				);
+		</script>
+	
+	</aplos:panel>
+		
+</h:body>
+</f:view>
+</html>

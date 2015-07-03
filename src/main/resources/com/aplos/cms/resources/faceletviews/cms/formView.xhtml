@@ -1,0 +1,71 @@
+<ui:composition template="#{ themeManager.backendTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	
+	<ui:define name="title">#{ backingPage.pageTitle }</ui:define>
+	<ui:define name="head">
+		<h:outputScript library="scripts" name="jquery-1.10.2.min.js" target="head" />
+		<h:outputScript library="scripts" name="jquery-migrate-1.2.1.min.js" target="head" />
+		<h:outputScript library="jsLibraries" name="datatables/jquery.dataTables.min.js" target="head" />
+		<h:outputStylesheet library="jsLibraries" name="datatables/css/demo_page.css" target="head" />
+		<h:outputStylesheet library="jsLibraries" name="datatables/css/demo_table.css" target="head" />
+		<h:outputStylesheet library="jsLibraries" name="datatables/css/demo_table_jui.css" target="head" />
+		<h:outputStylesheet library="jsLibraries" name="datatables/css/smoothness.css" target="head" />
+
+		<script>
+			$j = jQuery.noConflict();
+		</script>
+		
+		<style>
+			textarea { width: 400px; height: 200px; font: normal 10pt Tahoma; }
+			
+			/* jQuery DataTables */
+			.dataTables_info { width: 40%; }
+			.dataTables_wrapper { font: normal 8pt Trebuchet MS; }
+		</style>
+	</ui:define>
+	<ui:define name="body">
+	<div style="margin: auto; margin-bottom: 40px; display: table; min-width: 600px; border: 2px solid #C9D9F9; border-top: none; border-bottom: none; padding: 0px 50px;">
+	
+	
+		<ui:insert name="heading">View "#{form.name}"</ui:insert>
+		<h:form prependId="false">
+		
+		<p:dataTable style="width:100%; margin-left: 1px;" id="jtable" value="#{form.records}" var="record" rowKeyVar="i"> 
+			<p:column>
+				#{i}
+			</p:column>
+			<!--# {record} here is not resolved -->
+			<p:columns value="#{form.elements}" var="field">
+				<f:facet name="header"> #{field.name}</f:facet>
+				#{record.fields[field]}&#160;
+				<h:panelGroup rendered="#{field.binding=='fileUploadElement'}">
+					<a href="javascript:alert('This doesn\'t work yet.');">Download</a>
+				</h:panelGroup>
+			</p:columns>
+			
+			<p:column>
+				<h:outputLink value="#{request.contextPath}/cms/forms/#{form.id}/records/#{record.id}" />
+			</p:column>
+		</p:dataTable>
+		
+		<script>
+			$j('#jtable').dataTable({
+				"bJQueryUI": true,
+				"sPaginationType": "full_numbers"
+			});
+		</script>
+		
+		</h:form>
+		<p:messages infoClass="message-info" errorClass="message-error" fatalClass="message-fatal" style="padding-top:10px;margin-top:10px" />
+
+	</div>
+	</ui:define>
+	
+	<!-- Clear the p:messages from the template footer and use our own position -->
+	<ui:define name="footer"></ui:define>
+</ui:composition>

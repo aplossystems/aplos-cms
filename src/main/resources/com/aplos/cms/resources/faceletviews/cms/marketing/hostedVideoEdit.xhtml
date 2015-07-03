@@ -1,0 +1,69 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:define name="editHead">
+		<h:outputScript library="jsLibraries" name="ckeditor/aplosckeditor.js" target="head" />
+		<h:outputScript library="scripts" name="ckEditorHelper.js" target="head" />
+		<script type="text/javascript">
+			$j(document).ready(function() {
+				ckEditorHelper.createLimitedToolbarCKEditors('#{request.contextPath}', null, 'aplos_ckeditor');
+			} );	
+		</script>
+	</ui:define>
+	<ui:define name="editContent">
+		<table class="aplos-form-table">
+			<tr>
+				<td class="aplos-label">Title</td>
+				<td class="aplos-field"><h:inputText value="#{hostedVideo.title}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Description</td>
+				<td class="aplos-field"><h:inputTextarea id="description"
+						styleClass="aplos_ckeditor" 
+						value="#{hostedVideo.description}" style="width:500px;height:400px"></h:inputTextarea></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Height</td>
+				<td class="aplos-field">
+					<h:inputText value="#{hostedVideo.height}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Width</td>
+				<td class="aplos-field">
+					<h:inputText value="#{hostedVideo.width}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Style class</td>
+				<td class="aplos-field">
+					<h:inputText value="#{hostedVideo.styleClass}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">No. of related videos</td>
+				<td class="aplos-field">
+					<h:inputText value="#{hostedVideo.numberOfRelatedVideos}" >
+						<f:validateLongRange minimum="0" maximum="100" />
+					</h:inputText>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Pasted code</td>
+				<td class="aplos-field"><h:inputTextarea id="pastedCode" 
+						value="#{hostedVideo.pastedCode}" style="width:500px;height:100px"></h:inputTextarea></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Url</td>
+				<td class="aplos-field"><h:outputText value="#{hostedVideo.url}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Video ID</td>
+				<td class="aplos-field"><h:outputText value="#{hostedVideo.videoId}" /></td>
+			</tr>
+		</table>
+	</ui:define>
+</ui:composition>

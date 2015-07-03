@@ -1,0 +1,113 @@
+label.error { color: darkred; margin-left: 10px; }
+		
+/* Editor */
+div.contentTextEdit {  border: 1px dashed #ddd; min-height: 10px; }
+div.contentTextEdit:hover { position: relative; background-color: lightyellow; }
+a.edit { 
+	-moz-border-radius:5px 5px 5px 5px;
+	background-color:white;
+	border:1px solid darkgray;
+	cursor:pointer;
+	float:right;
+	font-weight:bold;
+	margin:10px;
+	padding:6px;
+	position:absolute;
+	display: none;
+}
+
+div#topbar { font: normal 13px Verdana; z-index: 1000; }
+
+/* Hide the close button on the lightbox because we will use the modal controls */
+#cboxClose { display: none !important; }
+#cboxLoadedContent { margin-bottom: 0px; }
+#cboxLoadedContent iframe { background: transparent url('/images/loading.gif') no-repeat top left; }
+
+.aplos-case-study-atom div.catItemView {
+  padding: 0;
+  margin-bottom: 2em;
+}
+.aplos-case-study-atom div.catItemView div.catItemHeader span.catItemDateCreated,
+.aplos-case-study-atom div.catItemView div.catItemHeader div.catItemHitsBlock {
+  display: inline-block;
+  font-size: 0.8em;
+  margin: 0 0.5em 0 0;
+}
+.aplos-case-study-atom div.itemImageBlock {
+  float: left;
+  margin: 0 20px 14px 0;
+}
+.aplos-case-study-atom a.touch {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+.aplos-case-study-atom a.touch span.zoomIcon {
+  background: url("../images/zoom.png") no-repeat scroll 0 0 transparent;
+  height: 36px;
+  left: 50%;
+  margin-left: -18px;
+  margin-top: -18px;
+  position: absolute;
+  top: -50%;
+  width: 36px;
+}
+.aplos-case-study-atom div.itemExtraFields {
+  border-width: 1px;
+  border-style: solid;
+  border-left: none;
+  border-right: none;
+}
+.aplos-case-study-atom div.itemExtraFields ul {
+  list-style: none;
+}
+.aplos-case-study-atom div.itemExtraFields ul li span.itemExtraFieldsLabel {
+  font-weight: bold;
+}
+.aplos-case-study-atom div.extraFieldsIntroText {
+  overflow: hidden;
+}
+.aplos-case-study-atom div.itemContainer.itemContainerLast {
+  margin-right: 0 !important;
+}
+.aplos-case-study-atom #isotopeOptions {
+  overflow: hidden;
+  margin-bottom: 1em;
+  float: none;
+}
+.aplos-case-study-atom #isotopeOptions ul#filters,
+.aplos-case-study-atom #isotopeOptions ul#sort,
+.aplos-case-study-atom #isotopeOptions ul#sort_direction {
+  display: inline-block;
+  margin: 0.5em 1em 0.5em 0 ;
+}
+.aplos-case-study-atom #isotopeOptions ul#filters li,
+.aplos-case-study-atom #isotopeOptions ul#sort li,
+.aplos-case-study-atom #isotopeOptions ul#sort_direction li {
+  display: inline-block;
+  margin: 0 0 0 0.5em;
+}
+
+.aplos-case-study-atom #isotopeOptions ul#filters li a,
+.aplos-case-study-atom #isotopeOptions ul#sort li a,
+.aplos-case-study-atom #isotopeOptions ul#sort_direction li a {
+  color: white;
+  text-decoration: none;
+}
+.aplos-case-study-atom #isotopeOptions ul#filters li a:hover,
+.aplos-case-study-atom #isotopeOptions ul#sort li a:hover,
+.aplos-case-study-atom #isotopeOptions ul#sort_direction li a:hover,
+.aplos-case-study-atom #isotopeOptions ul#filters li a.selected,
+.aplos-case-study-atom #isotopeOptions ul#sort li a.selected,
+.aplos-case-study-atom #isotopeOptions ul#sort_direction li a.selected {
+  color: #919c23;
+}
+.aplos-case-study-atom .itemContainer {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  padding: 0 10px;
+}
+.aplos-case-study-atom .itemList > div {margin: 0 -10px;}

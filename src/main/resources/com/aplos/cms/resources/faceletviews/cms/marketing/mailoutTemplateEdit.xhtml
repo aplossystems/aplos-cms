@@ -1,0 +1,35 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	
+	<ui:define name="editContent">
+		<table class="aplos-form-table">
+			<tr>
+				<td class="aplos-label">Name</td>
+				<td class="aplos-field"><h:inputText value="#{mailoutTemplate.name}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Header</td>
+				<td class="aplos-field">
+					<h:inputTextarea  
+						value="#{mailoutTemplate.mailoutHeader}" style="width:500px;height:150px"></h:inputTextarea></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Footer</td>
+				<td class="aplos-field">
+					<h:inputTextarea  
+						value="#{mailoutTemplate.mailoutFooter}" style="width:500px;height:150px"></h:inputTextarea></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Default Mailout Content</td>
+				<td class="aplos-field">
+					<h:inputTextarea  
+						value="#{mailoutTemplate.defaultMailoutContent}" style="width:500px;height:150px"></h:inputTextarea></td>
+			</tr>
+		</table>
+	</ui:define>
+
+</ui:composition>

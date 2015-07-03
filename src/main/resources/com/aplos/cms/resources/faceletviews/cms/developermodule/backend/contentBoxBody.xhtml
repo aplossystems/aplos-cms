@@ -1,0 +1,116 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+		
+	<script type="text/javascript">
+			
+		$j(document).ready(function() {
+			ckEditorHelper.addAdditionalSave("contentBoxText");
+			contentBoxInitPage();
+		}); 
+		
+		function contentBoxInitPage() {
+			CKEDITOR.config.toolbar = 'MyToolbar';			 
+			CKEDITOR.config.toolbar_MyToolbar =
+		    [
+		        ['Source', '-', 'Styles', '-', 'BulletedList',]
+		    ];			
+			ckEditorHelper.createCKEditors( { "editorClassName" : "contentBoxText" , "toolbar" : CKEDITOR.config.toolbar_MyToolbar } );
+			setCKEditorStyles();
+		}
+	
+		function setCKEditorStyles() {
+			CKEDITOR.addStylesSet( 'binoStyles',
+					[{ name : 'Header' , element : 'h3', styles : { 'color' : 'Red' } },
+					    { name : 'Normal', element : 'span', attributes : { 'class' : 'my_style' } },
+					    { name : 'Italic', element : 'span', styles : { 'font-style' : 'italic' } }
+					]);
+			CKEDITOR.instances['contentBoxText'].config.stylesCombo_stylesSet = 'binoStyles';
+		}
+
+	</script>
+	<hr/>
+	<table>
+		<tr>
+			<td class="aplos-label" style="width:140px">Content Boxes:</td>
+			<td style="width:400px">
+				<h:selectOneListbox size="1" converter="aplosAbstractBeanConverter" valueChangeListener="#{contentBoxBeDmb.changeCurrentContentBox}"
+				onchange="submit();ckEditorHelper.destroyEditors('contentBoxText');" immediate="true" value="#{contentBoxBeDmb.selectedContentBox}">
+					<f:selectItems value="#{ contentBoxBeDmb.contentBoxSelectItems }" />
+				</h:selectOneListbox>
+				<aploscc:ajaxButton value="New box" action="#{ contentBoxBeDmb.addNewContentBox }" />	
+			
+				<aplos:panel rendered="#{ contentBoxBeDmb.currentContentBox != null }">
+					<aploscc:ajaxButton value="Delete box" action="#{ contentBoxBeDmb.deleteCurrentContentBox }" />
+				</aplos:panel>
+			</td>
+		</tr>
+		<tr>
+			<td class="aplos-label">Display anchor menu</td>
+			<td class="aplos-field"><h:selectBooleanCheckbox value="#{contentBoxBeDmb.contentBoxAtom.displayAnchorMenu}"/></td>
+		</tr>
+	</table>
+	<hr />
+	<aplos:panel id="#{'contentBoxFields'}" rendered="#{ contentBoxBeDmb.currentContentBox != null }">
+		<table>
+			<tr>
+				<td class="aplos-label" style="width:110px">Name</td>
+				<td class="aplos-field">
+					<h:inputText id="#{'contentBoxName'}" value="#{contentBoxBeDmb.currentContentBox.name}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Heading</td>
+				<td class="aplos-field">
+					<h:selectOneListbox size="1" converter="aplosAbstractBeanConverter" value="#{contentBoxBeDmb.currentContentBox.headingLevel}">
+						<f:selectItems value="#{ contentBoxBeDmb.headingLevelSelectItems }" />
+					</h:selectOneListbox>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Text</td>
+				<td>
+					<div style="width:700px; height:270px; margin-bottom:10px">
+						<h:inputTextarea id="#{'contentBoxText'}" style="width:100%; height:100%" styleClass="contentBoxText aplos_ckeditor" value="#{contentBoxBeDmb.currentContentBox.text}"/>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label" style="height:50px">Image</td>
+				<td>
+					<div style="float:left ; width:200px">
+						<aploscc:imageUploader2 resizeWidth="1000" owner="#{contentBoxBeDmb.currentContentBox}" key="IMAGE" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Image Caption</td>
+				<td>
+					<h:inputText id="#{'contentBoxImageTitle'}" style="width:250px" value="#{contentBoxBeDmb.currentContentBox.imageTitle}"/>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Layout</td>
+				<td>
+					<h:selectOneRadio converter="aplosAbstractBeanConverter" value="#{contentBoxBeDmb.currentContentBox.contentBoxLayout}">
+						<f:selectItems value="#{ contentBoxBeDmb.contentBoxLayoutSelectItems }" />
+					</h:selectOneRadio>
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Position on Page</td>
+				<td>
+					<h:selectOneMenu value="#{contentBoxBeDmb.currentContentBox.positionIdx}">
+						<f:selectItems value="#{contentBoxBeDmb.positionIdxSelectItems}" />   
+					</h:selectOneMenu>
+				</td>
+			</tr>
+			
+		</table>
+	</aplos:panel>
+</ui:composition>

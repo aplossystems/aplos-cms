@@ -1,0 +1,19 @@
+<ui:composition template="#{ themeManager.backendTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+
+	<ui:define name="title">Aplos CMS - Edit Timetable</ui:define>
+	<ui:define name="head">
+	</ui:define>
+	<ui:define name="body">
+	
+		<h:form id="edit" prependId="false" >
+			<aploscc:bookingCalendar />
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

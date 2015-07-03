@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+    xmlns:aploscc="http://java.sun.com/jsf/composite/components">
+
+	<div class="aplos-unsubscribe-atom">
+		<h1>Unsubscribe from Newsletters</h1>
+		<h:panelGroup rendered="#{ unsubscribeFeDmb.showingForm }">
+			<h:panelGroup rendered="#{ unsubscribeFeDmb.subscribed }" >
+				<table class="aplos-form-table-with-required">
+					<tr>
+						<td class="aplos-label">Is there a reason for you unsubscribing?</td>
+						<td class="aplos-required-asterisk"></td>
+						<td class="aplos-field">
+							<h:inputTextarea value="#{unsubscribeFeDmb.unsubscribeReason}" onfocus="this.select()" name="reason" id="reason" />
+						</td>
+						<td class="aplos-field"></td>
+					</tr>
+				</table>
+				<br />
+				<br />
+				<aploscc:ajaxButton image="/links/continue.gif" id="unsubscribeBtn"
+					action="#{unsubscribeFeDmb.unsubscribe}" value="Unsubscribe" />
+			</h:panelGroup>
+			<h:panelGroup rendered="#{ !unsubscribeFeDmb.subscribed }" >
+				<table class="aplos-form-table-with-required">
+					<tr>
+						<td>You are unsubscribed, if you would like to resubscribe please press the button below</td>
+					</tr>
+				</table>
+				<br />
+				<br />
+				<aploscc:ajaxButton image="/links/continue.gif" id="subscribeBtn"
+					action="#{unsubscribeFeDmb.subscribe}" value="Subscribe" />
+			</h:panelGroup>
+		</h:panelGroup>
+	</div>
+</ui:composition>

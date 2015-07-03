@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Class-Path: activation-1.1.jar ant-1.7.1.jar antlr-2.7.6.jar c3p0-0.9.
+ 1.2.jar cbfsms-1.0.jar common.jar commons-beanutils-1.6.jar commons-c
+ odec-1.3.jar commons-collections-3.2.jar commons-digester-1.6.jar com
+ mons-fileupload-1.2.2.jar commons-httpclient-3.1.jar commons-io-2.1.j
+ ar commons-lang-2.4.jar commons-logging-1.0.jar core.jar cos-05Nov200
+ 2.jar dom4j-1.6.1.jar ehcache-core-2.4.8.jar ejb3-persistence-3.3.2.B
+ eta1.jar filters-2.0.235.jar flying-saucer-core-9.0.3.jar flying-sauc
+ er-pdf-9.0.3.jar gnu-regexp-1.1.4.jar gson-1.4.jar guava-r08.jar hibe
+ rnate-annotations-3.4.0.GA.jar hibernate-c3p0-3.3.1.GA.jar hibernate-
+ commons-annotations-3.1.0.GA.jar hibernate-core-3.3.1.GA.jar hibernat
+ e-validator-4.0.1.GA.jar httpclient-4.2.3.jar httpcore-4.2.2.jar inet
+ addresslocator-2.18.jar itext-2.1.7.jar jai_codec-1.1.2_01.jar jai_co
+ re-1.1.3.jar jasypt-1.8.jar java-image-scaling-0.8.5.jar javassist-3.
+ 4.GA.jar jaxb-impl-2.1.3.jar jboss-el-2.0.2.CR1.jar jcharset-1.7.jar 
+ jdynamite-1.2.jar jsf-api-2.1.25.jar jsf-impl-2.1.25.jar jsoup-1.6.1.
+ jar jstl-1.2.jar jta-1.1.jar log4j-1.2.14.jar mail-1.4.4.jar mysql-co
+ nnector-java-5.1.18.jar nexmo-sdk-1.4.jar paypal_base-5.4.65.jar poi-
+ 3.7.jar primefaces-3.0.1.jar recaptcha4j-0.0.7.jar sanselan-0.97-incu
+ bator.jar slf4j-api-1.5.11.jar slf4j-log4j12-1.5.11.jar ThePaymentGat
+ ewayPublicShared-1.jar xercesImpl-2.9.1.jar xml-apis-1.3.04.jar
+

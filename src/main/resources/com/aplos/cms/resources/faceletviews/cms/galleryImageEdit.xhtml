@@ -1,0 +1,41 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+
+	<ui:define name="editHead">
+		<h:outputScript library="jsLibraries" name="ckeditor/aplosckeditor.js" target="head" />
+		<h:outputScript library="scripts" name="ckEditorHelper.js" target="head" />
+			
+		<script type="text/javascript">
+			$j(document).ready(function() {
+				ckEditorHelper.createLimitedToolbarCKEditors( '#{ request.contextPath }', null, "exhibitionText" );
+			}); 
+		
+		</script>
+	</ui:define>
+	
+	<ui:define name="editContent">
+		<table class="aplos-form-table">
+			<tr>
+				<td class="aplos-label">Title</td>
+				<td class="aplos-field"><h:inputText value="#{galleryImage.title}" /></td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Image</td>
+				<td class="aplos-field">
+					<aploscc:imageUploader2 resizeWidth="1000" owner="#{galleryImage}" key="IMAGE" />
+				</td>
+			</tr>
+			<tr>
+				<td class="aplos-label">Description</td>
+				<td class="aplos-field"><h:inputTextarea id="description"
+						styleClass="aplos_ckeditor" 
+						value="#{galleryImage.description}" style="width:500px;height:400px"></h:inputTextarea></td>
+			</tr>
+		</table>
+	</ui:define>
+</ui:composition>

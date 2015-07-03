@@ -1,0 +1,37 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+
+	
+		<h3>CMS Details</h3>
+		<table class="aplos-form-table">
+			<tr>
+				<td class="aplos-label" style="width:300px">Are we using the CMS? <!-- #{backingPage.class.simpleName} --></td>
+				<td class="aplos-field">
+					<h:selectBooleanCheckbox value="#{backingPage.cmsProject}">
+						<p:ajax process="@all" event="change" update="cmspanel" /> 
+					</h:selectBooleanCheckbox>
+				</td>
+			</tr>
+		</table>
+		<aplos:panel id="cmspanel">
+			<h:panelGroup rendered="#{backingPage.cmsProject}">
+				<table class="aplos-form-table">
+					<tr>
+						<td class="aplos-label" style="width:300px">Is the website immediately Live?</td>
+						<td class="aplos-field"><h:selectBooleanCheckbox value="#{backingPage.websiteLive}" /></td>
+					</tr>
+					<tr>
+						<td class="aplos-label">Google Analytics Id</td>
+						<td class="aplos-field"><h:inputText value="#{backingPage.googleAnalyticsId}" /></td>
+					</tr>	
+				</table>
+			</h:panelGroup>
+		</aplos:panel>
+
+	
+</ui:composition>

@@ -1,0 +1,73 @@
+<ui:composition template="#{ themeManager.editTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+
+	<ui:define name="title">Winning Claim</ui:define>
+	
+	<ui:define name="editContent">
+		<ui:insert name="aboveMainTable" >
+		</ui:insert>
+		<table class="aplos-form-table-with-required aplos-form-table">
+				<tr>
+					<td class="aplos-label">Prize name</td>
+					<td class="aplos-required-asterisk"></td>
+					<td class="aplos-field">
+						<h:outputText value="#{competitionPrizeWinner.competitionPrize.prizeName}" />
+					</td>
+				</tr>
+				<tr>
+					<td class="aplos-label">Is prize sent?</td>
+					<td class="aplos-required-asterisk"></td>
+					<td class="aplos-field">
+						<h:selectBooleanCheckbox value="#{competitionPrizeWinner.sent}" />
+					</td>
+				</tr>
+				<tr>
+					<td class="aplos-label">Is claimed?</td>
+					<td class="aplos-required-asterisk"></td>
+					<td class="aplos-field">
+						<h:selectBooleanCheckbox value="#{competitionPrizeWinner.claimed}" />
+					</td>
+				</tr>
+				<tr>
+					<td class="aplos-label">Subscriber</td>
+					<td class="aplos-required-asterisk"></td>
+					<td class="aplos-field">
+						<h:commandLink value="# {competitionPrizeWinner.subscriber.id}" class="stdLink" action="# { competitionPrizeWinner.subscriber.goToEditPage }" />-->
+						<aploscc:quickView bean="#{competitionPrizeWinner.subscriber}" text="#{competitionPrizeWinner.subscriber.id}" />
+					</td>
+				</tr>
+			</table>
+			<aploscc:address bean="#{competitionPrizeWinner.address}" validation="true" contactName="required" line1="required" city="required" country="required" state="required" postcode="required" />
+	
+				<table class="aplos-form-table-with-required aplos-form-table">
+		
+				<tr>
+					<td class="aplos-label">Notes</td>
+					<td class="aplos-required-asterisk"></td>
+					<td class="aplos-field">
+						<h:inputTextarea value="#{competitionPrizeWinner.notes}" id="notes" label="notes">
+						</h:inputTextarea>
+					</td>
+				</tr>
+			</table>
+			<ui:insert name="furtherCompetitionWinnerDetails" >
+				
+			</ui:insert>
+	</ui:define>
+</ui:composition>
+
+
+
+
+
+
+
+
+
+
+

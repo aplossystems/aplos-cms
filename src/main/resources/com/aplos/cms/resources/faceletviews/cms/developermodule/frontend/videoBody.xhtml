@@ -1,0 +1,35 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents">
+	<div id="products">
+       	<div id="landing_page_content">
+   			<table width="596" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px; margin-bottom:10px;">
+            	<ui:repeat value="#{videoFeDmb.videos}" var="vid">
+            		<tr>
+              			<td>
+              				<h1><h:outputText value="#{vid.title}" /></h1>
+    						<div class="line_products"> </div>
+    						<h:outputText escape="false" value="#{vid.description}" />
+    						<div class="line_products"> </div>
+              				<object width="596" height="385">
+              					<param name="movie" value="#{vid.url}fs=1&amp;hl=en_GB"></param>
+              					<param name="allowFullScreen" value="true"></param>
+              					<param name="allowscriptaccess" value="always"></param>
+								<embed src="#{vid.url}fs=1&amp;hl=en_GB" 
+									type="application/x-shockwave-flash" 
+									allowscriptaccess="always" 
+									allowfullscreen="true" 
+									width="596" height="385">
+								</embed>
+							</object>
+						</td>
+            		</tr>
+            	</ui:repeat>
+          	</table>
+          	<div class="line_products"> </div>
+        </div>
+      </div>
+</ui:composition>

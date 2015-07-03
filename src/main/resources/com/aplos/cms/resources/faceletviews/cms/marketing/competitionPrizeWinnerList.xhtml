@@ -1,0 +1,36 @@
+
+<ui:composition template="#{ themeManager.listTemplatePath }" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:aploscc="http://java.sun.com/jsf/composite/components"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="listContent">
+		<aploscc:wrappedDataTable2 showNewBtn="#{false}" dataTableState="#{ backingPage.dataTableState }">
+			<p:column sortBy="#{ tableBean.subscriber.firstName }" filterBy="#{ tableBean.subscriber.firstName }">
+				<f:facet name="header">Winner First Name</f:facet>
+				<h:commandLink value="#{tableBean.subscriber.firstName}" action="#{backingPage.dataTableState.lazyDataModel.selectBean}" />
+			</p:column>
+			<p:column sortBy="#{ tableBean.subscriber.surname }" filterBy="#{ tableBean.subscriber.surname }">
+				<f:facet name="header">Winner Surname</f:facet>
+				<h:commandLink value="#{tableBean.subscriber.surname}" action="#{backingPage.dataTableState.lazyDataModel.selectBean}" />
+			</p:column>
+			<p:column sortBy="#{ tableBean.competitionPrize.prizeName }" filterBy="#{ tableBean.competitionPrize.prizeName }">
+				<f:facet name="header">Prize</f:facet>
+				<h:outputText value="#{tableBean.competitionPrize.prizeName}" />
+			</p:column>
+			<p:column sortBy="#{ tableBean.claimed }" filterBy="#{ tableBean.claimed }">
+				<f:facet name="header">Claim Completed</f:facet>
+				<h:outputText value="#{backingPage.claimCompletedText}" />
+			</p:column>
+			<p:column sortBy="#{ tableBean.sent }" filterBy="#{ tableBean.sent }">
+				<f:facet name="header">Prize Sent</f:facet>
+				<h:outputText value="#{backingPage.prizeSentText}" />
+			</p:column>
+		</aploscc:wrappedDataTable2>
+		<br/><br/>
+		<aploscc:ajaxButton value="back to competition" action="#{backingPage.backToCompetition}" />
+	</ui:define>
+</ui:composition>

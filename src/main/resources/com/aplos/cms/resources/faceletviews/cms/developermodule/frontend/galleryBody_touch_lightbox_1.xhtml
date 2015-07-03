@@ -1,0 +1,34 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aplos="http://www.aplossystems.co.uk/aplosComponents"
+	xmlns:p="http://primefaces.org/ui">
+	<h:outputScript library="scripts" name="jquery-1.11.1-customised.js" target="head" />
+	<h:outputScript library="scripts" name="touchTouch.jquery.js" target="head" />
+	<h:outputStylesheet library="styles" name="touchTouch.css" target="head" />
+
+	<script type="text/javascript">
+		$j1_11_1(window).load(function() {
+		     // Initialize the gallery
+		    $j1_11_1('.thumb-pad4 figure a').touchTouch();
+		  });
+	</script>
+	
+	<div class="galleryContainer">
+		<ui:repeat value="#{ galleryModule.galleryImages }" var="tempGalleryImage">
+	        <article class="span4 box4">
+	           <div class="thumb-pad4 maxheight">
+	               <div class="thumbnail">
+	                   <figure><a href="#{ tempGalleryImage.imageDetails.getFullFileUrl( true ) }"><img src="#{ galleryModule.getFullFileUrl( tempGalleryImage ) }" alt="" /></a></figure>
+	                   <div class="caption">
+	                       <a href="#">#{ tempGalleryImage.title }</a>
+	                   </div>
+	               </div>
+	           </div>
+	        </article>
+	    </ui:repeat>
+	</div>
+	
+</ui:composition>
