@@ -152,12 +152,12 @@ public class CmsConfiguration extends ModuleConfiguration {
 
 	@Override
 	public int getMaximumModuleVersionMinor() {
-		return 10;
+		return 11;
 	}
 
 	@Override
 	public int getMaximumModuleVersionPatch() {
-		return 4;
+		return 0;
 	}
 	
 	public static List<UnconfigurableAtomEnum> getActiveUnconfigurableAtomEnums( UnconfigurableAtomEnum[] unconfigurableAtomEnums ) {
