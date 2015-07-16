@@ -1,6 +1,7 @@
 package com.aplos.cms.beans.developercmsmodules;
 
 import com.aplos.cms.module.CmsConfiguration;
+import com.aplos.common.annotations.persistence.Column;
 import com.aplos.common.annotations.persistence.Entity;
 
 @Entity
@@ -14,6 +15,8 @@ public class ContactPageCmsAtom extends ConfigurableDeveloperCmsAtom {
 	private boolean isSubjectShowing = true;
 	private boolean isSubjectRequired = true;
 	private boolean isDuplicateEmailShowing = true;
+	@Column(columnDefinition="LONGTEXT")
+	private String googleConversionCode;
 	
 	static {
 		CmsConfiguration cmsConfiguration = CmsConfiguration.getCmsConfiguration();
@@ -89,5 +92,13 @@ public class ContactPageCmsAtom extends ConfigurableDeveloperCmsAtom {
 
 	public void setDuplicateEmailShowing(boolean isDuplicateEmailShowing) {
 		this.isDuplicateEmailShowing = isDuplicateEmailShowing;
+	}
+
+	public String getGoogleConversionCode() {
+		return googleConversionCode;
+	}
+
+	public void setGoogleConversionCode(String googleConversionCode) {
+		this.googleConversionCode = googleConversionCode;
 	}
 }
