@@ -17,13 +17,13 @@
 	</aplos:panel>
 	<meta name="description" content="#{backingPage.cmsPageRevision.determinedPageDescription}" />
 	<meta name="keywords" content="#{backingPage.cmsPageRevision.determinedPageKeywords}" />
-	<h:outputScript library="scripts" name="aplosjqueryresolution.js" target="head" />
+	<aplos:deferrableScript library="scripts" name="aplosjqueryresolution.js" target="head" defer="#{ website.deferringScript }" />
     <h:outputStylesheet library="styles" name="frontend.css" target="head" />
 	<h:outputStylesheet library="styles" name="jquery.window.css" target="head" />
-	<h:outputScript library="jsLibraries" name="jquery-ui-1.8/js/jquery-ui-1.8.6.custom.min.js" target="head" />
-	<h:outputScript library="scripts" name="jquery.window.js" target="head" />
+	<aplos:deferrableScript library="jsLibraries" name="jquery-ui-1.8/js/jquery-ui-1.8.6.custom.min.js" target="head" defer="#{ website.deferringScript }" />
+	<aplos:deferrableScript library="scripts" name="jquery.window.js" target="head" defer="#{ website.deferringScript }" />
 	<aplos:scriptsAndStylesWriter />
-	<h:outputScript library="scripts" name="aploscommon.js" target="head" />
+	<aplos:deferrableScript library="scripts" name="aploscommon.js" target="head" defer="#{ website.deferringScript }" />
 
 	<script type="text/javascript">
 	
@@ -92,16 +92,6 @@
 	<aplos:panel styleClass="aplos-frontend-template-body-panel">
 	
 		<ui:insert name="__templateInsertBody"></ui:insert>
-		
-		<script>
-				$j(".contentTextEdit").hover( 
-					function() {
-						$j(this).children("a.edit").stop(true).fadeTo('medium', 1.0);
-					}, function() {
-						$j(this).children("a.edit").stop(true).fadeTo('medium', 0,0);
-					}
-				);
-		</script>
 	
 	</aplos:panel>
 		
