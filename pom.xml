@@ -82,6 +82,5 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <module.version>1.10.0</module.version>
     </properties>
 </project>
