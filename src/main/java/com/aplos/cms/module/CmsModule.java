@@ -597,9 +597,15 @@ public class CmsModule extends AplosModuleImpl {
 		
 		Pattern pattern = Pattern.compile("\\{_CSS_([0-9]*?)\\}");
 		Matcher m = pattern.matcher(viewAsString);
+		Website website = Website.getCurrentWebsiteFromTabSession();
 		while( m.find() ) {
 			CssResource cssResource = (CssResource) new BeanDao( CssResource.class ).get(Long.parseLong(m.group(1)));
-			viewAsString = viewAsString.replace( m.group(0), "<link type=\"text/css\" href=\"#{request.contextPath}/" + cssDirectory + cssResource.getId() + ".css?version=" + cssResource.getVersion() + "\" rel=\"stylesheet\" />\n" );
+			String cssHref = "#{request.contextPath}/" + cssDirectory + cssResource.getId() + ".css?version=" + cssResource.getVersion();
+			if( website.isDeferringStyle() ) {
+				viewAsString = viewAsString.replace( m.group(0), "<script type=\"text/javascript\">aplosDeferStyle.add('" + cssHref + "');</script> \n" );
+			} else {
+				viewAsString = viewAsString.replace( m.group(0), "<link type=\"text/css\" href=\"" + cssHref + "\" rel=\"stylesheet\" />\n" );
+			}
 		}
 		
 		pattern = Pattern.compile("\\{_JS_([0-9]*?)\\}");
