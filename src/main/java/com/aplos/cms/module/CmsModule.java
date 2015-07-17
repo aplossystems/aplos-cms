@@ -23,6 +23,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import com.aplos.cms.CmsMenuCreator;
@@ -558,6 +559,15 @@ public class CmsModule extends AplosModuleImpl {
 
 	public static File writeViewToFile(String viewContent, AplosWorkingDirectoryInter viewFileDirectory, Long viewId, String extension ) {
 		return writeViewToFile(viewContent, viewFileDirectory, String.valueOf(viewId), extension );
+	}
+	
+	@Override
+	public void clearCache() {
+		try {
+			FileUtils.cleanDirectory( new File( CmsWorkingDirectory.CMS_GENERATED_VIEW_FILES.getDirectoryPath(true) ) );
+		} catch( IOException ioex ) {
+			ApplicationUtil.handleError(ioex);
+		}
 	}
 
 	/**
