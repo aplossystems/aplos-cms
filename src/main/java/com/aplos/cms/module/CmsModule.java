@@ -612,7 +612,7 @@ public class CmsModule extends AplosModuleImpl {
 			CssResource cssResource = (CssResource) new BeanDao( CssResource.class ).get(Long.parseLong(m.group(1)));
 			String cssHref = "#{request.contextPath}/" + cssDirectory + cssResource.getId() + ".css?version=" + cssResource.getVersion();
 			if( website.isDeferringStyle() ) {
-				viewAsString = viewAsString.replace( m.group(0), "<script type=\"text/javascript\">aplosDeferStyle.add('" + cssHref + "');</script> \n" );
+				viewAsString = viewAsString.replace( m.group(0), "<aplos:deferrableStyle href=\"" + cssHref + "\" />\n" );
 			} else {
 				viewAsString = viewAsString.replace( m.group(0), "<link type=\"text/css\" href=\"" + cssHref + "\" rel=\"stylesheet\" />\n" );
 			}
