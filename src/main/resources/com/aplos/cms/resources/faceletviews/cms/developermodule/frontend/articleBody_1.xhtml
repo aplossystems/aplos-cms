@@ -36,6 +36,18 @@
 				</ui:repeat>
 			</aplos:panel>
     		<aplos:panel layout="none" rendered="#{ articleFeDmb.selectedBasicCmsContent != null and articleFeDmb.selectedBasicCmsContent != null and articleFeDmb.selectedBasicCmsContent.showingInFrontEnd }">
+    			<script type="application/ld+json">
+				{
+  					"@context": "http://schema.org",
+  					"@type": "NewsArticle",
+  					"headline": "#{ articleFeDmb.selectedBasicCmsContent.titleForGsd }",
+  					"image": [
+    						"#{ articleFeDmb.selectedBasicCmsContent.imageDetails.getExternalFileUrl() }"
+  					],
+  					"datePublished": "#{ articleFeDmb.selectedBasicCmsContent.dateCreatedStdStr }",
+  					"description": "#{ articleFeDmb.selectedBasicCmsContent.shortDescriptionForGsd }"
+				}
+				</script>
     			<div class="aplos-article-full-content">
 					<div class="aplos-article-title">
 						<h1>#{  articleFeDmb.selectedBasicCmsContent.title }</h1>

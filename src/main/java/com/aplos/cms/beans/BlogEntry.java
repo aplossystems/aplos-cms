@@ -24,6 +24,7 @@ import com.aplos.common.beans.FileDetails;
 import com.aplos.common.beans.SystemUser;
 import com.aplos.common.enums.CommonWorkingDirectory;
 import com.aplos.common.interfaces.FileDetailsOwnerInter;
+import com.aplos.common.utils.CommonUtil;
 import com.aplos.common.utils.ImageUtil;
 import com.aplos.common.utils.XmlEntityUtil;
 
@@ -68,6 +69,18 @@ public class BlogEntry extends AplosBean implements RssFeedContent, FileDetailsO
 			//TODO: "/" is the location the full articles can be found at, ie blog, currently i have no way to get that from here without hard-coding it
 			CmsUtil.generateRssFeed(generatorDao, blogModule.getRssFeedName(), blogModule.getRssFeedMapping(), "/", blogModule.getRssFeedDescription(), null);
 		}
+	}
+	
+	public String getTitleForGsd() {
+		String titleForGsd = CommonUtil.getStringOrEmpty( getTitle() );
+		titleForGsd = titleForGsd.replace( "\"", "\\\"" );
+		return titleForGsd;
+	}
+	
+	public String getShortDescriptionForGsd() {
+		String shortDescriptionForGsd = CommonUtil.getStringOrEmpty( getMaxContent( 100 ) );
+		shortDescriptionForGsd = shortDescriptionForGsd.replace( "\"", "\\\"" );
+		return shortDescriptionForGsd;
 	}
 	
 	public String getDateCreatedShortStr() {

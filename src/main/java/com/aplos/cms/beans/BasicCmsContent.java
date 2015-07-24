@@ -47,6 +47,18 @@ public abstract class BasicCmsContent extends AplosBean implements FileDetailsOw
 		return CommonUtil.includeContextRootInPaths( JSFUtil.getContextPath(), getContent());
 	}
 	
+	public String getTitleForGsd() {
+		String titleForGsd = CommonUtil.getStringOrEmpty( getTitle() );
+		titleForGsd = titleForGsd.replace( "\"", "\\\"" );
+		return titleForGsd;
+	}
+	
+	public String getShortDescriptionForGsd() {
+		String shortDescriptionForGsd = CommonUtil.getStringOrEmpty( getShortDescription() );
+		shortDescriptionForGsd = shortDescriptionForGsd.replace( "\"", "\\\"" );
+		return shortDescriptionForGsd;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
