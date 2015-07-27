@@ -48,8 +48,16 @@ public abstract class BasicCmsContentFeDmb extends DeveloperModuleBacking {
 		}
 		
 		if( getSelectedBasicCmsContent() != null ) {
-			((ContentPage) JSFUtil.getCurrentBackingPage()).getCmsPageRevision().setTitleOverride( getBasicCmsContentPageTitle( getSelectedBasicCmsContent() ) );
-			((ContentPage) JSFUtil.getCurrentBackingPage()).getCmsPageRevision().setCanocialPathOverride( getBasicCmsContentLink( getSelectedBasicCmsContent() ) );
+			CmsPageRevision cmsPageRevision = ((ContentPage) JSFUtil.getCurrentBackingPage()).getCmsPageRevision();
+			String basicCmsContentUrl = getBasicCmsContentLink( getSelectedBasicCmsContent() );
+			cmsPageRevision.setTitleOverride( getBasicCmsContentPageTitle( getSelectedBasicCmsContent() ) );
+			cmsPageRevision.setCanocialPathOverride( basicCmsContentUrl );
+
+			cmsPageRevision.getCmsPage().setFacebookTypeOverride( "article" );
+			cmsPageRevision.getCmsPage().setFacebookUrlOverride( basicCmsContentUrl );
+			cmsPageRevision.getCmsPage().setFacebookTitleOverride( getSelectedBasicCmsContent().getTitleForGsd() );
+			cmsPageRevision.getCmsPage().setFacebookImageOverride( getSelectedBasicCmsContent().getImageDetails().getExternalFileUrl() );
+			cmsPageRevision.getCmsPage().setFacebookDescriptionOverride( getSelectedBasicCmsContent().getShortDescriptionForGsd() );
 		}
 		
 		return continueLoad;

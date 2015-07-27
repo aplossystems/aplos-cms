@@ -17,6 +17,7 @@
 	</aplos:panel>
 	<meta name="description" content="#{backingPage.cmsPageRevision.determinedPageDescription}" />
 	<meta name="keywords" content="#{backingPage.cmsPageRevision.determinedPageKeywords}" />
+	<h:outputText value="#{ backingPage.cmsPageRevision.cmsPage.facebookMetaTags }" escape="false" />
 	<aplos:deferrableScript library="scripts" name="aplosjqueryresolution.js" target="head" />
     <aplos:deferrableStyle library="styles" name="frontend.css" target="head" />
 	<aplos:deferrableStyle library="styles" name="jquery.window.css" target="head" />

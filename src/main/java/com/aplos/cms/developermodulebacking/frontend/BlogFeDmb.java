@@ -63,8 +63,16 @@ public class BlogFeDmb extends DeveloperModuleBacking {
 				JSFUtil.addMessage( "The article could not be found.");
 			}
 			if( getSelectedBlogEntry() != null ) {
-				((ContentPage) JSFUtil.getCurrentBackingPage()).getCmsPageRevision().setTitleOverride( getSelectedBlogEntry().getTitle() );
-				((ContentPage) JSFUtil.getCurrentBackingPage()).getCmsPageRevision().setCanocialPathOverride( getBlogEntryUrl( getSelectedBlogEntry() ) );
+				CmsPageRevision cmsPageRevision = ((ContentPage) JSFUtil.getCurrentBackingPage()).getCmsPageRevision();
+				String blogEntryUrl = getBlogEntryUrl( getSelectedBlogEntry() );
+				cmsPageRevision.setTitleOverride( getSelectedBlogEntry().getTitle() );
+				cmsPageRevision.setCanocialPathOverride( blogEntryUrl );
+				
+				cmsPageRevision.getCmsPage().setFacebookTypeOverride( "article" );
+				cmsPageRevision.getCmsPage().setFacebookUrlOverride( blogEntryUrl );
+				cmsPageRevision.getCmsPage().setFacebookTitleOverride( getSelectedBlogEntry().getTitleForGsd() );
+				cmsPageRevision.getCmsPage().setFacebookImageOverride( getSelectedBlogEntry().getImageDetails().getExternalFileUrl() );
+				cmsPageRevision.getCmsPage().setFacebookDescriptionOverride( getSelectedBlogEntry().getShortDescriptionForGsd() );
 			}
 		} else { 
 			blogListKeyStr = JSFUtil.getRequestParameter(CmsAppConstants.BLOG_ARCHIVE);

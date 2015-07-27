@@ -17,6 +17,7 @@ import com.aplos.common.annotations.persistence.DiscriminatorValue;
 import com.aplos.common.annotations.persistence.Entity;
 import com.aplos.common.annotations.persistence.FetchType;
 import com.aplos.common.annotations.persistence.OneToMany;
+import com.aplos.common.annotations.persistence.Transient;
 import com.aplos.common.aql.BeanDao;
 import com.aplos.common.beans.AplosBean;
 import com.aplos.common.beans.AplosSiteBean;
@@ -49,6 +50,12 @@ public class CmsPage extends AplosSiteBean {
 	private String canonicalPath = null;
 	
 	private Double siteMapPriority = 0.5;
+	
+	private String facebookTitle;
+	private String facebookDescription;
+	private String facebookType;
+	private String facebookUrl;
+	private String facebookImage;
 
 //	@OneToOne
 //	@JoinColumn(name = "cmsPageRevision_fk")
@@ -58,6 +65,17 @@ public class CmsPage extends AplosSiteBean {
 	@Cache
 	private Set<SystemUser> authors = new HashSet<SystemUser>();
 	private SslProtocolEnum sslProtocolEnum = SslProtocolEnum.SYSTEM_DEFAULT;
+
+	@Transient
+	private String facebookTitleOverride;
+	@Transient
+	private String facebookDescriptionOverride;
+	@Transient
+	private String facebookTypeOverride;
+	@Transient
+	private String facebookUrlOverride;
+	@Transient
+	private String facebookImageOverride;
 
 	private PageStatus status = PageStatus.PUBLISHED;
 	
@@ -100,6 +118,36 @@ public class CmsPage extends AplosSiteBean {
 				tempMenuNode.updateChildrensCachedMappingPath( true );
 			}	
 		}
+	}
+	
+	public String getFacebookMetaTags() {
+		if( !CommonUtil.isNullOrEmpty( determineFacebookTitle() )  ) {
+			StringBuffer strBuf = new StringBuffer();
+			strBuf.append( "<meta  property=\"og:title\" content=\"" );
+			strBuf.append( determineFacebookTitle() ).append( "\" />" );
+
+			if( !CommonUtil.isNullOrEmpty( determineFacebookDescription() )  ) {
+				strBuf.append( "<meta  property=\"og:description\" content=\"" );
+				strBuf.append( determineFacebookDescription() ).append( "\" />" );
+			}
+
+			if( !CommonUtil.isNullOrEmpty( determineFacebookType() )  ) {
+				strBuf.append( "<meta  property=\"og:type\" content=\"" );
+				strBuf.append( determineFacebookType() ).append( "\" />" );
+			}
+
+			if( !CommonUtil.isNullOrEmpty( determineFacebookUrl() )  ) {
+				strBuf.append( "<meta  property=\"og:url\" content=\"" );
+				strBuf.append( determineFacebookUrl() ).append( "\" />" );
+			}
+
+			if( !CommonUtil.isNullOrEmpty( determineFacebookImage() )  ) {
+				strBuf.append( "<meta  property=\"og:image\" content=\"" );
+				strBuf.append( determineFacebookImage() ).append( "\" />" );
+			}
+			return strBuf.toString();
+		}
+		return "";
 	}
 
 //	@Override
@@ -169,6 +217,46 @@ public class CmsPage extends AplosSiteBean {
 
 	public String getMapping() {
 		return mapping;
+	}
+
+	public String determineFacebookTitle() {
+		if( CommonUtil.isNullOrEmpty( getFacebookTitleOverride() ) ) {
+			return getFacebookTitle();
+		} else {
+			return getFacebookTitleOverride();
+		}
+	}
+
+	public String determineFacebookType() {
+		if( CommonUtil.isNullOrEmpty( getFacebookTypeOverride() ) ) {
+			return getFacebookType();
+		} else {
+			return getFacebookTypeOverride();
+		}
+	}
+
+	public String determineFacebookUrl() {
+		if( CommonUtil.isNullOrEmpty( getFacebookUrlOverride() ) ) {
+			return getFacebookUrl();
+		} else {
+			return getFacebookUrlOverride();
+		}
+	}
+
+	public String determineFacebookImage() {
+		if( CommonUtil.isNullOrEmpty( getFacebookImageOverride() ) ) {
+			return getFacebookImage();
+		} else {
+			return getFacebookImageOverride();
+		}
+	}
+
+	public String determineFacebookDescription() {
+		if( CommonUtil.isNullOrEmpty( getFacebookDescriptionOverride() ) ) {
+			return getFacebookDescription();
+		} else {
+			return getFacebookDescriptionOverride();
+		}
 	}
 
 	public static String getMappingPath( Long cmsPageId ) {
@@ -284,5 +372,86 @@ public class CmsPage extends AplosSiteBean {
 
 	public void setSiteMapPriority(Double siteMapPriority) {
 		this.siteMapPriority = siteMapPriority;
+	}
+
+	public String getFacebookTitle() {
+		return facebookTitle;
+	}
+
+	public void setFacebookTitle(String facebookTitle) {
+		this.facebookTitle = facebookTitle;
+	}
+
+	public String getFacebookType() {
+		return facebookType;
+	}
+
+	public void setFacebookType(String facebookType) {
+		this.facebookType = facebookType;
+	}
+
+	public String getFacebookUrl() {
+		return facebookUrl;
+	}
+
+	public void setFacebookUrl(String facebookUrl) {
+		this.facebookUrl = facebookUrl;
+	}
+
+	public String getFacebookImage() {
+		return facebookImage;
+	}
+
+	public void setFacebookImage(String facebookImage) {
+		this.facebookImage = facebookImage;
+	}
+
+	public String getFacebookDescription() {
+		return facebookDescription;
+	}
+
+	public void setFacebookDescription(String facebookDescription) {
+		this.facebookDescription = facebookDescription;
+	}
+
+	public String getFacebookTitleOverride() {
+		return facebookTitleOverride;
+	}
+
+	public void setFacebookTitleOverride(String facebookTitleOverride) {
+		this.facebookTitleOverride = facebookTitleOverride;
+	}
+
+	public String getFacebookDescriptionOverride() {
+		return facebookDescriptionOverride;
+	}
+
+	public void setFacebookDescriptionOverride(
+			String facebookDescriptionOverride) {
+		this.facebookDescriptionOverride = facebookDescriptionOverride;
+	}
+
+	public String getFacebookTypeOverride() {
+		return facebookTypeOverride;
+	}
+
+	public void setFacebookTypeOverride(String facebookTypeOverride) {
+		this.facebookTypeOverride = facebookTypeOverride;
+	}
+
+	public String getFacebookUrlOverride() {
+		return facebookUrlOverride;
+	}
+
+	public void setFacebookUrlOverride(String facebookUrlOverride) {
+		this.facebookUrlOverride = facebookUrlOverride;
+	}
+
+	public String getFacebookImageOverride() {
+		return facebookImageOverride;
+	}
+
+	public void setFacebookImageOverride(String facebookImageOverride) {
+		this.facebookImageOverride = facebookImageOverride;
 	}
 }
