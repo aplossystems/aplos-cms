@@ -53,7 +53,7 @@ public class ContactPageFeDmb extends DeveloperModuleBacking {
 			getContactFormSubmission().saveDetails();
 			AplosEmail aplosEmail = new AplosEmail( CmsEmailTemplateEnum.CONTACT, getContactFormSubmission(), getContactFormSubmission() );
 			if( getContactFormSubmission().getAttachment() != null ) {
-				aplosEmail.getSaveableAttachments().add( getContactFormSubmission().getAttachment() );
+				aplosEmail.addSaveableAttachment( getContactFormSubmission().getAttachment() );
 			}
 			aplosEmail.setToAddress( CommonConfiguration.getCommonConfiguration().getDefaultCompanyDetails().getEmailAddress() );
 			if( isSendingDuplicateEmail() ) {
