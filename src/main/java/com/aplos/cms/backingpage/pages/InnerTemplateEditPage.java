@@ -197,10 +197,10 @@ public class InnerTemplateEditPage extends EditPage {
 		}
 
 		@Override
-		public void selectBean() {
-			super.selectBean();
-			CmsPage cmsPage = (CmsPage) JSFUtil.getBeanFromScope(CmsPage.class);
+		public CmsPage selectBean() {
+			CmsPage cmsPage = (CmsPage) super.selectBean();
 			cmsPage.getLatestRevision().redirectToEditPage();
+			return cmsPage;
 		}
 
 		@Override
