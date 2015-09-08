@@ -71,7 +71,9 @@ public class BlogFeDmb extends DeveloperModuleBacking {
 				cmsPageRevision.getCmsPage().setFacebookTypeOverride( "article" );
 				cmsPageRevision.getCmsPage().setFacebookUrlOverride( blogEntryUrl );
 				cmsPageRevision.getCmsPage().setFacebookTitleOverride( getSelectedBlogEntry().getTitleForGsd() );
-				cmsPageRevision.getCmsPage().setFacebookImageOverride( getSelectedBlogEntry().getImageDetails().getExternalFileUrl() );
+				if( getSelectedBlogEntry().getImageDetails() != null ) {
+					cmsPageRevision.getCmsPage().setFacebookImageOverride( getSelectedBlogEntry().getImageDetails().getExternalFileUrl() );
+				}
 				cmsPageRevision.getCmsPage().setFacebookDescriptionOverride( getSelectedBlogEntry().getShortDescriptionForGsd() );
 			}
 		} else { 
