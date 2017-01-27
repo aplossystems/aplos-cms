@@ -16,6 +16,7 @@ public class CmsMenuCreator {
 	public void appendMenuTagOpen( StringBuffer strBuf ) {
 		strBuf.append("<ul class='aplos-navigation nav sf-menu'>");
 	}
+	
 	public void appendMenuItemTagOpen( StringBuffer strBuf, MenuNode node, String liMapping ) {
 		if (FrontendCmsMenu.nodeHasChild(node)) {
 			strBuf.append( "<li class='aplos-menu-" + liMapping + " aplos-has-submenu'>" );
